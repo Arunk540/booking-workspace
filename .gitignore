@@ -1,7 +1,7 @@
 # Exclude the three service modules
-telikos-activityplanworkflow-service_02/
-telikos-booking-service-1/
-telikos-email-service-02/
+telikos-activityplanworkflow-service/
+telikos-booking-service/
+telikos-email-service/
 
 # macOS
 .DS_Store
