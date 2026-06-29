@@ -2,7 +2,7 @@
   "symbols": {
     "ActivitiesConfig": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/event-activity-matrix.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/common/ActivitiesConfig.java",
         "line": 23
@@ -10,43 +10,43 @@
     ],
     "ActivityPlan": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "contracts/db-schemas.md",
         "source": "componenttest/src/test/java/net/apmoller/crb/telikos/microservices/temporaltesting/model/ActivityPlan.java",
         "line": 21
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "domain/activity-plan.md",
         "source": "componenttest/src/test/java/net/apmoller/crb/telikos/microservices/temporaltesting/model/ActivityPlan.java",
         "line": 21
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "operations/retries.md",
         "source": "componenttest/src/test/java/net/apmoller/crb/telikos/microservices/temporaltesting/model/ActivityPlan.java",
         "line": 21
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/ap-temporal.md"
       }
     ],
     "ActivityPlanController": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "contracts/api-contracts.md",
         "source": "api/src/main/java/net/apmoller/telikos/microservices/activityplan/api/controller/ActivityPlanController.java",
         "line": 26
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "navigation/entry-points.md",
         "source": "api/src/main/java/net/apmoller/telikos/microservices/activityplan/api/controller/ActivityPlanController.java",
         "line": 26
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "navigation/key-classes.md",
         "source": "api/src/main/java/net/apmoller/telikos/microservices/activityplan/api/controller/ActivityPlanController.java",
         "line": 26
@@ -54,19 +54,19 @@
     ],
     "ActivityPlanDispatchEventsServiceImpl": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "navigation/scenarios.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/activityplanevents/ActivityPlanDispatchEventsServiceImpl.java",
         "line": 60
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "operations/failure-model.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/activityplanevents/ActivityPlanDispatchEventsServiceImpl.java",
         "line": 60
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/invoice-dispatch-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/activityplanevents/ActivityPlanDispatchEventsServiceImpl.java",
         "line": 60
@@ -74,47 +74,47 @@
     ],
     "ActivityPlanEvent": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "contracts/kafka-events.md"
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "domain/activity-plan-events.md"
       }
     ],
     "ActivityPlanEventsServiceImpl": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "architecture/modules.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/activityplanevents/ActivityPlanEventsServiceImpl.java",
         "line": 39
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "navigation/key-classes.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/activityplanevents/ActivityPlanEventsServiceImpl.java",
         "line": 39
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "navigation/scenarios.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/activityplanevents/ActivityPlanEventsServiceImpl.java",
         "line": 39
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "operations/failure-model.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/activityplanevents/ActivityPlanEventsServiceImpl.java",
         "line": 39
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "operations/monitoring.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/activityplanevents/ActivityPlanEventsServiceImpl.java",
         "line": 39
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/booking-email-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/activityplanevents/ActivityPlanEventsServiceImpl.java",
         "line": 39
@@ -122,19 +122,19 @@
     ],
     "ActivityPlanInvoice": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "contracts/api-contracts.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/ActivityPlanInvoice.java",
         "line": 24
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "domain/activity-plan-events.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/ActivityPlanInvoice.java",
         "line": 24
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/invoice-dispatch-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/ActivityPlanInvoice.java",
         "line": 24
@@ -142,7 +142,7 @@
     ],
     "ActivityPlanResponse": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "contracts/api-contracts.md",
         "source": "api/src/main/java/net/apmoller/telikos/microservices/activityplan/api/dto/ActivityPlanResponse.java",
         "line": 17
@@ -150,19 +150,19 @@
     ],
     "ActivityPlanTemporal": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "contracts/api-contracts.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/ActivityPlanTemporal.java",
         "line": 17
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "domain/activity-plan-events.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/ActivityPlanTemporal.java",
         "line": 17
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/booking-email-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/ActivityPlanTemporal.java",
         "line": 17
@@ -170,19 +170,19 @@
     ],
     "ActivityPlanWorkflow": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/booking-service.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java",
         "line": 14
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/email-service.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java",
         "line": 14
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/billing-flow.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java",
         "line": 14
@@ -190,67 +190,67 @@
     ],
     "ActivityPlanWorkflowImplV2": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "architecture/modules.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "line": 53
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/email-service.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "line": 53
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "navigation/key-classes.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "line": 53
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "navigation/scenarios.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "line": 53
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "operations/flags-and-lists.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "line": 53
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "operations/retries.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "line": 53
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/billing-flow.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "line": 53
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/cancellation-email-flow.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "line": 53
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/customs-sde-flow.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "line": 53
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/event-activity-matrix.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "line": 53
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/rfp-tms-flow.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "line": 53
@@ -258,13 +258,13 @@
     ],
     "ActivityStub": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "operations/retries.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityStub.java",
         "line": 9
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "operations/retries.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/utility/ActivityStub.java",
         "line": 17
@@ -272,25 +272,25 @@
     ],
     "ActivityplanworkflowApplication": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "architecture/cross-cutting.md",
         "source": "service/src/main/java/net/apmoller/telikos/microservices/activityplan/ActivityplanworkflowApplication.java",
         "line": 49
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "architecture/modules.md",
         "source": "service/src/main/java/net/apmoller/telikos/microservices/activityplan/ActivityplanworkflowApplication.java",
         "line": 49
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "operations/monitoring.md",
         "source": "service/src/main/java/net/apmoller/telikos/microservices/activityplan/ActivityplanworkflowApplication.java",
         "line": 49
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "stack/stack.md",
         "source": "service/src/main/java/net/apmoller/telikos/microservices/activityplan/ActivityplanworkflowApplication.java",
         "line": 49
@@ -298,7 +298,7 @@
     ],
     "AmendEditRfpEventsDomainService": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/rfp-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/AmendEditRfpEventsDomainService.java",
         "line": 18
@@ -306,7 +306,7 @@
     ],
     "BillingDocumentsResponse": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/document-storage.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/models/billing/BillingDocumentsResponse.java",
         "line": 17
@@ -314,7 +314,7 @@
     ],
     "BillingFeedbackActivityForV2Impl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/billing-flow.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BillingFeedbackActivityForV2Impl.java",
         "line": 31
@@ -322,13 +322,13 @@
     ],
     "BillingProducerWorker": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/billing.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker.java",
         "line": 14
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "navigation/entry-points.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker.java",
         "line": 14
@@ -336,13 +336,13 @@
     ],
     "BillingProducerWorker2": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/billing.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker2.java",
         "line": 14
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "navigation/entry-points.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker2.java",
         "line": 14
@@ -350,13 +350,13 @@
     ],
     "BillingWorker": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/billing.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingWorker.java",
         "line": 16
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "navigation/entry-points.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingWorker.java",
         "line": 16
@@ -364,13 +364,13 @@
     ],
     "Booking": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "domain/service-plan.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/models/Booking.java",
         "line": 20
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/iom.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/models/Booking.java",
         "line": 20
@@ -378,7 +378,7 @@
     ],
     "BookingActivityPlanDispatcher": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/ap-temporal.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/dispatchers/BookingActivityPlanDispatcher.java",
         "line": 23
@@ -386,37 +386,37 @@
     ],
     "BookingController": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "architecture/cross-cutting.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingController.java",
         "line": 79
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "contracts/api-contracts.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingController.java",
         "line": 79
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "navigation/entry-points.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingController.java",
         "line": 79
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "navigation/key-classes.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingController.java",
         "line": 79
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "operations/failure-model.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingController.java",
         "line": 79
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/confirm-send-to-tms-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingController.java",
         "line": 79
@@ -424,7 +424,7 @@
     ],
     "BookingEventOperationService": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "operations/flags-and-lists.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/service/BookingEventOperationService.java",
         "line": 45
@@ -432,25 +432,25 @@
     ],
     "BookingEventsWorkflowImplementation": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "architecture/cross-cutting.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java",
         "line": 31
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "navigation/entry-points.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java",
         "line": 31
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "navigation/key-classes.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java",
         "line": 31
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/event-activity-matrix.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java",
         "line": 31
@@ -458,7 +458,7 @@
     ],
     "BookingMetricsRegistry": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "operations/monitoring.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/common/BookingMetricsRegistry.java",
         "line": 19
@@ -466,7 +466,7 @@
     ],
     "BookingReprocessApiController": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "contracts/api-contracts.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingReprocessApiController.java",
         "line": 23
@@ -474,13 +474,13 @@
     ],
     "BookingSendToTmsDomainService": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/sap-tms.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/BookingSendToTmsDomainService.java",
         "line": 36
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/confirm-send-to-tms-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/BookingSendToTmsDomainService.java",
         "line": 36
@@ -488,13 +488,13 @@
     ],
     "BookingWorker": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/booking-service.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BookingWorker.java",
         "line": 14
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "navigation/entry-points.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BookingWorker.java",
         "line": 14
@@ -502,7 +502,7 @@
     ],
     "CamsIntegrator": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/cams.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/integration/integrators/CamsIntegrator.java",
         "line": 22
@@ -510,7 +510,7 @@
     ],
     "CancelBookingEventsDomainService": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/rfp-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/CancelBookingEventsDomainService.java",
         "line": 22
@@ -518,7 +518,7 @@
     ],
     "CancellationValidationActivityImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/cancellation-email-flow.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/CancellationValidationActivityImpl.java",
         "line": 27
@@ -526,13 +526,13 @@
     ],
     "CarrierBooking": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "contracts/kafka-events.md"
       }
     ],
     "ConfirmBookingDomainService": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/confirm-send-to-tms-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/ConfirmBookingDomainService.java",
         "line": 34
@@ -540,7 +540,7 @@
     ],
     "Constants": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "operations/monitoring.md",
         "source": "componenttest/src/test/java/net/apmoller/crb/telikos/microservices/email/util/Constants.java",
         "line": 3
@@ -548,19 +548,19 @@
     ],
     "ContainerAvailabilityApiResponse": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "contracts/kafka-events.md"
       }
     ],
     "ContainerAvailabilityDomainService": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/cams.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/ContainerAvailabilityDomainService.java",
         "line": 30
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/customs-vessel-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/ContainerAvailabilityDomainService.java",
         "line": 30
@@ -568,7 +568,7 @@
     ],
     "ContainerAvailabilityFeedbackConsumer": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/cams.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/ContainerAvailabilityFeedbackConsumer.java",
         "line": 24
@@ -576,7 +576,7 @@
     ],
     "CustomsOrderController": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "contracts/api-contracts.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/CustomsOrderController.java",
         "line": 25
@@ -584,7 +584,7 @@
     ],
     "CustomsServiceImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/customs.md",
         "source": "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/CustomsServiceImpl.java",
         "line": 78
@@ -592,7 +592,7 @@
     ],
     "CustomsServiceOrder": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "domain/service-plan.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/models/CustomsServiceOrder.java",
         "line": 15
@@ -600,13 +600,13 @@
     ],
     "CustomsServiceOrderConsumer": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/customs.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/CustomsServiceOrderConsumer.java",
         "line": 23
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/customs-vessel-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/CustomsServiceOrderConsumer.java",
         "line": 23
@@ -614,7 +614,7 @@
     ],
     "CustomsServiceOrderEntity": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "contracts/db-schemas.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/CustomsServiceOrderEntity.java",
         "line": 17
@@ -622,27 +622,27 @@
     ],
     "CustomsServiceOrderEvent": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "contracts/kafka-events.md"
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/customs.md"
       }
     ],
     "CustomsServiceOrderResponseEvent": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "contracts/kafka-events.md"
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/customs.md"
       }
     ],
     "DecisionHubIamTokenCachingService": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/decision-hub.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/integration/service/DecisionHubIamTokenCachingService.java",
         "line": 13
@@ -650,7 +650,7 @@
     ],
     "DecisionHubWebClient": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/decision-hub.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/integration/webclient/DecisionHubWebClient.java",
         "line": 24
@@ -658,13 +658,13 @@
     ],
     "DocumentStorageDetails": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "contracts/db-schemas.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/documentstorageservice/DocumentStorageDetails.java",
         "line": 21
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/document-storage.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/documentstorageservice/DocumentStorageDetails.java",
         "line": 21
@@ -672,7 +672,7 @@
     ],
     "DocumentStorageService": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/document-storage.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/documentstorageservice/DocumentStorageService.java",
         "line": 40
@@ -680,7 +680,7 @@
     ],
     "DomainDataServiceImpl": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/decision-hub.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/DomainDataServiceImpl.java",
         "line": 37
@@ -688,7 +688,7 @@
     ],
     "DomainRules": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/event-activity-matrix.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/dto/DomainRules.java",
         "line": 16
@@ -696,7 +696,7 @@
     ],
     "DownloadInvoiceResponse": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/finance-chassis.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/DownloadInvoiceResponse.java",
         "line": 18
@@ -704,7 +704,7 @@
     ],
     "DownloadedDocument": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/document-storage.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/DownloadedDocument.java",
         "line": 15
@@ -712,25 +712,25 @@
     ],
     "EmailBookingDetails": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "contracts/db-schemas.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/EmailBookingDetails.java",
         "line": 19
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "domain/activity-plan-events.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/EmailBookingDetails.java",
         "line": 19
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/booking-email-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/EmailBookingDetails.java",
         "line": 19
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/sendgrid-webhook-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/EmailBookingDetails.java",
         "line": 19
@@ -738,7 +738,7 @@
     ],
     "EmailData": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "contracts/db-schemas.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/EmailData.java",
         "line": 14
@@ -746,13 +746,13 @@
     ],
     "EmailServiceImpl": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "navigation/key-classes.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/EmailServiceImpl.java",
         "line": 67
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "operations/flags-and-lists.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/EmailServiceImpl.java",
         "line": 67
@@ -760,7 +760,7 @@
     ],
     "EmailWorkflowImpl": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/notification-workflow-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/worker/EmailWorkflowImpl.java",
         "line": 19
@@ -768,13 +768,13 @@
     ],
     "EventHistory": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "contracts/kafka-events.md"
       }
     ],
     "EventHistoryFailureData": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "contracts/db-schemas.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/EventHistoryFailureData.java",
         "line": 21
@@ -782,31 +782,31 @@
     ],
     "EventProcessorServiceImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/billing.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
         "line": 52
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/booking-service.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
         "line": 52
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "navigation/key-classes.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
         "line": 52
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "navigation/scenarios.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
         "line": 52
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "operations/failure-model.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
         "line": 52
@@ -814,13 +814,13 @@
     ],
     "EventRouterService": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "operations/flags-and-lists.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/router/EventRouterService.java",
         "line": 37
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "operations/retries.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/router/EventRouterService.java",
         "line": 37
@@ -828,13 +828,13 @@
     ],
     "EventRules": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/event-activity-matrix.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/dto/EventRules.java",
         "line": 21
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/rfp-tms-flow.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/dto/EventRules.java",
         "line": 21
@@ -842,13 +842,13 @@
     ],
     "EventsData": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "contracts/db-schemas.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/EventsData.java",
         "line": 16
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/invoice-dispatch-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/EventsData.java",
         "line": 16
@@ -856,19 +856,19 @@
     ],
     "EventsDataServiceImpl": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "navigation/key-classes.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/persistence/eventsdata/EventsDataServiceImpl.java",
         "line": 42
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "operations/failure-model.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/persistence/eventsdata/EventsDataServiceImpl.java",
         "line": 42
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "operations/retries.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/persistence/eventsdata/EventsDataServiceImpl.java",
         "line": 42
@@ -876,7 +876,7 @@
     ],
     "EventsHistoryDataServiceImpl": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "operations/retries.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/persistence/eventshistorydata/EventsHistoryDataServiceImpl.java",
         "line": 21
@@ -884,19 +884,19 @@
     ],
     "EventsHistoryProducer": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "contracts/kafka-events.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/events/producer/EventsHistoryProducer.java",
         "line": 28
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "operations/failure-model.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/events/producer/EventsHistoryProducer.java",
         "line": 28
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "operations/monitoring.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/events/producer/EventsHistoryProducer.java",
         "line": 28
@@ -904,7 +904,7 @@
     ],
     "FinanceChasisApiWebClient": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/finance-chassis.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/integration/webclient/FinanceChasisApiWebClient.java",
         "line": 32
@@ -912,7 +912,7 @@
     ],
     "FsdUpdateActivityImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/customs-sde-flow.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/FsdUpdateActivityImpl.java",
         "line": 16
@@ -920,7 +920,7 @@
     ],
     "HelperUtils": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "operations/failure-model.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/utils/HelperUtils.java",
         "line": 40
@@ -928,7 +928,7 @@
     ],
     "InitialReadyForPlanningEventsDomainService": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/rfp-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/InitialReadyForPlanningEventsDomainService.java",
         "line": 29
@@ -936,7 +936,7 @@
     ],
     "InlandBookingHandler": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/rfp-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/InlandBookingHandler.java",
         "line": 17
@@ -944,7 +944,7 @@
     ],
     "InvoiceDetailsPost": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/finance-chassis.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/InvoiceDetailsPost.java",
         "line": 18
@@ -952,7 +952,7 @@
     ],
     "IomBookingEventDispatcher": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/iom.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/dispatchers/IomBookingEventDispatcher.java",
         "line": 14
@@ -960,7 +960,7 @@
     ],
     "JobClosureActivityImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/billing-flow.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/JobClosureActivityImpl.java",
         "line": 25
@@ -968,13 +968,13 @@
     ],
     "Kafka": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "stack/stack.md"
       }
     ],
     "KafkaConfiguration": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "operations/retries.md",
         "source": "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaConfiguration.java",
         "line": 58
@@ -982,7 +982,7 @@
     ],
     "KafkaConsumerConfig": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "contracts/kafka-events.md",
         "source": "componenttest/src/test/java/net/apmoller/crb/telikos/microservices/email/configs/KafkaConsumerConfig.java",
         "line": 42
@@ -990,25 +990,25 @@
     ],
     "KafkaConsumerService": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "architecture/cross-cutting.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/KafkaConsumerService.java",
         "line": 29
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "navigation/entry-points.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/KafkaConsumerService.java",
         "line": 29
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "operations/failure-model.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/KafkaConsumerService.java",
         "line": 29
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "operations/retries.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/KafkaConsumerService.java",
         "line": 29
@@ -1016,25 +1016,25 @@
     ],
     "KafkaProducerServiceImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/customs.md",
         "source": "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java",
         "line": 22
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/tms.md",
         "source": "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java",
         "line": 22
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "navigation/key-classes.md",
         "source": "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java",
         "line": 22
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "operations/failure-model.md",
         "source": "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java",
         "line": 22
@@ -1042,25 +1042,25 @@
     ],
     "Mail": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/sendgrid.md"
       }
     ],
     "Maven": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "stack/stack.md"
       }
     ],
     "MeterRegistry": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "operations/monitoring.md"
       }
     ],
     "MicroMeterConstants": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "operations/monitoring.md",
         "source": "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/constant/MicroMeterConstants.java",
         "line": 8
@@ -1068,13 +1068,13 @@
     ],
     "MigrateDataController": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "contracts/api-contracts.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/MigrateDataController.java",
         "line": 21
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "operations/flags-and-lists.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/MigrateDataController.java",
         "line": 21
@@ -1082,7 +1082,7 @@
     ],
     "MongoActivityPlanRepository": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "contracts/db-schemas.md",
         "source": "componenttest/src/test/java/net/apmoller/crb/telikos/microservices/temporaltesting/repository/MongoActivityPlanRepository.java",
         "line": 15
@@ -1090,13 +1090,13 @@
     ],
     "MongoDB": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "stack/stack.md"
       }
     ],
     "MongoDatabaseConfig": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "architecture/cross-cutting.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/persistence/config/MongoDatabaseConfig.java",
         "line": 12
@@ -1104,7 +1104,7 @@
     ],
     "MongoReactiveActivityPlanRepositoryImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "contracts/db-schemas.md",
         "source": "persistence/src/main/java/net/apmoller/telikos/microservices/activityplan/persistence/service/MongoReactiveActivityPlanRepositoryImpl.java",
         "line": 16
@@ -1112,25 +1112,25 @@
     ],
     "NotificationController": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "architecture/modules.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/api/controller/NotificationController.java",
         "line": 25
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "navigation/entry-points.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/api/controller/NotificationController.java",
         "line": 25
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "navigation/scenarios.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/api/controller/NotificationController.java",
         "line": 25
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/notification-workflow-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/api/controller/NotificationController.java",
         "line": 25
@@ -1138,13 +1138,13 @@
     ],
     "NotificationRequest": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "contracts/api-contracts.md",
         "source": "componenttest/src/test/java/net/apmoller/crb/telikos/microservices/email/model/notification/NotificationRequest.java",
         "line": 14
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/notification-workflow-flow.md",
         "source": "componenttest/src/test/java/net/apmoller/crb/telikos/microservices/email/model/notification/NotificationRequest.java",
         "line": 14
@@ -1152,7 +1152,7 @@
     ],
     "ProcessSendToTmsImpl": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/confirm-send-to-tms-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessSendToTmsImpl.java",
         "line": 31
@@ -1160,13 +1160,13 @@
     ],
     "ProductOrchestration": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "navigation/key-classes.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/productresolver/ProductOrchestration.java",
         "line": 16
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/rfp-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/productresolver/ProductOrchestration.java",
         "line": 16
@@ -1174,7 +1174,7 @@
     ],
     "PublishMsgToCustomsActivityImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/customs.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishMsgToCustomsActivityImpl.java",
         "line": 16
@@ -1182,7 +1182,7 @@
     ],
     "PublishTmsActivityImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/tms.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishTmsActivityImpl.java",
         "line": 15
@@ -1190,7 +1190,7 @@
     ],
     "ReadyForPlanningActivityImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/rfp-tms-flow.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/ReadyForPlanningActivityImpl.java",
         "line": 22
@@ -1198,19 +1198,19 @@
     ],
     "RetryEntity": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "contracts/db-schemas.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/RetryEntity.java",
         "line": 19
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "domain/service-plan.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/RetryEntity.java",
         "line": 19
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "operations/retries.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/RetryEntity.java",
         "line": 19
@@ -1218,19 +1218,19 @@
     ],
     "SapFeedbackConsumerService": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/sap-tms.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/SapFeedbackConsumerService.java",
         "line": 35
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "operations/retries.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/SapFeedbackConsumerService.java",
         "line": 35
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/sap-tms-feedback-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/SapFeedbackConsumerService.java",
         "line": 35
@@ -1238,13 +1238,13 @@
     ],
     "SapTmsExecutionStatusConsumerService": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/sap-tms.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/SapTmsExecutionStatusConsumerService.java",
         "line": 33
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/sap-tms-feedback-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/SapTmsExecutionStatusConsumerService.java",
         "line": 33
@@ -1252,7 +1252,7 @@
     ],
     "SaveToDatabaseActivityImpl": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "operations/failure-model.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SaveToDatabaseActivityImpl.java",
         "line": 27
@@ -1260,13 +1260,13 @@
     ],
     "SendEmailConfirmationActivityImpl": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/ap-temporal.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/activity/SendEmailConfirmationActivityImpl.java",
         "line": 16
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/booking-email-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/activity/SendEmailConfirmationActivityImpl.java",
         "line": 16
@@ -1274,7 +1274,7 @@
     ],
     "SendEmailNotificationActivityImpl": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/notification-workflow-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/activity/SendEmailNotificationActivityImpl.java",
         "line": 16
@@ -1282,13 +1282,13 @@
     ],
     "SendGridApiWebClient": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/sendgrid.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/integration/webclient/SendGridApiWebClient.java",
         "line": 31
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "operations/retries.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/integration/webclient/SendGridApiWebClient.java",
         "line": 31
@@ -1296,19 +1296,19 @@
     ],
     "SendGridEvent": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "contracts/api-contracts.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/SendGridEvent.java",
         "line": 16
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/sendgrid.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/SendGridEvent.java",
         "line": 16
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/sendgrid-webhook-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/SendGridEvent.java",
         "line": 16
@@ -1316,13 +1316,13 @@
     ],
     "SendGridEventWebhookController": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "navigation/entry-points.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/api/controller/SendGridEventWebhookController.java",
         "line": 18
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/sendgrid-webhook-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/api/controller/SendGridEventWebhookController.java",
         "line": 18
@@ -1330,13 +1330,13 @@
     ],
     "SendGridWebhookServiceImpl": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "navigation/scenarios.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/sendgridservice/SendGridWebhookServiceImpl.java",
         "line": 23
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/sendgrid-webhook-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/sendgridservice/SendGridWebhookServiceImpl.java",
         "line": 23
@@ -1344,13 +1344,13 @@
     ],
     "SendInvoiceDispatchActivityImpl": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/ap-temporal.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/activity/SendInvoiceDispatchActivityImpl.java",
         "line": 13
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "runtime/invoice-dispatch-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/activity/SendInvoiceDispatchActivityImpl.java",
         "line": 13
@@ -1358,7 +1358,7 @@
     ],
     "SendRevenueLineItemToBookingActivityImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "operations/flags-and-lists.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendRevenueLineItemToBookingActivityImpl.java",
         "line": 45
@@ -1366,7 +1366,7 @@
     ],
     "SendToCustomsActivityImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/customs-sde-flow.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendToCustomsActivityImpl.java",
         "line": 23
@@ -1374,7 +1374,7 @@
     ],
     "SendToTmsActivityImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/rfp-tms-flow.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendToTmsActivityImpl.java",
         "line": 22
@@ -1382,7 +1382,7 @@
     ],
     "ServiceDeliveryExecutionActivityImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "runtime/customs-sde-flow.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/ServiceDeliveryExecutionActivityImpl.java",
         "line": 23
@@ -1390,13 +1390,13 @@
     ],
     "ServicePlan": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "contracts/kafka-events.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/models/ServicePlan.java",
         "line": 25
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "domain/service-plan.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/models/ServicePlan.java",
         "line": 25
@@ -1404,7 +1404,7 @@
     ],
     "ServicePlanEntity": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "contracts/db-schemas.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/ServicePlanEntity.java",
         "line": 24
@@ -1412,13 +1412,13 @@
     ],
     "Temporal": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "stack/stack.md"
       }
     ],
     "TemporalClientConfig": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "architecture/cross-cutting.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/config/TemporalClientConfig.java",
         "line": 20
@@ -1426,55 +1426,55 @@
     ],
     "TemporalWorker": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "architecture/cross-cutting.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java",
         "line": 54
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "navigation/entry-points.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java",
         "line": 54
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "operations/flags-and-lists.md",
         "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java",
         "line": 54
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "architecture/cross-cutting.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/worker/TemporalWorker.java",
         "line": 26
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "architecture/modules.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/worker/TemporalWorker.java",
         "line": 26
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "integrations/ap-temporal.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/worker/TemporalWorker.java",
         "line": 26
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "navigation/entry-points.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/worker/TemporalWorker.java",
         "line": 26
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "navigation/key-classes.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/worker/TemporalWorker.java",
         "line": 26
       },
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "operations/flags-and-lists.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/worker/TemporalWorker.java",
         "line": 26
@@ -1482,7 +1482,7 @@
     ],
     "TmsServiceImpl": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/tms.md",
         "source": "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/TmsServiceImpl.java",
         "line": 128
@@ -1490,19 +1490,19 @@
     ],
     "TransportOrder": [
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "contracts/kafka-events.md",
         "source": "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/TransportOrder.java",
         "line": 19
       },
       {
-        "repo": "telikos-activityplanworkflow-service_02",
+        "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/tms.md",
         "source": "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/TransportOrder.java",
         "line": 19
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "domain/service-plan.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/models/TransportOrder.java",
         "line": 25
@@ -1510,13 +1510,13 @@
     ],
     "TransportOrderAcknowledgement": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "contracts/kafka-events.md"
       }
     ],
     "TransportOrderController": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "contracts/api-contracts.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/TransportOrderController.java",
         "line": 25
@@ -1524,7 +1524,7 @@
     ],
     "TransportOrderNewEntity": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "contracts/db-schemas.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/TransportOrderNewEntity.java",
         "line": 26
@@ -1532,7 +1532,7 @@
     ],
     "UpdateTransportOrderFeedbackDomainService": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/sap-tms-feedback-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/UpdateTransportOrderFeedbackDomainService.java",
         "line": 24
@@ -1540,13 +1540,13 @@
     ],
     "VesselInformationDomainService": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/vts.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/VesselInformationDomainService.java",
         "line": 37
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/customs-vessel-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/VesselInformationDomainService.java",
         "line": 37
@@ -1554,7 +1554,7 @@
     ],
     "VesselTrackingIntegrator": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/vts.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/integration/integrators/VesselTrackingIntegrator.java",
         "line": 18
@@ -1562,13 +1562,13 @@
     ],
     "VesselTrackingRegistrationActivityImpl": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/vts.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VesselTrackingRegistrationActivityImpl.java",
         "line": 43
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "operations/failure-model.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VesselTrackingRegistrationActivityImpl.java",
         "line": 43
@@ -1576,13 +1576,13 @@
     ],
     "VtsWaitChildWorkflowImpl": [
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "integrations/vts.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/VtsWaitChildWorkflowImpl.java",
         "line": 22
       },
       {
-        "repo": "telikos-booking-service-1",
+        "repo": "telikos-booking-service",
         "path": "runtime/customs-vessel-flow.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/VtsWaitChildWorkflowImpl.java",
         "line": 22
@@ -1590,7 +1590,7 @@
     ],
     "WebClientConfig": [
       {
-        "repo": "telikos-email-service-02",
+        "repo": "telikos-email-service",
         "path": "architecture/cross-cutting.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/integration/config/WebClientConfig.java",
         "line": 17
