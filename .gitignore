@@ -1,0 +1,14 @@
+# Exclude the three service modules
+telikos-activityplanworkflow-service_02/
+telikos-booking-service-1/
+telikos-email-service-02/
+
+# macOS
+.DS_Store
+
+# IntelliJ IDEA - exclude workspace/project files but keep run configs if needed
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+

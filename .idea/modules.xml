@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/telikos-activityplanworkflow-service_02/booking-domain/booking-domain.iml" filepath="$PROJECT_DIR$/telikos-activityplanworkflow-service_02/booking-domain/booking-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/booking-workspace.iml" filepath="$PROJECT_DIR$/.idea/booking-workspace.iml" />
+      <module fileurl="file://$PROJECT_DIR$/telikos-activityplanworkflow-service_02/common/common.iml" filepath="$PROJECT_DIR$/telikos-activityplanworkflow-service_02/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/telikos-activityplanworkflow-service_02/service/service.iml" filepath="$PROJECT_DIR$/telikos-activityplanworkflow-service_02/service/service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/telikos-activityplanworkflow-service_02/telikos-activityplan-service.iml" filepath="$PROJECT_DIR$/telikos-activityplanworkflow-service_02/telikos-activityplan-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/telikos-booking-service-1/componenttest/telikos-booking-service-component-test.iml" filepath="$PROJECT_DIR$/telikos-booking-service-1/componenttest/telikos-booking-service-component-test.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,36 @@
+# .contmark/project.yml
+# One-time declaration of project stack + pinned skills.
+# Replaces runtime stack detection on every pipeline run.
+# Commit this file. Update only when stack actually changes.
+
+stack:
+  build: maven           # maven | gradle
+  language: java         # java | kotlin
+  framework: webflux     # webflux | mvc
+
+modules:
+  service: <service-module>           # e.g. foo-service or src/main/java
+  test: src/test/java
+  componentTest: componenttest        # or `none` if no CT module
+
+features:
+  kafka: true
+  temporal: true
+  database: mongo                     # mongo | postgres | dynamo | none
+  avro: true
+
+skills:
+  # always: loaded once at boot, kept in context for the whole pipeline
+  always: [execution-core, project-profile]
+  # stack: conventions for this language + framework
+  stack:  [spring-java-conventions, java-reactive-patterns]
+  build:  [maven-build-profiles]
+  domain: [kafka-patterns, temporal-workflow-patterns, db-migration-guardrails]
+  review: [code-review-checklist]
+  test:   [unit-testing-java, component-testing-cucumber]
+  pr:     [pr-delivery-and-triage]
+  plan:   [plan-templates]
+
+profiles:
+  application: [local, dev, test, prod]
+  helm: helm/*-values.yml

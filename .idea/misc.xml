@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotUserSelectedChatMode">
+    <option name="chatModeId" value="file://$PROJECT_DIR$/../.agents/agents/telikos.orchestrate.agent.md" />
+    <option name="inlineChatModeId" value="Ask" />
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/telikos-booking-service-1/service/pom.xml" />
+        <option value="$PROJECT_DIR$/telikos-booking-service-1/perftest/pom.xml" />
+        <option value="$PROJECT_DIR$/telikos-booking-service-1/componenttest/pom.xml" />
+        <option value="$PROJECT_DIR$/telikos-email-service_new/service/pom.xml" />
+        <option value="$PROJECT_DIR$/telikos-email-service_new/perftest/pom.xml" />
+        <option value="$PROJECT_DIR$/telikos-email-service_new/componenttest/pom.xml" />
+        <option value="$PROJECT_DIR$/telikos-activityplanworkflow-service_02/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="corretto-21" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

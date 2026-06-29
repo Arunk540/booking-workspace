@@ -1,0 +1,1418 @@
+{
+  "generated_at": "2026-06-18T06:43:37.975396+00:00",
+  "workspace": "booking-workspace",
+  "schema_version": 2,
+  "request_buckets": {
+    "activity plan api": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan architecture": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan avro payloads": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan billing integration": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan billing queue": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan billing runtime": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan billing signal": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan booking feedback": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan booking integration": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan build layout": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan build tool": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan cancel validation": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan cancellation email": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan cancellation email runtime": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan class navigation": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan collection": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan collection keys": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan cost workflow": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan country lists": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan cross cutting architecture": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan customs integration": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan customs publish": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan customs sde runtime": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan customs send": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan customs topic": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan delete path": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan dispatch": [
+      "telikos-booking-service-1"
+    ],
+    "activity plan domain model": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan email ack": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan email events": [
+      "telikos-email-service-02"
+    ],
+    "activity plan email flow": [
+      "telikos-email-service-02"
+    ],
+    "activity plan email integration": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan email queue": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan email task": [
+      "telikos-email-service-02"
+    ],
+    "activity plan entry points": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan event mapping": [
+      "telikos-email-service-02"
+    ],
+    "activity plan event rules": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan execution email": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan failure model": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan failures": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan fields": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan flags": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan flags lists": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan invoice dispatch": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan invoice task": [
+      "telikos-email-service-02"
+    ],
+    "activity plan job closure": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan kafka contracts": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan kafka topics": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan key classes": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan metrics": [
+      "telikos-booking-service-1",
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan module architecture": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan modules": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan mongo schema": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan monitoring": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan navigation": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan non sap billing": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan query api": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan query shapes": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan queue": [
+      "telikos-email-service-02"
+    ],
+    "activity plan queue map": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan ready planning": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan response fields": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan retries": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan retry": [
+      "telikos-booking-service-1"
+    ],
+    "activity plan retry window": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan rfp tms runtime": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan scenario navigation": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan security model": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan send tms": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan service delivery": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan stack profile": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan status mapping": [
+      "telikos-email-service-02"
+    ],
+    "activity plan status model": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan task matrix": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan task queue": [
+      "telikos-booking-service-1"
+    ],
+    "activity plan tech stack": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan temporal": [
+      "telikos-booking-service-1",
+      "telikos-email-service-02"
+    ],
+    "activity plan temporal ingress": [
+      "telikos-email-service-02"
+    ],
+    "activity plan tms integration": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan tms publish": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "activity plan tms topic": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "amendment routing chain": [
+      "telikos-booking-service-1"
+    ],
+    "ap not picking up booking event": [
+      "telikos-booking-service-1",
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "billing activity feedback": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "billing feedback queue": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "billing feedback worker": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "billing revenue update": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "billing scenario lookup": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "billing signal with start": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "booking activity lookup": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "booking activity matrix": [
+      "telikos-booking-service-1"
+    ],
+    "booking activity plan signal": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "booking api auth": [
+      "telikos-booking-service-1"
+    ],
+    "booking api endpoints": [
+      "telikos-booking-service-1"
+    ],
+    "booking api validations": [
+      "telikos-booking-service-1"
+    ],
+    "booking build tool": [
+      "telikos-booking-service-1"
+    ],
+    "booking cancellation feedback": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "booking cancellation routing": [
+      "telikos-booking-service-1"
+    ],
+    "booking class landmarks": [
+      "telikos-booking-service-1"
+    ],
+    "booking class map": [
+      "telikos-booking-service-1"
+    ],
+    "booking confirmation email end to end": [
+      "telikos-booking-service-1",
+      "telikos-activityplanworkflow-service_02",
+      "telikos-email-service-02"
+    ],
+    "booking cross cutting": [
+      "telikos-booking-service-1"
+    ],
+    "booking cross cutting concerns": [
+      "telikos-booking-service-1"
+    ],
+    "booking email dispatch": [
+      "telikos-email-service-02"
+    ],
+    "booking email failing": [
+      "telikos-email-service-02"
+    ],
+    "booking email flow": [
+      "telikos-email-service-02"
+    ],
+    "booking email stuck": [
+      "telikos-email-service-02"
+    ],
+    "booking end event": [
+      "telikos-booking-service-1"
+    ],
+    "booking entry points": [
+      "telikos-booking-service-1"
+    ],
+    "booking entry surface": [
+      "telikos-booking-service-1"
+    ],
+    "booking event activity matrix": [
+      "telikos-booking-service-1"
+    ],
+    "booking event order": [
+      "telikos-booking-service-1"
+    ],
+    "booking event task list": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "booking failure modes": [
+      "telikos-booking-service-1"
+    ],
+    "booking failure surfaces": [
+      "telikos-booking-service-1"
+    ],
+    "booking feature flags": [
+      "telikos-booking-service-1"
+    ],
+    "booking feature switches": [
+      "telikos-booking-service-1"
+    ],
+    "booking health probes": [
+      "telikos-booking-service-1"
+    ],
+    "booking ingress map": [
+      "telikos-booking-service-1"
+    ],
+    "booking invoice feedback": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "booking kafka contracts": [
+      "telikos-booking-service-1"
+    ],
+    "booking kafka entries": [
+      "telikos-booking-service-1"
+    ],
+    "booking kafka schemas": [
+      "telikos-booking-service-1"
+    ],
+    "booking kafka topics": [
+      "telikos-booking-service-1"
+    ],
+    "booking key classes": [
+      "telikos-booking-service-1"
+    ],
+    "booking metrics names": [
+      "telikos-booking-service-1"
+    ],
+    "booking module boundaries": [
+      "telikos-booking-service-1"
+    ],
+    "booking module layout": [
+      "telikos-booking-service-1"
+    ],
+    "booking module topology": [
+      "telikos-booking-service-1"
+    ],
+    "booking mongo collections": [
+      "telikos-booking-service-1"
+    ],
+    "booking mongo schemas": [
+      "telikos-booking-service-1"
+    ],
+    "booking mongo writes": [
+      "telikos-booking-service-1"
+    ],
+    "booking observability signals": [
+      "telikos-booking-service-1"
+    ],
+    "booking poison messages": [
+      "telikos-booking-service-1"
+    ],
+    "booking readiness checks": [
+      "telikos-booking-service-1"
+    ],
+    "booking rest contracts": [
+      "telikos-booking-service-1"
+    ],
+    "booking rest entries": [
+      "telikos-booking-service-1"
+    ],
+    "booking retry controls": [
+      "telikos-booking-service-1"
+    ],
+    "booking retry delays": [
+      "telikos-booking-service-1"
+    ],
+    "booking retry policy": [
+      "telikos-booking-service-1"
+    ],
+    "booking routing lists": [
+      "telikos-booking-service-1"
+    ],
+    "booking scenario routing": [
+      "telikos-booking-service-1"
+    ],
+    "booking security model": [
+      "telikos-booking-service-1"
+    ],
+    "booking sent but no email": [
+      "telikos-booking-service-1",
+      "telikos-activityplanworkflow-service_02",
+      "telikos-email-service-02"
+    ],
+    "booking signal worker": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "booking stack overview": [
+      "telikos-booking-service-1"
+    ],
+    "booking start event": [
+      "telikos-booking-service-1"
+    ],
+    "booking state lookup": [
+      "telikos-booking-service-1"
+    ],
+    "booking task lookup": [
+      "telikos-booking-service-1"
+    ],
+    "booking tech stack": [
+      "telikos-booking-service-1"
+    ],
+    "booking temporal entries": [
+      "telikos-booking-service-1"
+    ],
+    "booking to activity plan issue": [
+      "telikos-booking-service-1",
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "booking workflow id": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "call email api": [
+      "telikos-email-service-02"
+    ],
+    "cams feature flag": [
+      "telikos-booking-service-1"
+    ],
+    "cams registration endpoint": [
+      "telikos-booking-service-1"
+    ],
+    "cancellation email ack": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "client trace id": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "component test module": [
+      "telikos-booking-service-1"
+    ],
+    "component test stack": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "confirm booking api": [
+      "telikos-booking-service-1"
+    ],
+    "confirm booking guard": [
+      "telikos-booking-service-1"
+    ],
+    "confirm send to tms": [
+      "telikos-booking-service-1"
+    ],
+    "consume email topic": [
+      "telikos-email-service-02"
+    ],
+    "consumer owner class": [
+      "telikos-booking-service-1"
+    ],
+    "container availability callback": [
+      "telikos-booking-service-1"
+    ],
+    "container availability flow": [
+      "telikos-booking-service-1"
+    ],
+    "container availability registration": [
+      "telikos-booking-service-1"
+    ],
+    "controller class lookup": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "customs execution status": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "customs feedback exchange": [
+      "telikos-booking-service-1"
+    ],
+    "customs feedback flow": [
+      "telikos-booking-service-1"
+    ],
+    "customs feedback guard": [
+      "telikos-booking-service-1"
+    ],
+    "customs feedback start": [
+      "telikos-booking-service-1"
+    ],
+    "customs feedback topic": [
+      "telikos-booking-service-1"
+    ],
+    "customs kafka schema": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "customs notification path": [
+      "telikos-booking-service-1"
+    ],
+    "customs order query": [
+      "telikos-booking-service-1"
+    ],
+    "customs order updates": [
+      "telikos-booking-service-1"
+    ],
+    "customs receiver guard": [
+      "telikos-booking-service-1"
+    ],
+    "customs response topic": [
+      "telikos-booking-service-1"
+    ],
+    "customs scenario lookup": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "customs service order": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "customs status mapping": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "customs sync producer": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "customs vessel registration": [
+      "telikos-booking-service-1"
+    ],
+    "decision hub country list": [
+      "telikos-email-service-02"
+    ],
+    "decision hub country routing": [
+      "telikos-email-service-02"
+    ],
+    "decision hub failing": [
+      "telikos-email-service-02"
+    ],
+    "decision hub sender": [
+      "telikos-email-service-02"
+    ],
+    "decision hub sender resolution": [
+      "telikos-email-service-02"
+    ],
+    "document storage failing": [
+      "telikos-email-service-02"
+    ],
+    "document storage flow": [
+      "telikos-email-service-02"
+    ],
+    "document storage pdf archive": [
+      "telikos-email-service-02"
+    ],
+    "download billing pdf": [
+      "telikos-email-service-02"
+    ],
+    "downstream workflow missing": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "duplicate insert recovery": [
+      "telikos-booking-service-1"
+    ],
+    "email api contracts": [
+      "telikos-email-service-02"
+    ],
+    "email class lookup": [
+      "telikos-email-service-02"
+    ],
+    "email collection layout": [
+      "telikos-email-service-02"
+    ],
+    "email cross cutting": [
+      "telikos-email-service-02"
+    ],
+    "email delivery failure model": [
+      "telikos-email-service-02"
+    ],
+    "email delivery retries": [
+      "telikos-email-service-02"
+    ],
+    "email endpoint failing": [
+      "telikos-email-service-02"
+    ],
+    "email entry points": [
+      "telikos-email-service-02"
+    ],
+    "email event history kafka": [
+      "telikos-email-service-02"
+    ],
+    "email failure causes": [
+      "telikos-email-service-02"
+    ],
+    "email failure feedback": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "email failure model": [
+      "telikos-email-service-02"
+    ],
+    "email flag failing": [
+      "telikos-email-service-02"
+    ],
+    "email flow lookup": [
+      "telikos-email-service-02"
+    ],
+    "email framework list": [
+      "telikos-email-service-02"
+    ],
+    "email health probe": [
+      "telikos-email-service-02"
+    ],
+    "email issue routing": [
+      "telikos-email-service-02"
+    ],
+    "email kafka failing": [
+      "telikos-email-service-02"
+    ],
+    "email kafka topics": [
+      "telikos-email-service-02"
+    ],
+    "email key classes": [
+      "telikos-email-service-02"
+    ],
+    "email library versions": [
+      "telikos-email-service-02"
+    ],
+    "email logging setup": [
+      "telikos-email-service-02"
+    ],
+    "email logs location": [
+      "telikos-email-service-02"
+    ],
+    "email metrics failing": [
+      "telikos-email-service-02"
+    ],
+    "email module boundaries": [
+      "telikos-email-service-02"
+    ],
+    "email module map": [
+      "telikos-email-service-02"
+    ],
+    "email module ownership": [
+      "telikos-email-service-02"
+    ],
+    "email mongo schema": [
+      "telikos-email-service-02"
+    ],
+    "email mongo schemas": [
+      "telikos-email-service-02"
+    ],
+    "email monitoring setup": [
+      "telikos-email-service-02"
+    ],
+    "email ownership map": [
+      "telikos-email-service-02"
+    ],
+    "email package tree": [
+      "telikos-email-service-02"
+    ],
+    "email queue routing": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "email request shape": [
+      "telikos-email-service-02"
+    ],
+    "email retries": [
+      "telikos-email-service-02"
+    ],
+    "email retry failing": [
+      "telikos-email-service-02"
+    ],
+    "email retry timeout": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "email runtime flags": [
+      "telikos-email-service-02"
+    ],
+    "email scenario lookup": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "email scenario routing": [
+      "telikos-email-service-02"
+    ],
+    "email security setup": [
+      "telikos-email-service-02"
+    ],
+    "email service api contracts": [
+      "telikos-email-service-02"
+    ],
+    "email service cross cutting": [
+      "telikos-email-service-02"
+    ],
+    "email service modules": [
+      "telikos-email-service-02"
+    ],
+    "email service monitoring": [
+      "telikos-email-service-02"
+    ],
+    "email service stack": [
+      "telikos-email-service-02"
+    ],
+    "email stack overview": [
+      "telikos-email-service-02"
+    ],
+    "email tech stack": [
+      "telikos-email-service-02"
+    ],
+    "email temporal entry": [
+      "telikos-email-service-02"
+    ],
+    "email timeout setup": [
+      "telikos-email-service-02"
+    ],
+    "email webhook entry": [
+      "telikos-email-service-02"
+    ],
+    "end to end booking flow": [
+      "telikos-booking-service-1",
+      "telikos-activityplanworkflow-service_02",
+      "telikos-email-service-02"
+    ],
+    "event history topic": [
+      "telikos-booking-service-1",
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "fetch finance pdf": [
+      "telikos-email-service-02"
+    ],
+    "finance chassis failing": [
+      "telikos-email-service-02"
+    ],
+    "finance chassis fallback": [
+      "telikos-email-service-02"
+    ],
+    "finance chassis invoice": [
+      "telikos-email-service-02"
+    ],
+    "finance chassis invoice pdf": [
+      "telikos-email-service-02"
+    ],
+    "find activity plan flow": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "first place for email": [
+      "telikos-email-service-02"
+    ],
+    "fsd completion billing": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "get activity plan order": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "http percentile metrics": [
+      "telikos-booking-service-1"
+    ],
+    "integration class lookup": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "integration failure surfaces": [
+      "telikos-booking-service-1"
+    ],
+    "integration owner class": [
+      "telikos-booking-service-1"
+    ],
+    "invalid order id": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "invoice dispatch billing": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "invoice dispatch email flow": [
+      "telikos-email-service-02"
+    ],
+    "invoice dispatch failing": [
+      "telikos-email-service-02"
+    ],
+    "invoice dispatch flow": [
+      "telikos-email-service-02"
+    ],
+    "invoice email dispatch": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "invoice to email full flow": [
+      "telikos-booking-service-1",
+      "telikos-activityplanworkflow-service_02",
+      "telikos-email-service-02"
+    ],
+    "iom ack event": [
+      "telikos-booking-service-1"
+    ],
+    "iom booking publish": [
+      "telikos-booking-service-1"
+    ],
+    "iom booking topic": [
+      "telikos-booking-service-1"
+    ],
+    "java framework version": [
+      "telikos-booking-service-1"
+    ],
+    "java webflux service": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "kafka publish failure": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "kafka retry backoff": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "kafka retry model": [
+      "telikos-booking-service-1"
+    ],
+    "kafka temporal observability": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "messaging retry model": [
+      "telikos-booking-service-1"
+    ],
+    "migration flag": [
+      "telikos-booking-service-1"
+    ],
+    "module dependency map": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "mongo and workflow coupling": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "mongo stack details": [
+      "telikos-booking-service-1"
+    ],
+    "nam country bypass": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "nam email bypass": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "nam registration branch": [
+      "telikos-booking-service-1"
+    ],
+    "non sap billing list": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "notification email failing": [
+      "telikos-email-service-02"
+    ],
+    "notification email workflow": [
+      "telikos-email-service-02"
+    ],
+    "notification flag setup": [
+      "telikos-email-service-02"
+    ],
+    "one click channels": [
+      "telikos-booking-service-1"
+    ],
+    "one click queue": [
+      "telikos-booking-service-1"
+    ],
+    "order activity plan lookup": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "performance test module": [
+      "telikos-booking-service-1"
+    ],
+    "persistence class lookup": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "process sendgrid webhook": [
+      "telikos-email-service-02"
+    ],
+    "publish email history": [
+      "telikos-email-service-02"
+    ],
+    "rail availability feedback": [
+      "telikos-booking-service-1"
+    ],
+    "reactive persistence rules": [
+      "telikos-booking-service-1"
+    ],
+    "readiness liveness checks": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "resolve decision hub email": [
+      "telikos-email-service-02"
+    ],
+    "rest order endpoint": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "retry booking email": [
+      "telikos-email-service-02"
+    ],
+    "retry collection behavior": [
+      "telikos-booking-service-1"
+    ],
+    "retry collection schema": [
+      "telikos-booking-service-1"
+    ],
+    "retry invoice email": [
+      "telikos-email-service-02"
+    ],
+    "retry metadata field": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "revenue line flag": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "revenue update booking": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "rfp duplicate guard": [
+      "telikos-booking-service-1"
+    ],
+    "rfp flow entry": [
+      "telikos-booking-service-1"
+    ],
+    "rfp troubleshooting start": [
+      "telikos-booking-service-1"
+    ],
+    "rfp variant routing": [
+      "telikos-booking-service-1"
+    ],
+    "runtime task handlers": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "sap ack flow": [
+      "telikos-booking-service-1"
+    ],
+    "sap exchange feedback": [
+      "telikos-booking-service-1"
+    ],
+    "sap exchange routing": [
+      "telikos-booking-service-1"
+    ],
+    "sap exchange topics": [
+      "telikos-booking-service-1"
+    ],
+    "sap execution flow": [
+      "telikos-booking-service-1"
+    ],
+    "sap feedback guards": [
+      "telikos-booking-service-1"
+    ],
+    "sap feedback topic": [
+      "telikos-booking-service-1"
+    ],
+    "sap tms countries": [
+      "telikos-booking-service-1"
+    ],
+    "sap tms exchange": [
+      "telikos-booking-service-1"
+    ],
+    "sap tms execution": [
+      "telikos-booking-service-1"
+    ],
+    "sap tms feedback handling": [
+      "telikos-booking-service-1"
+    ],
+    "save email details": [
+      "telikos-email-service-02"
+    ],
+    "send booking email": [
+      "telikos-email-service-02"
+    ],
+    "send invoice dispatch": [
+      "telikos-email-service-02"
+    ],
+    "send notification email": [
+      "telikos-email-service-02"
+    ],
+    "send tms sync": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "send to sap tms": [
+      "telikos-booking-service-1"
+    ],
+    "send to tms api": [
+      "telikos-booking-service-1"
+    ],
+    "send to tms routing": [
+      "telikos-booking-service-1"
+    ],
+    "send to tms start": [
+      "telikos-booking-service-1"
+    ],
+    "sendgrid category mapping": [
+      "telikos-email-service-02"
+    ],
+    "sendgrid delivery retry": [
+      "telikos-email-service-02"
+    ],
+    "sendgrid email delivery": [
+      "telikos-email-service-02"
+    ],
+    "sendgrid email failing": [
+      "telikos-email-service-02"
+    ],
+    "sendgrid email flow": [
+      "telikos-email-service-02"
+    ],
+    "sendgrid status bounced": [
+      "telikos-email-service-02"
+    ],
+    "sendgrid webhook failing": [
+      "telikos-email-service-02"
+    ],
+    "sendgrid webhook flow": [
+      "telikos-email-service-02"
+    ],
+    "sendgrid webhook processing": [
+      "telikos-email-service-02"
+    ],
+    "service delivery status update": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "service module packages": [
+      "telikos-booking-service-1"
+    ],
+    "service module wiring": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "service plan dates": [
+      "telikos-booking-service-1"
+    ],
+    "service plan fields": [
+      "telikos-booking-service-1"
+    ],
+    "service plan persistence": [
+      "telikos-booking-service-1"
+    ],
+    "service plan retries": [
+      "telikos-booking-service-1"
+    ],
+    "service plan schema": [
+      "telikos-booking-service-1"
+    ],
+    "service plan state": [
+      "telikos-booking-service-1"
+    ],
+    "service plan to ap": [
+      "telikos-booking-service-1"
+    ],
+    "service plan to email": [
+      "telikos-booking-service-1",
+      "telikos-activityplanworkflow-service_02",
+      "telikos-email-service-02"
+    ],
+    "service plan topic": [
+      "telikos-booking-service-1"
+    ],
+    "status failure mapping": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "swagger activity plan": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "task to activity map": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "temporal activity backoff": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "temporal and kafka wiring": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "temporal continue as new": [
+      "telikos-booking-service-1"
+    ],
+    "temporal kafka mongo": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "temporal retry model": [
+      "telikos-booking-service-1"
+    ],
+    "temporal stack details": [
+      "telikos-booking-service-1"
+    ],
+    "tms activity status": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "tms booking confirmed": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "tms cancellation email": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "tms kafka schema": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "tms transport order": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "transport order feedback": [
+      "telikos-booking-service-1"
+    ],
+    "transport order query": [
+      "telikos-booking-service-1"
+    ],
+    "transport order schema": [
+      "telikos-booking-service-1"
+    ],
+    "update email status": [
+      "telikos-email-service-02"
+    ],
+    "upload document pdf": [
+      "telikos-email-service-02"
+    ],
+    "versioned worker rollout": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "vessel registration flow": [
+      "telikos-booking-service-1"
+    ],
+    "vessel tracking callback": [
+      "telikos-booking-service-1"
+    ],
+    "vessel tracking endpoint": [
+      "telikos-booking-service-1"
+    ],
+    "vessel tracking flow": [
+      "telikos-booking-service-1"
+    ],
+    "vessel tracking registration": [
+      "telikos-booking-service-1"
+    ],
+    "vts child wait": [
+      "telikos-booking-service-1"
+    ],
+    "vts deadline update": [
+      "telikos-booking-service-1"
+    ],
+    "vts deadline wait": [
+      "telikos-booking-service-1"
+    ],
+    "what email uses": [
+      "telikos-email-service-02"
+    ],
+    "where activity plan enters": [
+      "telikos-email-service-02"
+    ],
+    "where activity plan lives": [
+      "telikos-email-service-02"
+    ],
+    "where email bug starts": [
+      "telikos-email-service-02"
+    ],
+    "where email logic lives": [
+      "telikos-email-service-02"
+    ],
+    "where email module lives": [
+      "telikos-email-service-02"
+    ],
+    "where email starts": [
+      "telikos-email-service-02"
+    ],
+    "where email worker starts": [
+      "telikos-email-service-02"
+    ],
+    "which class handles email": [
+      "telikos-email-service-02"
+    ],
+    "which class handles notification": [
+      "telikos-email-service-02"
+    ],
+    "which class handles sendgrid": [
+      "telikos-email-service-02"
+    ],
+    "which class sends booking email": [
+      "telikos-email-service-02"
+    ],
+    "which class sends invoice": [
+      "telikos-email-service-02"
+    ],
+    "why activity plan failed": [
+      "telikos-email-service-02"
+    ],
+    "why booking email failed": [
+      "telikos-email-service-02"
+    ],
+    "why decision hub failed": [
+      "telikos-email-service-02"
+    ],
+    "why document storage failed": [
+      "telikos-email-service-02"
+    ],
+    "why email endpoint failed": [
+      "telikos-email-service-02"
+    ],
+    "why email failed": [
+      "telikos-email-service-02"
+    ],
+    "why email flag changed": [
+      "telikos-email-service-02"
+    ],
+    "why email kafka failed": [
+      "telikos-email-service-02"
+    ],
+    "why email metrics missing": [
+      "telikos-email-service-02"
+    ],
+    "why email mongo failed": [
+      "telikos-email-service-02"
+    ],
+    "why email retries fail": [
+      "telikos-email-service-02"
+    ],
+    "why finance chassis failed": [
+      "telikos-email-service-02"
+    ],
+    "why invoice dispatch failed": [
+      "telikos-email-service-02"
+    ],
+    "why notification email failed": [
+      "telikos-email-service-02"
+    ],
+    "why sendgrid failed": [
+      "telikos-email-service-02"
+    ],
+    "why sendgrid webhook failed": [
+      "telikos-email-service-02"
+    ],
+    "workflow activity order": [
+      "telikos-booking-service-1"
+    ],
+    "workflow class lookup": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "workflow module ownership": [
+      "telikos-activityplanworkflow-service_02"
+    ],
+    "workflow orchestration rules": [
+      "telikos-booking-service-1"
+    ],
+    "workflow owner class": [
+      "telikos-booking-service-1"
+    ],
+    "workflow timeout behavior": [
+      "telikos-booking-service-1"
+    ]
+  },
+  "flows": [
+    {
+      "name": "temporal-activity-plan-task-queue-to-email-task-queue",
+      "repo_chain": [
+        "telikos-booking-service-1",
+        "telikos-activityplanworkflow-service_02",
+        "telikos-email-service-02"
+      ],
+      "topics": [
+        {
+          "topic": "TEMPORAL_ACTIVITY_PLAN_TASK_QUEUE",
+          "protocol": "temporal-signal",
+          "from": "telikos-booking-service-1",
+          "to": "telikos-activityplanworkflow-service_02",
+          "schema_path": "telikos-activityplanworkflow-service_02/common/src/main/resources/avro/ActivityPlanInternal.v2.avsc"
+        },
+        {
+          "topic": "EMAIL_TASK_QUEUE",
+          "protocol": "temporal-signal",
+          "from": "telikos-activityplanworkflow-service_02",
+          "to": "telikos-email-service-02",
+          "schema_path": "telikos-activityplanworkflow-service_02/common/src/main/resources/avro/ActivityPlanInternal.v2.avsc"
+        }
+      ],
+      "entry_files": {
+        "telikos-booking-service-1": "runtime/rfp-flow.md",
+        "telikos-activityplanworkflow-service_02": "runtime/rfp-tms-flow.md",
+        "telikos-email-service-02": "runtime/booking-email-flow.md"
+      },
+      "triggers": [
+        "booking confirmed email not sent",
+        "email not received after booking",
+        "booking to ap to email",
+        "why did email not arrive",
+        "confirm booking email flow",
+        "rfp to email end to end",
+        "booking confirmation email missing",
+        "booking event no email",
+        "tracing booking to email",
+        "service plan email"
+      ]
+    },
+    {
+      "name": "temporal-activity-plan-task-queue-to-email-task-queue-invoice-dispatch",
+      "repo_chain": [
+        "telikos-booking-service-1",
+        "telikos-activityplanworkflow-service_02",
+        "telikos-email-service-02"
+      ],
+      "topics": [
+        {
+          "topic": "TEMPORAL_ACTIVITY_PLAN_TASK_QUEUE",
+          "protocol": "temporal-signal",
+          "from": "telikos-booking-service-1",
+          "to": "telikos-activityplanworkflow-service_02",
+          "schema_path": "telikos-activityplanworkflow-service_02/common/src/main/resources/avro/ActivityPlanInternal.v2.avsc"
+        },
+        {
+          "topic": "EMAIL_TASK_QUEUE_INVOICE_DISPATCH",
+          "protocol": "temporal-signal",
+          "from": "telikos-activityplanworkflow-service_02",
+          "to": "telikos-email-service-02",
+          "schema_path": null
+        }
+      ],
+      "entry_files": {
+        "telikos-booking-service-1": "runtime/rfp-flow.md",
+        "telikos-activityplanworkflow-service_02": "runtime/billing-flow.md",
+        "telikos-email-service-02": "runtime/invoice-dispatch-flow.md"
+      },
+      "triggers": [
+        "invoice email not received",
+        "invoice dispatch failing",
+        "billing invoice email",
+        "invoice not sent to customer",
+        "invoice dispatch email flow",
+        "invoice email delivery issue",
+        "why invoice email fails",
+        "invoice dispatch not arriving",
+        "billing to email invoice",
+        "send invoice email"
+      ]
+    }
+  ],
+  "per_repo_summary": {
+    "telikos-booking-service-1": "Owns inbound ServicePlan consumption from upstream, RFP/amend/cancel/pricing variant routing, and Temporal workflow start for all booking lifecycle events. Owns REST endpoints (/bookings, /transport-orders, /customs-orders) and SAP TMS/customs/VTS/CAMS feedback consumers. Does NOT own activity plan orchestration, email sending, or billing — those live in downstream services.",
+    "telikos-activityplanworkflow-service_02": "Owns activity plan orchestration via Temporal workflows (V2 primary). Receives booking events via Temporal signals and dispatches tasks to email-service (activity calls), TMS (Kafka), customs (Kafka), and billing (Temporal). Only REST endpoint is GET /activity-plan/order/{id}. Does NOT own booking state or email delivery logic.",
+    "telikos-email-service-02": "Owns email delivery via SendGrid for all booking lifecycle events, invoice dispatch, vendor notifications, and ad-hoc notifications. Receives work exclusively via Temporal activity calls from activityplanworkflow. Does NOT own booking state, activity plan orchestration, or billing."
+  },
+  "disambiguation_rules": [
+    {
+      "token": "tms",
+      "default_repo": "telikos-booking-service-1",
+      "rule": "SAP-TMS country routing, SEND_TO_TMS REST endpoint, SAP-TMS feedback consumer, TMS country validation live in booking-service-1. TMS Kafka producer (PublishTmsActivityImpl, TMS_TOPIC) lives in activityplanworkflow.",
+      "AP_marker_phrases": [
+        "publish to tms",
+        "tms activity",
+        "tms kafka",
+        "send message to tms"
+      ],
+      "booking_marker_phrases": [
+        "send to tms endpoint",
+        "sap-tms feedback",
+        "tms country routing",
+        "tms eligible country"
+      ]
+    },
+    {
+      "token": "customs",
+      "default_repo": "telikos-booking-service-1",
+      "rule": "Customs response consumer (CustomsServiceOrderConsumer) and REST customs-status update live in booking-service-1. Customs request publisher (PublishMsgToCustomsActivityImpl, KAFKA_CUSTOMS_REQUEST_TOPIC) lives in activityplanworkflow.",
+      "AP_marker_phrases": [
+        "publish customs",
+        "customs request",
+        "send to customs activity",
+        "customs kafka produce"
+      ],
+      "booking_marker_phrases": [
+        "customs feedback",
+        "customs status update",
+        "customs response consumer"
+      ]
+    },
+    {
+      "token": "activity-plan",
+      "default_repo": "telikos-activityplanworkflow-service_02",
+      "rule": "ActivityPlan orchestration (workflow, activities, mongo collection) lives in activityplanworkflow. Booking-service-1 only dispatches TO the activity plan via Temporal — it does not own AP logic.",
+      "AP_marker_phrases": [
+        "activity plan workflow",
+        "ap workflow fails",
+        "activity plan mongo",
+        "domain rules"
+      ],
+      "booking_marker_phrases": [
+        "send service plan to ap",
+        "booking dispatches to ap"
+      ]
+    }
+  ]
+}
