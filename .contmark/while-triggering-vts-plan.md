@@ -6,6 +6,8 @@
 - **Stack:** WebFlux
 - **CT Module:** present
 
+- 
+
 ## Overview
 **Objective:** Ensure VTS registration handles HTTP 5xx failures with continuous retry until the booking-specific VTS cutoff/deadline, and send error completion to IOM **only after cutoff is reached**. Retry/error handling must stay isolated to the VTS branch so other booking activities are not blocked or held. No cross-repo contract changes in this iteration.
 
