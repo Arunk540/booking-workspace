@@ -10,7 +10,7 @@ generated_from:
   - repos/*/integrations/*.md
   - _global_links.json
   - workspace.yml (cross_repo_contracts, cycle_breaks)
-repos: [telikos-booking-service-1, telikos-activityplanworkflow-service_02, telikos-email-service-02]
+repos: [telikos-booking-service, telikos-activityplanworkflow-service, telikos-email-service]
 last_generated: "2026-06-26"
 ---
 
