@@ -1,0 +1,1133 @@
+{
+  "generated_at": "2026-06-18T11:55:20+05:30",
+  "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+  "files": [
+    {
+      "path": "architecture/cross-cutting.md",
+      "category": "architecture",
+      "title": "cross-cutting execution model",
+      "summary": "The service combines WebFlux ingress, Temporal orchestration, Kafka producers, Mongo persistence, and Azure AD secured APIs.",
+      "primary_for": [
+        "activity-plan-cross-cutting-architecture"
+      ],
+      "mentions": [
+        "activity-plan-module-architecture",
+        "activity-plan-operational-model"
+      ],
+      "scenarios": [
+        "activity plan architecture",
+        "temporal and kafka wiring",
+        "activity plan security model",
+        "mongo and workflow coupling",
+        "versioned worker rollout"
+      ],
+      "capabilities": [
+        "cross-cutting-design"
+      ],
+      "domains": [
+        "activity-plan",
+        "workflow-orchestration",
+        "integration-architecture"
+      ],
+      "entities": [
+        "ActivityplanworkflowApplication",
+        "TemporalWorker",
+        "TemporalClientConfig"
+      ],
+      "sources": [
+        "service/src/main/java/net/apmoller/telikos/microservices/activityplan/ActivityplanworkflowApplication.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/config/TemporalClientConfig.java",
+        "service/src/main/resources/application.yml"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "stack/stack.md",
+        "operations/flags-and-lists.md"
+      ]
+    },
+    {
+      "path": "architecture/modules.md",
+      "category": "architecture",
+      "title": "module layout",
+      "summary": "The repo is an eight-module Maven build with service wiring in `service` and workflow execution concentrated in `workflow` and `booking-domain`.",
+      "primary_for": [
+        "activity-plan-module-architecture"
+      ],
+      "mentions": [
+        "activity-plan-stack-profile",
+        "activity-plan-entry-points"
+      ],
+      "scenarios": [
+        "activity plan modules",
+        "module dependency map",
+        "activity plan build layout",
+        "workflow module ownership",
+        "service module wiring"
+      ],
+      "capabilities": [
+        "repo-structure"
+      ],
+      "domains": [
+        "activity-plan",
+        "platform-architecture"
+      ],
+      "entities": [
+        "ActivityplanworkflowApplication",
+        "ActivityPlanWorkflowImplV2"
+      ],
+      "sources": [
+        "pom.xml",
+        "api/pom.xml",
+        "booking-domain/pom.xml",
+        "common/pom.xml",
+        "event/pom.xml",
+        "persistence/pom.xml",
+        "workflow/pom.xml",
+        "service/pom.xml"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "architecture/cross-cutting.md",
+        "stack/stack.md"
+      ]
+    },
+    {
+      "path": "contracts/api-contracts.md",
+      "category": "contracts",
+      "title": "api contracts",
+      "summary": "The public API surface is a single JWT-protected order lookup endpoint that returns AP response DTOs and rejects order ids with non-alphanumeric punctuation.",
+      "primary_for": [
+        "activity-plan-query-api"
+      ],
+      "mentions": [
+        "activity-plan-domain-model",
+        "activity-plan-monitoring"
+      ],
+      "scenarios": [
+        "activity plan api",
+        "get activity plan order",
+        "activity plan response fields",
+        "invalid order id",
+        "swagger activity plan"
+      ],
+      "capabilities": [
+        "rest-query"
+      ],
+      "domains": [
+        "activity-plan",
+        "api"
+      ],
+      "entities": [
+        "ActivityPlanController",
+        "ActivityPlanResponse"
+      ],
+      "sources": [
+        "api/src/main/java/net/apmoller/telikos/microservices/activityplan/api/controller/ActivityPlanController.java",
+        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/constant/ActivityPlanConstants.java",
+        "api/src/main/java/net/apmoller/telikos/microservices/activityplan/api/dto/ActivityPlanResponse.java",
+        "service/src/main/resources/application.yml",
+        "service/src/main/java/net/apmoller/telikos/microservices/activityplan/ActivityplanworkflowApplication.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "domain/activity-plan.md",
+        "navigation/entry-points.md"
+      ]
+    },
+    {
+      "path": "contracts/db-schemas.md",
+      "category": "contracts",
+      "title": "database schema and query shapes",
+      "summary": "MongoDB stores AP milestones in `activityPlan`, with both reactive order queries and repository-based booking/activity probes.",
+      "primary_for": [
+        "activity-plan-mongo-schema"
+      ],
+      "mentions": [
+        "activity-plan-domain-model",
+        "activity-plan-failure-model"
+      ],
+      "scenarios": [
+        "activity plan mongo schema",
+        "activity plan collection keys",
+        "activity plan query shapes",
+        "booking activity lookup",
+        "activity plan delete path"
+      ],
+      "capabilities": [
+        "mongo-contracts"
+      ],
+      "domains": [
+        "mongo",
+        "activity-plan"
+      ],
+      "entities": [
+        "ActivityPlan",
+        "MongoActivityPlanRepository",
+        "MongoReactiveActivityPlanRepositoryImpl"
+      ],
+      "sources": [
+        "persistence/src/main/java/net/apmoller/telikos/microservices/activityplan/persistence/entity/ActivityPlan.java",
+        "persistence/src/main/java/net/apmoller/telikos/microservices/activityplan/persistence/service/MongoActivityPlanRepository.java",
+        "persistence/src/main/java/net/apmoller/telikos/microservices/activityplan/persistence/service/MongoReactiveActivityPlanRepositoryImpl.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "domain/activity-plan.md",
+        "contracts/api-contracts.md"
+      ]
+    },
+    {
+      "path": "contracts/kafka-events.md",
+      "category": "contracts",
+      "title": "kafka contracts",
+      "summary": "The repo produces Avro payloads to TMS, event history, and customs topics, with a dedicated producer for TMS and event history plus a shared producer for customs.",
+      "primary_for": [
+        "activity-plan-kafka-contracts"
+      ],
+      "mentions": [
+        "activity-plan-tms-integration",
+        "activity-plan-customs-integration",
+        "activity-plan-monitoring"
+      ],
+      "scenarios": [
+        "activity plan kafka topics",
+        "tms kafka schema",
+        "customs kafka schema",
+        "event history topic",
+        "activity plan avro payloads"
+      ],
+      "capabilities": [
+        "kafka-producer-contracts"
+      ],
+      "domains": [
+        "kafka",
+        "tms-dispatch",
+        "customs",
+        "event-history"
+      ],
+      "entities": [
+        "TransportOrder",
+        "EventHistory",
+        "CustomsServiceOrderEvent"
+      ],
+      "sources": [
+        "service/src/main/resources/application.yml",
+        "service/src/main/resources/application-local.yml",
+        "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java",
+        "common/src/main/resources/avro/TransportOrder.v8.avsc",
+        "common/src/main/resources/avro/EventHistoryInternal.v2.avsc",
+        "common/src/main/resources/avro/CustomServiceOrderEvent.v1.avsc"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "integrations/tms.md",
+        "integrations/customs.md"
+      ]
+    },
+    {
+      "path": "domain/activity-plan.md",
+      "category": "domain",
+      "title": "activity plan aggregate",
+      "summary": "ActivityPlan documents are the service's canonical milestone records for order lookup, workflow progress, errors, and retry metadata.",
+      "primary_for": [
+        "activity-plan-domain-model"
+      ],
+      "mentions": [
+        "activity-plan-query-api",
+        "activity-plan-mongo-schema"
+      ],
+      "scenarios": [
+        "activity plan fields",
+        "activity plan collection",
+        "activity plan status model",
+        "activity plan retry window",
+        "order activity plan lookup"
+      ],
+      "capabilities": [
+        "activity-plan-tracking"
+      ],
+      "domains": [
+        "activity-plan",
+        "workflow-orchestration"
+      ],
+      "entities": [
+        "ActivityPlan"
+      ],
+      "sources": [
+        "persistence/src/main/java/net/apmoller/telikos/microservices/activityplan/persistence/entity/ActivityPlan.java",
+        "persistence/src/main/java/net/apmoller/telikos/microservices/activityplan/persistence/service/MongoActivityPlanRepository.java",
+        "persistence/src/main/java/net/apmoller/telikos/microservices/activityplan/persistence/service/MongoReactiveActivityPlanRepositoryImpl.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "contracts/db-schemas.md",
+        "contracts/api-contracts.md"
+      ]
+    },
+    {
+      "path": "integrations/billing.md",
+      "category": "integrations",
+      "title": "billing workflow integration",
+      "summary": "AP starts or signals Temporal billing workflows for finance, cost, and invoice-dispatch feedback, then projects billing responses back into AP and booking milestones.",
+      "primary_for": [
+        "activity-plan-billing-integration"
+      ],
+      "mentions": [
+        "activity-plan-billing-runtime",
+        "activity-plan-booking-integration"
+      ],
+      "scenarios": [
+        "activity plan billing queue",
+        "billing signal with start",
+        "activity plan cost workflow",
+        "invoice dispatch billing",
+        "billing feedback queue"
+      ],
+      "capabilities": [
+        "billing-dispatch",
+        "billing-feedback"
+      ],
+      "domains": [
+        "billing",
+        "temporal",
+        "activity-plan"
+      ],
+      "entities": [
+        "EventProcessorServiceImpl",
+        "BillingWorker",
+        "BillingProducerWorker",
+        "BillingProducerWorker2"
+      ],
+      "sources": [
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingWorker.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker2.java",
+        "service/src/main/resources/application.yml"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "runtime/billing-flow.md",
+        "operations/retries.md"
+      ],
+      "peer_systems": [
+        "telikos-billing-workflow"
+      ],
+      "direction": "outbound",
+      "protocol": "temporal-signal",
+      "topic_or_endpoint": "BILLING_SECOND_TASK_QUEUE"
+    },
+    {
+      "path": "integrations/booking-service.md",
+      "category": "integrations",
+      "title": "booking service integration",
+      "summary": "Booking service is both the main source of AP workflow signals and the sink for milestone, invoice, and revenue feedback.",
+      "primary_for": [
+        "activity-plan-booking-integration"
+      ],
+      "mentions": [
+        "activity-plan-entry-points",
+        "activity-plan-billing-runtime"
+      ],
+      "scenarios": [
+        "booking activity plan signal",
+        "activity plan booking feedback",
+        "booking invoice feedback",
+        "revenue update booking",
+        "booking workflow id"
+      ],
+      "capabilities": [
+        "booking-signal-ingress",
+        "booking-feedback-egress"
+      ],
+      "domains": [
+        "booking",
+        "activity-plan"
+      ],
+      "entities": [
+        "ActivityPlanWorkflow",
+        "EventProcessorServiceImpl",
+        "BookingWorker"
+      ],
+      "sources": [
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BookingWorker.java",
+        "service/src/main/resources/application.yml"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "runtime/cancellation-email-flow.md",
+        "runtime/billing-flow.md"
+      ],
+      "peer_systems": [
+        "telikos-booking-service-1"
+      ],
+      "direction": "bidirectional",
+      "protocol": "temporal-signal",
+      "topic_or_endpoint": "BOOKING_WORKER_TASK_QUEUE"
+    },
+    {
+      "path": "integrations/customs.md",
+      "category": "integrations",
+      "title": "customs integration",
+      "summary": "AP builds shared-bootstrap customs Avro envelopes from service-plan customs orders, publishes them synchronously, and keeps customs/AP state aligned through AP milestones.",
+      "primary_for": [
+        "activity-plan-customs-integration"
+      ],
+      "mentions": [
+        "activity-plan-customs-sde-runtime",
+        "activity-plan-kafka-contracts"
+      ],
+      "scenarios": [
+        "activity plan customs topic",
+        "customs service order",
+        "activity plan customs publish",
+        "customs sync producer",
+        "customs status mapping"
+      ],
+      "capabilities": [
+        "customs-dispatch"
+      ],
+      "domains": [
+        "customs",
+        "kafka",
+        "activity-plan"
+      ],
+      "entities": [
+        "CustomsServiceImpl",
+        "PublishMsgToCustomsActivityImpl",
+        "KafkaProducerServiceImpl",
+        "CustomsServiceOrderEvent"
+      ],
+      "sources": [
+        "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/CustomsServiceImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishMsgToCustomsActivityImpl.java",
+        "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java",
+        "service/src/main/resources/application.yml"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "runtime/customs-sde-flow.md",
+        "contracts/kafka-events.md"
+      ],
+      "peer_systems": [
+        "cip-customs"
+      ],
+      "direction": "outbound",
+      "protocol": "kafka",
+      "topic_or_endpoint": "KAFKA_CUSTOMS_REQUEST_TOPIC"
+    },
+    {
+      "path": "integrations/email-service.md",
+      "category": "integrations",
+      "title": "email service integration",
+      "summary": "AP dispatches booking and invoice notification requests to environment-selected Temporal email queues, then consumes acknowledgement through workflow callback methods.",
+      "primary_for": [
+        "activity-plan-email-integration"
+      ],
+      "mentions": [
+        "activity-plan-cancellation-email-runtime",
+        "activity-plan-flags-lists"
+      ],
+      "scenarios": [
+        "activity plan email queue",
+        "invoice email dispatch",
+        "activity plan email ack",
+        "nam email bypass",
+        "email queue routing"
+      ],
+      "capabilities": [
+        "email-dispatch",
+        "email-acknowledgement"
+      ],
+      "domains": [
+        "email-notification",
+        "activity-plan"
+      ],
+      "entities": [
+        "ActivityPlanWorkflowImplV2",
+        "ActivityPlanWorkflow"
+      ],
+      "sources": [
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "runtime/cancellation-email-flow.md",
+        "operations/flags-and-lists.md"
+      ],
+      "peer_systems": [
+        "telikos-email-service-02"
+      ],
+      "direction": "outbound",
+      "protocol": "temporal-signal",
+      "topic_or_endpoint": "EMAIL_QUEUE"
+    },
+    {
+      "path": "integrations/tms.md",
+      "category": "integrations",
+      "title": "sap tms integration",
+      "summary": "AP builds Avro TransportOrder payloads from booking service-plan data, publishes them synchronously to the configured TMS topic, and updates AP status around the publish.",
+      "primary_for": [
+        "activity-plan-tms-integration"
+      ],
+      "mentions": [
+        "activity-plan-rfp-tms-runtime",
+        "activity-plan-kafka-contracts"
+      ],
+      "scenarios": [
+        "activity plan tms topic",
+        "tms transport order",
+        "activity plan tms publish",
+        "send tms sync",
+        "tms activity status"
+      ],
+      "capabilities": [
+        "tms-dispatch"
+      ],
+      "domains": [
+        "tms-dispatch",
+        "kafka",
+        "activity-plan"
+      ],
+      "entities": [
+        "TmsServiceImpl",
+        "PublishTmsActivityImpl",
+        "KafkaProducerServiceImpl",
+        "TransportOrder"
+      ],
+      "sources": [
+        "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/TmsServiceImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishTmsActivityImpl.java",
+        "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java",
+        "service/src/main/resources/application.yml"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "runtime/rfp-tms-flow.md",
+        "contracts/kafka-events.md"
+      ],
+      "peer_systems": [
+        "sap-tms"
+      ],
+      "direction": "outbound",
+      "protocol": "kafka",
+      "topic_or_endpoint": "TMS_TOPIC"
+    },
+    {
+      "path": "navigation/entry-points.md",
+      "category": "navigation",
+      "title": "entry points",
+      "summary": "The repo is entered through one REST query path, Temporal workflow queues for V1 and V2, and three outbound-facing worker queues for booking and billing feedback loops.",
+      "primary_for": [
+        "activity-plan-entry-points"
+      ],
+      "mentions": [
+        "activity-plan-query-api",
+        "activity-plan-billing-integration"
+      ],
+      "scenarios": [
+        "activity plan entry points",
+        "activity plan queue map",
+        "rest order endpoint",
+        "billing feedback worker",
+        "booking signal worker"
+      ],
+      "capabilities": [
+        "entry-point-navigation"
+      ],
+      "domains": [
+        "navigation",
+        "workflow-orchestration"
+      ],
+      "entities": [
+        "ActivityPlanController",
+        "TemporalWorker",
+        "BillingWorker",
+        "BillingProducerWorker",
+        "BillingProducerWorker2",
+        "BookingWorker"
+      ],
+      "sources": [
+        "api/src/main/java/net/apmoller/telikos/microservices/activityplan/api/controller/ActivityPlanController.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingWorker.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker2.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BookingWorker.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "navigation/key-classes.md",
+        "contracts/api-contracts.md"
+      ]
+    },
+    {
+      "path": "navigation/key-classes.md",
+      "category": "navigation",
+      "title": "key classes",
+      "summary": "These are the classes to open first when tracing request ingress, workflow routing, persistence, and downstream dispatch.",
+      "primary_for": [
+        "activity-plan-class-navigation"
+      ],
+      "mentions": [
+        "activity-plan-entry-points",
+        "activity-plan-module-architecture"
+      ],
+      "scenarios": [
+        "activity plan key classes",
+        "workflow class lookup",
+        "persistence class lookup",
+        "integration class lookup",
+        "controller class lookup"
+      ],
+      "capabilities": [
+        "class-routing"
+      ],
+      "domains": [
+        "navigation"
+      ],
+      "entities": [
+        "ActivityPlanController",
+        "ActivityPlanWorkflowImplV2",
+        "EventProcessorServiceImpl",
+        "KafkaProducerServiceImpl"
+      ],
+      "sources": [
+        "api/src/main/java/net/apmoller/telikos/microservices/activityplan/api/controller/ActivityPlanController.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
+        "persistence/src/main/java/net/apmoller/telikos/microservices/activityplan/persistence/service/MongoReactiveActivityPlanRepositoryImpl.java",
+        "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "navigation/entry-points.md",
+        "navigation/scenarios.md"
+      ]
+    },
+    {
+      "path": "navigation/scenarios.md",
+      "category": "navigation",
+      "title": "scenario router",
+      "summary": "This file is the fastest human lookup from task wording to the mini-skill or source class that best explains the behavior.",
+      "primary_for": [
+        "activity-plan-scenario-navigation"
+      ],
+      "mentions": [
+        "activity-plan-entry-points",
+        "activity-plan-event-rules"
+      ],
+      "scenarios": [
+        "activity plan navigation",
+        "find activity plan flow",
+        "billing scenario lookup",
+        "customs scenario lookup",
+        "email scenario lookup"
+      ],
+      "capabilities": [
+        "scenario-routing"
+      ],
+      "domains": [
+        "navigation"
+      ],
+      "entities": [
+        "ActivityPlanWorkflowImplV2",
+        "EventProcessorServiceImpl"
+      ],
+      "sources": [
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
+        "workflow/src/main/resources/domain-rules.yml",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "runtime/rfp-tms-flow.md",
+        "navigation/key-classes.md"
+      ]
+    },
+    {
+      "path": "operations/failure-model.md",
+      "category": "operations",
+      "title": "failure model",
+      "summary": "Failures are expressed as AP status transitions, workflow branching, Kafka send exceptions, and booking feedback fallbacks when downstream workflows are absent.",
+      "primary_for": [
+        "activity-plan-failure-model"
+      ],
+      "mentions": [
+        "activity-plan-retries",
+        "activity-plan-monitoring"
+      ],
+      "scenarios": [
+        "activity plan failures",
+        "status failure mapping",
+        "downstream workflow missing",
+        "kafka publish failure",
+        "email failure feedback"
+      ],
+      "capabilities": [
+        "failure-analysis"
+      ],
+      "domains": [
+        "operations",
+        "activity-plan"
+      ],
+      "entities": [
+        "HelperUtils",
+        "KafkaProducerServiceImpl",
+        "EventProcessorServiceImpl"
+      ],
+      "sources": [
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/utils/HelperUtils.java",
+        "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "operations/retries.md",
+        "operations/monitoring.md"
+      ]
+    },
+    {
+      "path": "operations/flags-and-lists.md",
+      "category": "operations",
+      "title": "feature flags and country lists",
+      "summary": "Country-driven routing and feature toggles decide email bypass, billing eligibility, customs billing paths, Temporal versioning, and revenue feedback behavior.",
+      "primary_for": [
+        "activity-plan-flags-lists"
+      ],
+      "mentions": [
+        "activity-plan-rfp-tms-runtime",
+        "activity-plan-customs-sde-runtime"
+      ],
+      "scenarios": [
+        "activity plan flags",
+        "nam country bypass",
+        "non sap billing list",
+        "activity plan country lists",
+        "revenue line flag"
+      ],
+      "capabilities": [
+        "flag-audit"
+      ],
+      "domains": [
+        "operations",
+        "configuration"
+      ],
+      "entities": [
+        "ActivityPlanWorkflowImplV2",
+        "TemporalWorker",
+        "SendRevenueLineItemToBookingActivityImpl"
+      ],
+      "sources": [
+        "service/src/main/resources/application.yml",
+        "service/src/main/resources/application-local.yml",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendRevenueLineItemToBookingActivityImpl.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "operations/monitoring.md",
+        "runtime/cancellation-email-flow.md"
+      ]
+    },
+    {
+      "path": "operations/monitoring.md",
+      "category": "operations",
+      "title": "monitoring and observability",
+      "summary": "The service exposes actuator health groups, Prometheus metrics, Swagger, and a trace-id MDC convention across workflow and Kafka paths.",
+      "primary_for": [
+        "activity-plan-monitoring"
+      ],
+      "mentions": [
+        "activity-plan-failure-model",
+        "activity-plan-query-api"
+      ],
+      "scenarios": [
+        "activity plan metrics",
+        "readiness liveness checks",
+        "swagger activity plan",
+        "client trace id",
+        "kafka temporal observability"
+      ],
+      "capabilities": [
+        "observability"
+      ],
+      "domains": [
+        "operations",
+        "monitoring"
+      ],
+      "entities": [
+        "MicroMeterConstants",
+        "ActivityplanworkflowApplication"
+      ],
+      "sources": [
+        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/constant/MicroMeterConstants.java",
+        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/constant/Constants.java",
+        "service/src/main/resources/application.yml"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "operations/failure-model.md",
+        "contracts/api-contracts.md"
+      ]
+    },
+    {
+      "path": "operations/retries.md",
+      "category": "operations",
+      "title": "retry model",
+      "summary": "Retry behavior spans Temporal activity defaults, queue-specific email retries, Kafka consumer backoff, and persisted AP retry metadata.",
+      "primary_for": [
+        "activity-plan-retries"
+      ],
+      "mentions": [
+        "activity-plan-failure-model",
+        "activity-plan-billing-integration"
+      ],
+      "scenarios": [
+        "activity plan retries",
+        "temporal activity backoff",
+        "email retry timeout",
+        "kafka retry backoff",
+        "retry metadata field"
+      ],
+      "capabilities": [
+        "retry-analysis"
+      ],
+      "domains": [
+        "operations",
+        "temporal",
+        "kafka"
+      ],
+      "entities": [
+        "ActivityStub",
+        "ActivityPlanWorkflowImplV2",
+        "KafkaConfiguration",
+        "ActivityPlan"
+      ],
+      "sources": [
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityStub.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
+        "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaConfiguration.java",
+        "service/src/main/resources/application.yml",
+        "persistence/src/main/java/net/apmoller/telikos/microservices/activityplan/persistence/entity/ActivityPlan.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "operations/failure-model.md",
+        "contracts/db-schemas.md"
+      ]
+    },
+    {
+      "path": "runtime/billing-flow.md",
+      "category": "runtime",
+      "title": "billing and invoice runtime",
+      "summary": "Billing-related workflow signals drive AP queueing, billing status projection, job closure milestones, invoice dispatch email, and booking feedback emission.",
+      "primary_for": [
+        "activity-plan-billing-runtime"
+      ],
+      "mentions": [
+        "activity-plan-booking-integration",
+        "activity-plan-retries"
+      ],
+      "scenarios": [
+        "activity plan billing signal",
+        "billing activity feedback",
+        "activity plan invoice dispatch",
+        "activity plan job closure",
+        "billing revenue update"
+      ],
+      "capabilities": [
+        "billing-feedback",
+        "invoice-dispatch",
+        "job-closure",
+        "revenue-update"
+      ],
+      "domains": [
+        "billing",
+        "activity-plan",
+        "invoicing"
+      ],
+      "entities": [
+        "ActivityPlanWorkflow",
+        "ActivityPlanWorkflowImplV2",
+        "BillingFeedbackActivityForV2Impl",
+        "JobClosureActivityImpl"
+      ],
+      "sources": [
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BillingFeedbackActivityForV2Impl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/JobClosureActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "integrations/billing.md",
+        "integrations/booking-service.md"
+      ]
+    },
+    {
+      "path": "runtime/cancellation-email-flow.md",
+      "category": "runtime",
+      "title": "cancellation email flow",
+      "summary": "Cancellation events branch through pre-validation, TMS or order-cancel paths, email dispatch, email acknowledgement, and finally booking feedback.",
+      "primary_for": [
+        "activity-plan-cancellation-email-runtime"
+      ],
+      "mentions": [
+        "activity-plan-rfp-tms-runtime",
+        "activity-plan-booking-integration"
+      ],
+      "scenarios": [
+        "activity plan cancellation email",
+        "cancellation email ack",
+        "activity plan cancel validation",
+        "tms cancellation email",
+        "booking cancellation feedback"
+      ],
+      "capabilities": [
+        "cancellation-validation",
+        "email-dispatch",
+        "booking-feedback"
+      ],
+      "domains": [
+        "activity-plan",
+        "email-notification",
+        "booking-feedback"
+      ],
+      "entities": [
+        "ActivityPlanWorkflowImplV2",
+        "CancellationValidationActivityImpl"
+      ],
+      "sources": [
+        "workflow/src/main/resources/domain-rules.yml",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/CancellationValidationActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "integrations/email-service.md",
+        "integrations/booking-service.md"
+      ]
+    },
+    {
+      "path": "runtime/customs-sde-flow.md",
+      "category": "runtime",
+      "title": "customs and service delivery flow",
+      "summary": "Customs dispatch, customs acknowledgements, service delivery execution, and FSD completion share one AP runtime path with optional billing escalation.",
+      "primary_for": [
+        "activity-plan-customs-sde-runtime"
+      ],
+      "mentions": [
+        "activity-plan-billing-runtime",
+        "activity-plan-customs-integration"
+      ],
+      "scenarios": [
+        "activity plan customs send",
+        "customs execution status",
+        "activity plan service delivery",
+        "service delivery status update",
+        "fsd completion billing"
+      ],
+      "capabilities": [
+        "customs-dispatch",
+        "service-delivery-execution",
+        "fsd-completion"
+      ],
+      "domains": [
+        "customs",
+        "activity-plan",
+        "billing"
+      ],
+      "entities": [
+        "ActivityPlanWorkflowImplV2",
+        "SendToCustomsActivityImpl",
+        "ServiceDeliveryExecutionActivityImpl",
+        "FsdUpdateActivityImpl"
+      ],
+      "sources": [
+        "workflow/src/main/resources/domain-rules.yml",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendToCustomsActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishMsgToCustomsActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/ServiceDeliveryExecutionActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/FsdUpdateActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "integrations/customs.md",
+        "runtime/event-activity-matrix.md"
+      ]
+    },
+    {
+      "path": "runtime/event-activity-matrix.md",
+      "category": "runtime",
+      "title": "domain rules event matrix",
+      "summary": "Domain rules turn booking event names into task lists, and the V2 workflow binds those task names to concrete activity implementations and downstream side effects.",
+      "primary_for": [
+        "activity-plan-event-rules"
+      ],
+      "mentions": [
+        "activity-plan-rfp-tms-runtime",
+        "activity-plan-billing-runtime",
+        "activity-plan-customs-sde-runtime"
+      ],
+      "scenarios": [
+        "activity plan event rules",
+        "task to activity map",
+        "activity plan task matrix",
+        "booking event task list",
+        "runtime task handlers"
+      ],
+      "capabilities": [
+        "event-rule-routing"
+      ],
+      "domains": [
+        "activity-plan",
+        "workflow-orchestration"
+      ],
+      "entities": [
+        "DomainRules",
+        "EventRules",
+        "ActivityPlanWorkflowImplV2"
+      ],
+      "sources": [
+        "workflow/src/main/resources/domain-rules.yml",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/ReadyForPlanningActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendToTmsActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendToCustomsActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BillingFeedbackActivityForV2Impl.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "runtime/rfp-tms-flow.md",
+        "navigation/scenarios.md"
+      ]
+    },
+    {
+      "path": "runtime/rfp-tms-flow.md",
+      "category": "runtime",
+      "title": "ready for planning and tms flow",
+      "summary": "Booking signals load task lists from domain rules, then V2 routes ready-for-planning, send-to-tms, and confirmation/execution variants through AP persistence, TMS publish, and optional billing.",
+      "primary_for": [
+        "activity-plan-rfp-tms-runtime"
+      ],
+      "mentions": [
+        "activity-plan-billing-runtime",
+        "activity-plan-event-rules"
+      ],
+      "scenarios": [
+        "activity plan ready planning",
+        "activity plan send tms",
+        "tms booking confirmed",
+        "activity plan execution email",
+        "activity plan non sap billing"
+      ],
+      "capabilities": [
+        "ready-for-planning",
+        "tms-dispatch",
+        "booking-confirmation"
+      ],
+      "domains": [
+        "activity-plan",
+        "tms-dispatch",
+        "billing"
+      ],
+      "entities": [
+        "ActivityPlanWorkflowImplV2",
+        "EventRules",
+        "ReadyForPlanningActivityImpl",
+        "SendToTmsActivityImpl"
+      ],
+      "sources": [
+        "workflow/src/main/resources/domain-rules.yml",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/ReadyForPlanningActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendToTmsActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishTmsActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "runtime/event-activity-matrix.md",
+        "integrations/tms.md"
+      ]
+    },
+    {
+      "path": "stack/stack.md",
+      "category": "stack",
+      "title": "stack profile",
+      "summary": "The repo is a Java 21 Maven multi-module Spring Boot WebFlux service with Temporal, Kafka Avro, MongoDB, MapStruct, Lombok, and Cucumber component tests.",
+      "primary_for": [
+        "activity-plan-stack-profile"
+      ],
+      "mentions": [
+        "activity-plan-module-architecture",
+        "activity-plan-cross-cutting-architecture"
+      ],
+      "scenarios": [
+        "activity plan tech stack",
+        "java webflux service",
+        "activity plan build tool",
+        "temporal kafka mongo",
+        "component test stack"
+      ],
+      "capabilities": [
+        "stack-identification"
+      ],
+      "domains": [
+        "platform",
+        "build-and-runtime"
+      ],
+      "entities": [
+        "ActivityplanworkflowApplication"
+      ],
+      "sources": [
+        "pom.xml",
+        "workflow/pom.xml",
+        "service/pom.xml",
+        "event/pom.xml",
+        "componenttest/pom.xml",
+        "service/src/main/resources/application.yml"
+      ],
+      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "last_updated": "2026-06-18",
+      "related": [
+        "architecture/modules.md",
+        "operations/monitoring.md"
+      ]
+    }
+  ]
+}

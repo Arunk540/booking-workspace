@@ -1,0 +1,801 @@
+{
+  "repo_key": "telikos-email-service-02",
+  "generated_at": "2026-06-18T11:57:03.873+05:30",
+  "verified_against": "77e78293d768c1919bf3f7d9dd53a3dd01671252",
+  "files": [
+    {
+      "path": "domain/activity-plan-events.md",
+      "category": "domain",
+      "title": "Activity plan events",
+      "summary": "Core email payloads are ActivityPlanTemporal for booking mail, ActivityPlanInvoice for invoice mail, and the Avro ActivityPlanEvent contract for event history and topic exchange.",
+      "primary_for": [
+        "activity-plan-email-events"
+      ],
+      "mentions": [
+        "booking-email-dispatch",
+        "invoice-dispatch-email-flow",
+        "notification-email-workflow",
+        "email-event-history-kafka"
+      ],
+      "scenarios": [
+        "activity plan email flow",
+        "activity plan event mapping",
+        "activity plan status mapping",
+        "where activity plan lives",
+        "why activity plan failed"
+      ],
+      "capabilities": [
+        "booking-email",
+        "invoice-dispatch",
+        "notification-email"
+      ],
+      "domains": [
+        "email-notification",
+        "activity-plan",
+        "billing"
+      ],
+      "entities": [
+        "ActivityPlanTemporal",
+        "ActivityPlanInvoice",
+        "ActivityPlanEvent",
+        "EmailBookingDetails"
+      ]
+    },
+    {
+      "path": "architecture/modules.md",
+      "category": "architecture",
+      "title": "Modules and package map",
+      "summary": "The repo is a single Maven service module with API, domain, events, integration, persistence, and Temporal workflow packages under `service/`.",
+      "primary_for": [
+        "email-service-modules"
+      ],
+      "mentions": [
+        "email-service-cross-cutting",
+        "email-service-stack",
+        "booking-email-dispatch"
+      ],
+      "scenarios": [
+        "email module map",
+        "email package tree",
+        "where email module lives",
+        "email module boundaries",
+        "email module ownership"
+      ],
+      "capabilities": [
+        "service-structure"
+      ],
+      "domains": [
+        "email-notification"
+      ],
+      "entities": [
+        "NotificationController",
+        "ActivityPlanEventsServiceImpl",
+        "TemporalWorker"
+      ]
+    },
+    {
+      "path": "architecture/cross-cutting.md",
+      "category": "architecture",
+      "title": "Cross-cutting behavior",
+      "summary": "Cross-cutting concerns are reactive HTTP timeouts, OAuth2 resource-server security, Mongo retry configuration, Temporal worker bootstrap, and package-scoped logging and metrics.",
+      "primary_for": [
+        "email-service-cross-cutting"
+      ],
+      "mentions": [
+        "email-service-modules",
+        "email-runtime-flags",
+        "email-delivery-retries",
+        "notification-email-workflow"
+      ],
+      "scenarios": [
+        "email cross cutting",
+        "email security setup",
+        "email logging setup",
+        "email timeout setup",
+        "where email worker starts"
+      ],
+      "capabilities": [
+        "cross-cutting"
+      ],
+      "domains": [
+        "email-notification"
+      ],
+      "entities": [
+        "WebClientConfig",
+        "MongoDatabaseConfig",
+        "TemporalWorker"
+      ]
+    },
+    {
+      "path": "stack/stack.md",
+      "category": "stack",
+      "title": "Technology stack",
+      "summary": "The service is a Java 21 Maven Spring Boot WebFlux application with Reactor, Temporal worker runtime, reactive MongoDB, Kafka/Avro, SendGrid, OpenPDF, and OAuth2 resource-server security.",
+      "primary_for": [
+        "email-service-stack"
+      ],
+      "mentions": [
+        "email-service-modules",
+        "email-service-cross-cutting",
+        "email-event-history-kafka"
+      ],
+      "scenarios": [
+        "email stack overview",
+        "email tech stack",
+        "email framework list",
+        "what email uses",
+        "email library versions"
+      ],
+      "capabilities": [
+        "technology-profile"
+      ],
+      "domains": [
+        "email-notification"
+      ],
+      "entities": [
+        "pom.xml",
+        "application.yml"
+      ]
+    },
+    {
+      "path": "runtime/booking-email-flow.md",
+      "category": "runtime",
+      "title": "Booking email flow",
+      "summary": "`sendEmail` Temporal activity converts an activity-plan payload, resolves sender and recipients, validates the event, then routes to Send Documents, vendor email, or standard SendGrid delivery before Mongo and event-history updates.",
+      "primary_for": [
+        "booking-email-dispatch"
+      ],
+      "mentions": [
+        "activity-plan-email-events",
+        "sendgrid-email-delivery",
+        "decision-hub-sender-resolution",
+        "document-storage-pdf-archive",
+        "email-delivery-retries"
+      ],
+      "scenarios": [
+        "booking email flow",
+        "booking email failing",
+        "why booking email failed",
+        "send booking email",
+        "which class sends booking email"
+      ],
+      "capabilities": [
+        "booking-email"
+      ],
+      "domains": [
+        "email-notification",
+        "activity-plan"
+      ],
+      "entities": [
+        "SendEmailConfirmationActivityImpl",
+        "ActivityPlanEventsServiceImpl",
+        "ActivityPlanTemporal",
+        "EmailBookingDetails"
+      ]
+    },
+    {
+      "path": "runtime/invoice-dispatch-flow.md",
+      "category": "runtime",
+      "title": "Invoice dispatch flow",
+      "summary": "`sendInvoice` only processes `Invoice Dispatch`, chooses S4Hana billing-document download or Finance Chassis PDF export, groups invoices by recipient email, then sends grouped SendGrid mails and stores invoice event data.",
+      "primary_for": [
+        "invoice-dispatch-email-flow"
+      ],
+      "mentions": [
+        "finance-chassis-invoice-pdf",
+        "document-storage-pdf-archive",
+        "sendgrid-email-delivery",
+        "email-delivery-retries"
+      ],
+      "scenarios": [
+        "invoice dispatch flow",
+        "invoice dispatch failing",
+        "why invoice dispatch failed",
+        "send invoice dispatch",
+        "which class sends invoice"
+      ],
+      "capabilities": [
+        "invoice-dispatch"
+      ],
+      "domains": [
+        "email-notification",
+        "billing"
+      ],
+      "entities": [
+        "SendInvoiceDispatchActivityImpl",
+        "ActivityPlanDispatchEventsServiceImpl",
+        "ActivityPlanInvoice",
+        "EventsData"
+      ]
+    },
+    {
+      "path": "runtime/notification-workflow-flow.md",
+      "category": "runtime",
+      "title": "Notification workflow flow",
+      "summary": "REST notification requests start or signal a Temporal workflow on `${NOTIFICATION_QUEUE}`, which queues requests until `sendEmailNotification` activity invokes SendGrid.",
+      "primary_for": [
+        "notification-email-workflow"
+      ],
+      "mentions": [
+        "sendgrid-email-delivery",
+        "email-delivery-retries",
+        "email-runtime-flags"
+      ],
+      "scenarios": [
+        "notification email workflow",
+        "notification email failing",
+        "why notification email failed",
+        "send notification email",
+        "which class handles notification"
+      ],
+      "capabilities": [
+        "notification-email"
+      ],
+      "domains": [
+        "email-notification"
+      ],
+      "entities": [
+        "NotificationController",
+        "EmailWorkflowImpl",
+        "SendEmailNotificationActivityImpl",
+        "NotificationRequest"
+      ]
+    },
+    {
+      "path": "runtime/sendgrid-webhook-flow.md",
+      "category": "runtime",
+      "title": "SendGrid webhook flow",
+      "summary": "`POST /events` forwards batched SendGrid events to a webhook service that filters TELIKOS categories, extracts order/booking/event ids from the category, updates Mongo email status, and republishes failed delivery states to event history.",
+      "primary_for": [
+        "sendgrid-webhook-processing"
+      ],
+      "mentions": [
+        "sendgrid-email-delivery",
+        "email-mongo-schemas",
+        "email-event-history-kafka"
+      ],
+      "scenarios": [
+        "sendgrid webhook flow",
+        "sendgrid webhook failing",
+        "why sendgrid webhook failed",
+        "process sendgrid webhook",
+        "which class handles sendgrid"
+      ],
+      "capabilities": [
+        "sendgrid-webhook"
+      ],
+      "domains": [
+        "email-notification"
+      ],
+      "entities": [
+        "SendGridEventWebhookController",
+        "SendGridWebhookServiceImpl",
+        "SendGridEvent",
+        "EmailBookingDetails"
+      ]
+    },
+    {
+      "path": "contracts/kafka-events.md",
+      "category": "contracts",
+      "title": "Kafka events",
+      "summary": "The service is wired for an inbound dedicated consumer topic pattern rooted at `${EMAIL_DEV_TOPIC}` and produces event-history records to `${EVENT_HISTORY_DEV_TOPIC}` using Avro-backed event-router dispatchers.",
+      "primary_for": [
+        "email-event-history-kafka"
+      ],
+      "mentions": [
+        "activity-plan-email-events",
+        "booking-email-dispatch",
+        "sendgrid-webhook-processing"
+      ],
+      "scenarios": [
+        "email kafka topics",
+        "email kafka failing",
+        "why email kafka failed",
+        "publish email history",
+        "consume email topic"
+      ],
+      "capabilities": [
+        "kafka-contracts"
+      ],
+      "domains": [
+        "email-notification",
+        "event-history"
+      ],
+      "entities": [
+        "ActivityPlanEvent",
+        "EventsHistoryProducer",
+        "KafkaConsumerConfig"
+      ]
+    },
+    {
+      "path": "contracts/api-contracts.md",
+      "category": "contracts",
+      "title": "API contracts",
+      "summary": "Public HTTP contracts are `POST /api/v1/notifications/email` for Temporal-backed notification mail and `POST /events` for SendGrid webhook ingestion; Temporal-facing workflow and activity signatures form the internal runtime contract.",
+      "primary_for": [
+        "email-service-api-contracts"
+      ],
+      "mentions": [
+        "notification-email-workflow",
+        "sendgrid-webhook-processing",
+        "booking-email-dispatch",
+        "invoice-dispatch-email-flow"
+      ],
+      "scenarios": [
+        "email api contracts",
+        "email endpoint failing",
+        "why email endpoint failed",
+        "call email api",
+        "email request shape"
+      ],
+      "capabilities": [
+        "api-contracts"
+      ],
+      "domains": [
+        "email-notification"
+      ],
+      "entities": [
+        "NotificationRequest",
+        "SendGridEvent",
+        "ActivityPlanTemporal",
+        "ActivityPlanInvoice"
+      ]
+    },
+    {
+      "path": "contracts/db-schemas.md",
+      "category": "contracts",
+      "title": "Mongo schemas",
+      "summary": "Mongo stores booking/invoice email history in `EmailBookingDetails`, document archival metadata in `DocumentStorageDetails`, and event-history publish failures in `EventHistoryFailureDetails`.",
+      "primary_for": [
+        "email-mongo-schemas"
+      ],
+      "mentions": [
+        "booking-email-dispatch",
+        "invoice-dispatch-email-flow",
+        "sendgrid-webhook-processing",
+        "document-storage-pdf-archive"
+      ],
+      "scenarios": [
+        "email mongo schema",
+        "email collection layout",
+        "why email mongo failed",
+        "save email details",
+        "update email status"
+      ],
+      "capabilities": [
+        "db-contracts"
+      ],
+      "domains": [
+        "email-notification",
+        "persistence"
+      ],
+      "entities": [
+        "EmailBookingDetails",
+        "EventsData",
+        "EmailData",
+        "DocumentStorageDetails",
+        "EventHistoryFailureData"
+      ]
+    },
+    {
+      "path": "integrations/sendgrid.md",
+      "category": "integrations",
+      "title": "SendGrid",
+      "summary": "SendGrid is the outbound REST delivery system for booking emails, invoice dispatch, and notification mail; all variants post to `${SENDGRID_URL}` with bearer auth and return status plus category for downstream persistence.",
+      "primary_for": [
+        "sendgrid-email-delivery"
+      ],
+      "mentions": [
+        "booking-email-dispatch",
+        "invoice-dispatch-email-flow",
+        "notification-email-workflow",
+        "sendgrid-webhook-processing"
+      ],
+      "scenarios": [
+        "sendgrid email flow",
+        "sendgrid email failing",
+        "why sendgrid failed",
+        "sendgrid delivery retry",
+        "sendgrid category mapping"
+      ],
+      "capabilities": [
+        "sendgrid-delivery"
+      ],
+      "domains": [
+        "email-notification"
+      ],
+      "entities": [
+        "SendGridApiWebClient",
+        "Mail",
+        "SendGridEvent"
+      ],
+      "peer_systems": [
+        "sendgrid"
+      ]
+    },
+    {
+      "path": "integrations/ap-temporal.md",
+      "category": "integrations",
+      "title": "AP Temporal ingress",
+      "summary": "Activity-plan workflow service invokes this repo through Temporal activity queues for booking confirmation/cancellation/amendment mail and invoice dispatch mail; the email service responds by returning transformed activity payloads.",
+      "primary_for": [
+        "activity-plan-temporal-ingress"
+      ],
+      "mentions": [
+        "booking-email-dispatch",
+        "invoice-dispatch-email-flow",
+        "notification-email-workflow"
+      ],
+      "scenarios": [
+        "activity plan queue",
+        "activity plan temporal",
+        "activity plan email task",
+        "activity plan invoice task",
+        "where activity plan enters"
+      ],
+      "capabilities": [
+        "temporal-ingress"
+      ],
+      "domains": [
+        "activity-plan",
+        "billing",
+        "email-notification"
+      ],
+      "entities": [
+        "TemporalWorker",
+        "SendEmailConfirmationActivityImpl",
+        "SendInvoiceDispatchActivityImpl"
+      ],
+      "peer_systems": [
+        "telikos-activityplanworkflow-service_02"
+      ]
+    },
+    {
+      "path": "integrations/decision-hub.md",
+      "category": "integrations",
+      "title": "Decision Hub",
+      "summary": "Decision Hub is an outbound REST dependency used only for sender-email resolution when booking country appears in the configured country list and shipment direction can be derived from product name.",
+      "primary_for": [
+        "decision-hub-sender-resolution"
+      ],
+      "mentions": [
+        "booking-email-dispatch",
+        "email-runtime-flags"
+      ],
+      "scenarios": [
+        "decision hub sender",
+        "decision hub failing",
+        "why decision hub failed",
+        "resolve decision hub email",
+        "decision hub country routing"
+      ],
+      "capabilities": [
+        "sender-resolution"
+      ],
+      "domains": [
+        "email-notification"
+      ],
+      "entities": [
+        "DecisionHubWebClient",
+        "DecisionHubIamTokenCachingService",
+        "DomainDataServiceImpl"
+      ],
+      "peer_systems": [
+        "decision-hub"
+      ]
+    },
+    {
+      "path": "integrations/finance-chassis.md",
+      "category": "integrations",
+      "title": "Finance Chassis",
+      "summary": "Finance Chassis is the fallback outbound REST source for invoice PDFs when S4Hana billing-document download is disabled.",
+      "primary_for": [
+        "finance-chassis-invoice-pdf"
+      ],
+      "mentions": [
+        "invoice-dispatch-email-flow",
+        "email-runtime-flags",
+        "email-delivery-retries"
+      ],
+      "scenarios": [
+        "finance chassis invoice",
+        "finance chassis failing",
+        "why finance chassis failed",
+        "fetch finance pdf",
+        "finance chassis fallback"
+      ],
+      "capabilities": [
+        "invoice-pdf-download"
+      ],
+      "domains": [
+        "billing",
+        "email-notification"
+      ],
+      "entities": [
+        "FinanceChasisApiWebClient",
+        "InvoiceDetailsPost",
+        "DownloadInvoiceResponse"
+      ],
+      "peer_systems": [
+        "finance-chassis"
+      ]
+    },
+    {
+      "path": "integrations/document-storage.md",
+      "category": "integrations",
+      "title": "Document Storage",
+      "summary": "Document Storage is a bidirectional REST integration used to upload generated booking-email PDFs, download `Send Documents` attachments, and fetch billing PDFs when S4Hana mode is enabled.",
+      "primary_for": [
+        "document-storage-pdf-archive"
+      ],
+      "mentions": [
+        "booking-email-dispatch",
+        "invoice-dispatch-email-flow",
+        "email-runtime-flags",
+        "email-delivery-retries"
+      ],
+      "scenarios": [
+        "document storage flow",
+        "document storage failing",
+        "why document storage failed",
+        "upload document pdf",
+        "download billing pdf"
+      ],
+      "capabilities": [
+        "document-storage"
+      ],
+      "domains": [
+        "email-notification",
+        "billing"
+      ],
+      "entities": [
+        "DocumentStorageService",
+        "DocumentStorageDetails",
+        "DownloadedDocument",
+        "BillingDocumentsResponse"
+      ],
+      "peer_systems": [
+        "document-storage"
+      ]
+    },
+    {
+      "path": "operations/retries.md",
+      "category": "operations",
+      "title": "Retries",
+      "summary": "Retry policies are split across SendGrid delivery, document download, Mongo persistence, event-history failure persistence, Temporal notification activities, and document-service auth/billing calls.",
+      "primary_for": [
+        "email-delivery-retries"
+      ],
+      "mentions": [
+        "booking-email-dispatch",
+        "invoice-dispatch-email-flow",
+        "notification-email-workflow",
+        "sendgrid-email-delivery"
+      ],
+      "scenarios": [
+        "email retries",
+        "email retry failing",
+        "why email retries fail",
+        "retry booking email",
+        "retry invoice email"
+      ],
+      "capabilities": [
+        "retry-operations"
+      ],
+      "domains": [
+        "email-notification",
+        "operations"
+      ],
+      "entities": [
+        "SendGridApiWebClient",
+        "ActivityStub",
+        "EventsDataServiceImpl",
+        "EventsHistoryDataServiceImpl"
+      ]
+    },
+    {
+      "path": "operations/failure-model.md",
+      "category": "operations",
+      "title": "Failure model",
+      "summary": "Failures are either validation-driven before SendGrid, transport/integration-driven during delivery, or post-delivery reconciliation failures from SendGrid webhook and event-history publishing.",
+      "primary_for": [
+        "email-delivery-failure-model"
+      ],
+      "mentions": [
+        "booking-email-dispatch",
+        "invoice-dispatch-email-flow",
+        "sendgrid-webhook-processing",
+        "notification-email-workflow"
+      ],
+      "scenarios": [
+        "email failure model",
+        "email failure causes",
+        "why email failed",
+        "booking email stuck",
+        "sendgrid status bounced"
+      ],
+      "capabilities": [
+        "failure-operations"
+      ],
+      "domains": [
+        "email-notification",
+        "operations"
+      ],
+      "entities": [
+        "ActivityPlanEventsServiceImpl",
+        "ActivityPlanDispatchEventsServiceImpl",
+        "EventsDataServiceImpl",
+        "EventsHistoryProducer"
+      ]
+    },
+    {
+      "path": "operations/flags-and-lists.md",
+      "category": "operations",
+      "title": "Flags and lists",
+      "summary": "Runtime behavior is controlled by document-storage mode, S4Hana invoice source selection, notification-worker enablement, and the configured list of countries that opt into Decision Hub sender resolution.",
+      "primary_for": [
+        "email-runtime-flags"
+      ],
+      "mentions": [
+        "decision-hub-sender-resolution",
+        "invoice-dispatch-email-flow",
+        "notification-email-workflow",
+        "document-storage-pdf-archive"
+      ],
+      "scenarios": [
+        "email runtime flags",
+        "email flag failing",
+        "why email flag changed",
+        "decision hub country list",
+        "notification flag setup"
+      ],
+      "capabilities": [
+        "runtime-flags"
+      ],
+      "domains": [
+        "email-notification",
+        "operations"
+      ],
+      "entities": [
+        "application.yml",
+        "EmailServiceImpl",
+        "TemporalWorker"
+      ]
+    },
+    {
+      "path": "operations/monitoring.md",
+      "category": "operations",
+      "title": "Monitoring",
+      "summary": "Monitoring is a mix of Micrometer counters around inbound/outbound email events, SendGrid success/failure metrics, actuator liveness/readiness probes, and package-scoped log levels.",
+      "primary_for": [
+        "email-service-monitoring"
+      ],
+      "mentions": [
+        "booking-email-dispatch",
+        "sendgrid-webhook-processing",
+        "email-event-history-kafka"
+      ],
+      "scenarios": [
+        "email monitoring setup",
+        "email metrics failing",
+        "why email metrics missing",
+        "email health probe",
+        "email logs location"
+      ],
+      "capabilities": [
+        "monitoring"
+      ],
+      "domains": [
+        "email-notification",
+        "operations"
+      ],
+      "entities": [
+        "Constants",
+        "EventsHistoryProducer",
+        "ActivityPlanEventsServiceImpl",
+        "application.yml"
+      ]
+    },
+    {
+      "path": "navigation/entry-points.md",
+      "category": "navigation",
+      "title": "Entry points",
+      "summary": "The repo exposes two REST endpoints and three Temporal worker entry points; Kafka is configured at infrastructure level but not surfaced as a first-party controller method in main source.",
+      "primary_for": [
+        "email-entry-points"
+      ],
+      "mentions": [
+        "booking-email-dispatch",
+        "invoice-dispatch-email-flow",
+        "notification-email-workflow",
+        "sendgrid-webhook-processing"
+      ],
+      "scenarios": [
+        "email entry points",
+        "where email starts",
+        "which class handles email",
+        "email webhook entry",
+        "email temporal entry"
+      ],
+      "capabilities": [
+        "navigation"
+      ],
+      "domains": [
+        "email-notification"
+      ],
+      "entities": [
+        "NotificationController",
+        "SendGridEventWebhookController",
+        "TemporalWorker"
+      ]
+    },
+    {
+      "path": "navigation/scenarios.md",
+      "category": "navigation",
+      "title": "Scenario routing",
+      "summary": "User-facing scenarios map directly to the controller, worker, or orchestration method that should be opened first.",
+      "primary_for": [
+        "email-scenario-routing"
+      ],
+      "mentions": [
+        "email-entry-points",
+        "booking-email-dispatch",
+        "invoice-dispatch-email-flow",
+        "notification-email-workflow",
+        "sendgrid-webhook-processing"
+      ],
+      "scenarios": [
+        "email scenario routing",
+        "where email bug starts",
+        "first place for email",
+        "email flow lookup",
+        "email issue routing"
+      ],
+      "capabilities": [
+        "navigation"
+      ],
+      "domains": [
+        "email-notification"
+      ],
+      "entities": [
+        "NotificationController",
+        "ActivityPlanEventsServiceImpl",
+        "ActivityPlanDispatchEventsServiceImpl",
+        "SendGridWebhookServiceImpl"
+      ]
+    },
+    {
+      "path": "navigation/key-classes.md",
+      "category": "navigation",
+      "title": "Key classes",
+      "summary": "Key concerns cluster around Temporal ingress, booking/invoice orchestration, SendGrid delivery, Mongo persistence, and outbound integration clients.",
+      "primary_for": [
+        "email-key-classes"
+      ],
+      "mentions": [
+        "email-service-modules",
+        "email-scenario-routing",
+        "email-entry-points"
+      ],
+      "scenarios": [
+        "email key classes",
+        "which class handles email",
+        "email class lookup",
+        "where email logic lives",
+        "email ownership map"
+      ],
+      "capabilities": [
+        "navigation"
+      ],
+      "domains": [
+        "email-notification"
+      ],
+      "entities": [
+        "TemporalWorker",
+        "ActivityPlanEventsServiceImpl",
+        "EmailServiceImpl",
+        "EventsDataServiceImpl"
+      ]
+    }
+  ]
+}

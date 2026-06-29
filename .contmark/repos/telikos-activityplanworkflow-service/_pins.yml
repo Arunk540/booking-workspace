@@ -1,0 +1,34 @@
+stack:
+  build: maven
+  language: java
+  framework: webflux
+
+modules:
+  service: service
+  test: src/test/java
+  componentTest: componenttest
+
+# Exact commands — 8-module reactor (api/persistence/service/event/workflow/common/booking-domain/billing-domain).
+# Build service + its deps via reactor; componenttest is a standalone module. Run verbatim.
+commands:
+  build:          "mvn -pl service -am clean package"
+  unit_test:      "mvn -pl service test"
+  component_test: "mvn -f componenttest/pom.xml verify -Dspring.profiles.active=local"
+  lint:           "none"
+  verify:         "mvn -pl service -am verify"
+
+features:
+  kafka: true
+  temporal: true
+  database: mongo
+  avro: true
+
+contmark_skills:
+  always:  [execution-core, project-context]
+  stack:   [spring-java-conventions, java-reactive-patterns]
+  build:   [maven-build-profiles]
+  domain:  [kafka-consumer-patterns, temporal-workflow-patterns]
+  review:  [code-review-checklist]
+  test:    [unit-testing-java, component-testing-cucumber]
+  pr:      [pr-delivery-and-triage]
+  plan:    [plan-templates]
