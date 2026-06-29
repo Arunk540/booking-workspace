@@ -26,20 +26,20 @@ last_generated: "2026-06-26"
 flowchart LR
   Client([REST clients])
 
-  subgraph BOOK["telikos-booking-service-1 — booking, service-plan, customs"]
+  subgraph BOOK["telikos-booking-service — booking, service-plan, customs"]
     B_REST["BookingController<br/>REST /bookings/*"]
     B_KAFKA["Kafka consumers<br/>service-plan · sap-tms · customs · container-avail"]
     B_WF["BookingEventsWorkflow<br/>(Temporal)"]
   end
 
-  subgraph AP["telikos-activityplanworkflow-service_02 — workflow, billing"]
+  subgraph AP["telikos-activityplanworkflow-service — workflow, billing"]
     AP_REST["ActivityPlanController<br/>GET /activity-plan/order/{id}"]
     AP_WF["TemporalWorker V1/V2<br/>activityplan.taskQueue"]
     AP_BILL["Billing workers<br/>billingTaskQueue · feedback"]
     AP_BKWK["BookingWorker<br/>bookingWorkerTaskQueue"]
   end
 
-  subgraph EMAIL["telikos-email-service-02 — notifications"]
+  subgraph EMAIL["telikos-email-service — notifications"]
     E_REST["NotificationController<br/>POST /notifications/email"]
     E_HOOK["SendGridEventWebhookController<br/>POST /events"]
     E_CONF["SendEmailConfirmationActivityImpl"]
