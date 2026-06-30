@@ -162,9 +162,6 @@ git status
 # Detect stale context vs source code
 node .contmark/check-drift.js
 
-# Route a task description to the right repo
-node .contmark/resolve-task.js "send TMS dispatch after activity plan confirmed"
-
 # Commit workspace metadata only
 git add .contmark .github README.md
 git commit -m "chore: update workspace context"
