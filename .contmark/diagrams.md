@@ -64,10 +64,10 @@ flowchart LR
   SENDGRID -->|webhooks| E_HOOK
 
   %% cross-repo temporal-signal contracts (from _global_links.json)
-  B_WF ==>|"TEMPORAL_ACTIVITY_PLAN_TASK_QUEUE"| AP_WF
-  AP_BILL ==>|"EMAIL_TASK_QUEUE"| E_CONF
+  B_WF ==>|"TEMPORAL_ACTIVITY_PLAN_TASK_QUEUE<br/>ActivityPlanInternal.v2.avsc"| AP_WF
+  AP_BILL ==>|"EMAIL_TASK_QUEUE<br/>ActivityPlanInternal.v2.avsc"| E_CONF
   AP_BILL ==>|"EMAIL_TASK_QUEUE_INVOICE_DISPATCH"| E_INV
-  AP_BKWK -.->|"BOOKING_WORKER_TASK_QUEUE"| B_WF
+  AP_BKWK -.->|"BOOKING_WORKER_TASK_QUEUE<br/>(cycle-break back-edge)"| B_WF
 
   %% external integrations
   B_KAFKA <--> SAPTMS
@@ -101,8 +101,8 @@ sequenceDiagram
   participant SG as SendGrid
 
   C->>B: PATCH /bookings/{id}/send-to-tms
-  B->>A: signal TEMPORAL_ACTIVITY_PLAN_TASK_QUEUE (ActivityPlanInternal.v2.avsc)
-  A->>A: ActivityPlanWorkflowImplV2 to BillingProducerWorker2
+  B->>A: signal TEMPORAL_ACTIVITY_PLAN_TASK_QUEUE<br/>(ActivityPlanInternal.v2.avsc)
+  A->>A: ActivityPlanWorkflowImplV2 → BillingProducerWorker2
   A->>E: signal EMAIL_TASK_QUEUE_INVOICE_DISPATCH
   E->>E: SendInvoiceDispatchActivityImpl.sendInvoice
   E->>SG: dispatch invoice email
