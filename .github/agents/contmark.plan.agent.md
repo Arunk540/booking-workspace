@@ -50,7 +50,7 @@ Detect CT module (mandatory): find `componenttest/` or `component-test/`.
 - Found → `CT_MODULE: present`
 - Not found → `CT_MODULE: absent` — skip all CT scenarios, note `⚠️ CT Module: not found — CT Scenarios skipped.`
 
-Fetch external context: `getJiraIssue` for ACs. Framework docs via Context7 MCP if needed.
+Fetch external context: prefer payload `ticket` (Boot 0 already fetched issue **+ comments**) — reuse, do NOT re-fetch; absent → `getJiraIssue($key)` including comments (added ACs/decisions often live there) for ACs. Framework docs via Context7 MCP if needed.
 
 ## Phase 2 — Clarify (blocking)
 

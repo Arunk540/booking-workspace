@@ -119,6 +119,22 @@ for (const [abbr, expansion] of Object.entries(aliases)) {
   }
 }
 
+// COMPOUND SPLIT — a single typed keyword for a multi-word concept ("serviceplan" / "service-plan")
+// must match the spaced bucket phrase ("service plan"). Split hyphenated tokens always; split glued
+// tokens only when BOTH halves are known router vocabulary (avoids bogus splits).
+const vocab = new Set();
+for (const phrase of Object.keys(router.request_buckets || {})) for (const w of tokenise(phrase)) if (w.length >= 3) vocab.add(w);
+for (const term of Array.from(taskTerms)) {
+  if (term.includes('-')) {
+    for (const p of term.split('-')) if (p.length >= 3) { taskTerms.add(p); taskLc += ' ' + p; }
+  } else if (term.length >= 8 && !vocab.has(term)) {
+    for (let i = 3; i <= term.length - 3; i++) {
+      const a = term.slice(0, i); const b = term.slice(i);
+      if (vocab.has(a) && vocab.has(b)) { taskTerms.add(a); taskTerms.add(b); taskLc += ` ${a} ${b}`; break; }
+    }
+  }
+}
+
 // ── matching primitives (substring OR content-word containment) ──────────────
 const contentWords = (phrase) => tokenise(phrase).filter((w) => w.length >= 4 && !STOP.has(w));
 // substring match only — for specific marker phrases where a single shared word must NOT count
@@ -160,6 +176,7 @@ let route = null;
 let impacted = [];
 let entryFiles = {};
 let symbolSeed = null;
+let repoScores = null;
 const trace = [];
 
 // 5·0 SYMBOL HIT (highest precision)
@@ -188,14 +205,21 @@ if (!route) {
   }
 }
 
-// 5b REQUEST BUCKET MATCH
+// 5b REQUEST BUCKET MATCH (scored — prune weakly-matched repos when a clear leader exists)
 if (!route) {
-  const set = new Set();
-  let matchedPhrase = null;
+  const score = {};
+  let matchedPhrase = null; let nPhrases = 0;
   for (const [phrase, repos] of Object.entries(router.request_buckets || {})) {
-    if (twoTier(phrase)) { repos.forEach((r) => set.add(r)); matchedPhrase = matchedPhrase || phrase; }
+    if (twoTier(phrase)) { nPhrases++; matchedPhrase = matchedPhrase || phrase; repos.forEach((r) => { score[r] = (score[r] || 0) + 1; }); }
   }
-  if (set.size) { impacted = Array.from(set); route = 'bucket'; trace.push(`bucket match: "${matchedPhrase}" (+more) → ${impacted.join(',')}`); }
+  const reps = Object.keys(score);
+  if (reps.length) {
+    const max = Math.max(...reps.map((r) => score[r]));
+    const thr = max >= 3 ? Math.ceil(max / 2) : 1; // prune single-graze repos only when some repo is strongly indicated (>=3 phrase hits)
+    impacted = reps.filter((r) => score[r] >= thr);
+    repoScores = score; route = 'bucket';
+    trace.push(`bucket match: "${matchedPhrase}" (+${nPhrases - 1} more) scores=${JSON.stringify(score)} thr=${thr} → ${impacted.join(',')}`);
+  }
 }
 
 // 5c DISAMBIGUATION (always runs when a collision token is present)
@@ -221,13 +245,20 @@ for (const rule of router.disambiguation_rules || []) {
   }
 }
 
-// 5d BROAD-TOKEN FALLBACK (routing_rules) — only if still empty
+// 5d BROAD-TOKEN FALLBACK (routing_rules, scored) — only if still empty
 if (!impacted.length) {
-  const set = new Set();
+  const score = {};
   for (const rule of ws.routing_rules) {
-    if (rule.match.some((t) => taskLc.includes(t.replace(/-/g, ' ')))) rule.repos.forEach((r) => set.add(r));
+    if (rule.match.some((t) => taskLc.includes(t.replace(/-/g, ' ')))) rule.repos.forEach((r) => { score[r] = (score[r] || 0) + 1; });
   }
-  if (set.size) { impacted = Array.from(set); route = 'broad_token'; trace.push(`broad-token fallback → ${impacted.join(',')}`); }
+  const reps = Object.keys(score);
+  if (reps.length) {
+    const max = Math.max(...reps.map((r) => score[r]));
+    const thr = max >= 3 ? Math.ceil(max / 2) : 1;
+    impacted = reps.filter((r) => score[r] >= thr);
+    repoScores = score; route = 'broad_token';
+    trace.push(`broad-token fallback scores=${JSON.stringify(score)} thr=${thr} → ${impacted.join(',')}`);
+  }
 }
 
 // empty → ask
@@ -322,11 +353,22 @@ if (!matches.length && Object.keys(entryFiles).length) {
 }
 
 // ═════════════════ CROSS-REPO EXPANSION (§7) ═════════════════════════════════
-// 7a UPSTREAM — pull producers of topics an impacted repo consumes
+// Gate: only expand when the link's CONTRACT is named in $resolve_text (topic + payload tokens),
+// so a task doesn't drag in every producer of every topic an impacted repo merely touches.
+function contractNamed(link) {
+  const blob = `${link.topic_or_endpoint || ''} ${link.payload || ''}`;
+  const toks = blob
+    .replace(/([a-z])([A-Z])/g, '$1 $2')   // split camelCase: ServicePlanDomainEvent -> Service Plan Domain Event
+    .toLowerCase().split(/[^a-z0-9]+/)
+    .filter((t) => t.length >= 4 && !STOP.has(t));
+  return toks.some((t) => taskTerms.has(t) || taskLc.includes(t));
+}
+
+// 7a UPSTREAM — pull producers of topics an impacted repo consumes, ONLY if the contract is named
 for (const link of links) {
-  if ((link.consumers || []).some((c) => inImpacted(c)) && !inImpacted(link.producer)) {
+  if ((link.consumers || []).some((c) => inImpacted(c)) && !inImpacted(link.producer) && contractNamed(link)) {
     impacted.push(link.producer);
-    trace.push(`upstream: +${link.producer} (produces ${link.topic_or_endpoint})`);
+    trace.push(`upstream: +${link.producer} (produces ${link.topic_or_endpoint}; contract named)`);
   }
 }
 impacted = Array.from(new Set(impacted));
@@ -371,6 +413,7 @@ console.log(JSON.stringify({
   matches,
   entry_files: entryFiles,
   blast_radius: blast,
+  scores: repoScores,
   trace,
 }, null, 2));
 process.exit(0);

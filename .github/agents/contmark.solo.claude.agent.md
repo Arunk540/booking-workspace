@@ -16,9 +16,9 @@ user-invocable: true
 1. `Bash: ws=""; d="$(pwd)"; while [ "$d" != "/" ]; do if [ -f "$d/.contmark/workspace.yml" ]; then ws="$d"; break; fi; d="$(dirname "$d")"; done; echo "${ws:-NONE}"`
 2. `NONE` → **LEGACY single-repo** (no resolver; existing behaviour): skip to Boot.
 3. Found → read `mode` from `workspace.yml`. **`single`** → `$root = ws`, the one repo's workdir = `$root`. **`workspace` or `mode` absent** → `$root = ws`, repos are subdirs (absent = v2 back-compat).
-4. **Resolve (one call; indexes read on disk, never in context):**
+4. **Build `$resolve_text` from DENSE signal** (not a bare ID, not a prose dump — a dump over-unions buckets): `jira` → `getJiraIssue($key)` **incl comments** (added ACs often only there) · `github` → `get_issue`+comments · else raw text. `$resolve_text = summary/title + AC titles + identifiers from body & comments (CamelCase, `code spans`, service/entity names)`; drop prose/repro/env/stack-traces. Bind `$mode`+`$ticket` = FULL issue+comments (Stage 0/1 reuse verbatim — no re-fetch/trim; planning context). Resolve; `route==ask` → append remaining body nouns, re-run ONCE; still `ask` → ambiguous. Bare key/URL alone → `ask`; never resolve on the ID. **Resolve (indexes on disk, never in context):**
    ```
-   node <$root>/.contmark/resolve-task.js <$root> "<task text>"
+   node <$root>/.contmark/resolve-task.js <$root> "$resolve_text"
    ```
    Returns ~350 tok: `{ route, repo_order, matches:[{repo,path,source?,line?}], entry_files, blast_radius:[{repo,contract,topic,schema_path}], trace }`. The five index files never enter context. `route ∈ symbol|flow|bucket|disambiguation|broad_token|scenario|nav|ask`. Bind `$repo_order/$matches/$entry_files/$blast_radius_repos`. **SINGLE**: `repo_order` = the one repo, `blast_radius = []`.
 5. **route == "ask"** (exit 3) → WORKSPACE: print `candidates` (`per_repo_summary`); ask _"Which repo applies?"_; **STOP**. SINGLE: do NOT prompt (one repo) — load `navigation/entry-points.md` + `navigation/scenarios.md` and proceed.
@@ -51,7 +51,7 @@ user-invocable: true
 First `- [ ]` = resume point. `[x]` each gate.
 
 ## Stage 0 — Classify (no tool calls)
-Derive `$mode` and `$plan_file`:
+`$mode`+`$ticket` already bound in Boot 0 (classify-before-resolve); derive `$plan_file`:
 - Question about existing state, no change requested ("is X implemented/done/already there?", "do we have", "does the code", "where is X") → `$mode = inquiry` · no `$plan_file` (read-only; answered at Stage 0.5, never planned/implemented).
 - Jira key/URL → `$mode = jira` · `$plan_file = $workspace_context_dir/{JIRA-KEY}-plan.md`
 - GitHub issue URL → `$mode = github` · `$plan_file = .contmark/gh-{issue-number}-plan.md`
@@ -81,7 +81,7 @@ Stack/domain (from `$features`): Maven/Gradle → `*-build-profiles` · Java+Web
 
 ## Stage 1 — Plan (human gate)
 1. `$stack`/`$modules`/`$features` from project.yml; profile absent → detect now (Boot 2), load domain skills via `$features.*`.
-2. `$mode = jira` → `getJiraIssue({key})` for ACs + `getJiraIssueRemoteIssueLinks` for Confluence.
+2. `$mode = jira` → reuse `$ticket` (Boot 0) for ACs; `getJiraIssueRemoteIssueLinks` for Confluence only if needed.
 3. **No-prejudge.** Unknown = question. Ask all unknowns as one numbered list; wait. New unknowns → ask again. Answer reveals generic project rule → append `incidents.log`: `domain | <rule> | <evidence>`. **Already-implemented:** honour Stage 0.5 `$existing_coverage` — plan ONLY `missing[]`, extending covered code; covered steps go under §Already Implemented (`file:line`), never the task list.
 4. Write `$plan_file` per `contmark-plan-templates`: §Stack · §CT_MODULE · §ACs · §Already Implemented (Stage 0.5 covered steps) · §Implementation Tasks · §Unit Test Matrix · §CT Scenarios (omit if `$modules.componentTest = none`; note `⚠️ CT skipped`) · a Mermaid `flowchart TD` of the code flow (one node = one change). Scenario filter: _"proves concrete observable outcome?"_ — yes write · no drop. UT = business + explicit error paths · CT = one end-to-end per user journey.
 5. Present plan. _"Feedback, or type **PLAN APPROVED** to proceed."_ **STOP.** On `PLAN APPROVED`: seed `todos.md` with `- [ ]` per task under `### Implement` · `### Unit Test` · `### Component Test`. Mark `[x] Stage 1`. Profile absent → also write `.contmark/project.yml.draft`. Any other reply → apply feedback, rewrite, re-present.

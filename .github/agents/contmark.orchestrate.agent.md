@@ -68,9 +68,15 @@ Walk up from `cwd` for `.contmark/workspace.yml`:
 - **`mode: single`** → SINGLE. `$root` = dir of `.contmark`; the one repo's workdir = `$root`.
 - **`mode: workspace` _or `mode` absent_** → WORKSPACE. `$root` = dir of `.contmark`; repos are subdirs. (Absent `mode` = v2 workspace from the old skill — back-compat.)
 
+**Classify + build `$resolve_text` FIRST (the resolver needs SIGNAL nouns — not a bare ID, not a prose dump):** classify raw input (no tools) → Jira key/URL = `jira` · GitHub issue URL = `github` · else `prompt`. Bind `$mode` + `$ticket` = the FULL fetched ticket (reused verbatim by Stage 0/1 — never re-fetch or trim; this is the planning context).
+- `jira` → `getJiraIssue($key)` **including comments** (expand/fields = `comment` — added ACs, decisions, and the affected service are often only in comments); `github` → `get_issue` + issue comments; `prompt` → use raw text. `$ticket` = description **+ comments**.
+- **Extract dense signal** (NOT the whole blob — a dump over-unions buckets): `$resolve_text = summary/title + AC titles ("system should …") + identifiers from body AND comments (CamelCase symbols, `code spans`, proper-noun service/entity names)`. Drop prose, repro steps, environment, stack traces, "as a user" boilerplate.
+
+**Resolve, then progressively widen:** run the resolver on `$resolve_text`; `route == ask` (no hit) → append the body's remaining nouns and re-run ONCE; still `ask` → genuinely ambiguous (prompt + STOP). The resolver is a precision cascade (symbol→flow→bucket→disambiguation→broad-token), not a frequency scorer — dense input keeps the route tight; a full dump only inflates the bucket union. Bare key/URL alone → `ask`; never resolve on the ID. Fetch fails → fall back to raw input + warn. `$ticket` is never trimmed.
+
 **Resolve (one call; indexes read on disk, never in context):**
 ```
-node <$root>/.contmark/resolve-task.js <$root> "<task text>"
+node <$root>/.contmark/resolve-task.js <$root> "$resolve_text"
 ```
 Returns ~350 tokens: `{ route, repo_order, matches:[{repo,path,source?,line?}], entry_files, blast_radius:[{repo,contract,topic,schema_path}], trace }`. The five index files never enter context. `route ∈ symbol|flow|bucket|disambiguation|broad_token|scenario|nav|ask`. Bind `$repo_order, $matches, $entry_files, $blast_radius_repos`. **SINGLE**: `repo_order` = the one repo, `blast_radius = []`.
 
@@ -112,7 +118,7 @@ Returns ~350 tokens: `{ route, repo_order, matches:[{repo,path,source?,line?}], 
 First `- [ ]` = resume point. Mark `[x]` at each gate.
 
 ## Stage 0 — Classify (no tool calls)
-Derive `$mode` and `$plan_file` from raw input:
+`$mode` + `$ticket` already bound in Boot 0 (classify-before-resolve). Here just derive `$plan_file`:
 
 - Question about existing state, no change requested ("is X implemented/done/already there?", "do we have", "does the code", "where is X") → `$mode = inquiry` · no `$plan_file` (read-only; answered at Stage 0.5, never planned/implemented).
 - Jira key / URL → `$mode = jira` · `$plan_file = $workspace_context_dir/{JIRA-KEY}-plan.md`
@@ -139,7 +145,7 @@ Verify the FLOW, not filenames. Never plan or build what already runs.
 Mark `[x] Stage 0.5`.
 
 ## Stage 1 — Plan
-`run_subagent(contmark.plan, {workspace_context_dir: $workspace_context_dir, repo_context_dir: $repo_context_dir, mode, input, stack, modules, features, lessons: read($repo_context_dir/lessons.md), plan_file: $plan_file, existing_coverage: $existing_coverage (Stage 0.5; partial only — covered steps + missing[], plan missing only), previous_repos: $previous_repos (workspace mode only — empty list on first iteration), cross_repo_contracts: $cross_repo_contracts (workspace mode only), workspace_lessons: $workspace_lessons (workspace mode only)})`
+`run_subagent(contmark.plan, {workspace_context_dir: $workspace_context_dir, repo_context_dir: $repo_context_dir, mode, input, ticket: $ticket (Boot 0 — jira/github content already fetched; Planner reuses, does NOT re-fetch), stack, modules, features, lessons: read($repo_context_dir/lessons.md), plan_file: $plan_file, existing_coverage: $existing_coverage (Stage 0.5; partial only — covered steps + missing[], plan missing only), previous_repos: $previous_repos (workspace mode only — empty list on first iteration), cross_repo_contracts: $cross_repo_contracts (workspace mode only), workspace_lessons: $workspace_lessons (workspace mode only)})`
 
 Present plan to user. _"Feedback, or **PLAN APPROVED** to proceed."_ **STOP.**
 
