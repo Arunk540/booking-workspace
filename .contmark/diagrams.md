@@ -73,7 +73,7 @@ flowchart LR
   B_KAFKA <--> SAPTMS
   B_REST <--> CAMS
   B_KAFKA <--> CUSTOMS
-  B_REST <--> Solar UI
+  B_REST <--> UI
   B_WF <--> VTS
   AP_BILL <--> BILLING
   AP_REST <--> CUSTOMS
