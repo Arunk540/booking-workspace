@@ -24,6 +24,8 @@ Output: `$plan_file` (path from orchestrator payload; fallback `{workspace_conte
 
 **No-prejudge rule:** Unknown = question. Never infer. Verify from files or Jira → state it.
 
+**Already-implemented rule:** Plan the FLOW gap, not files. Payload has `existing_coverage` → its covered steps are ground truth; plan ONLY `missing[]`, extending existing code (no rewrite). Else decompose the request into steps and verify each in the codebase first. Each task names the missing step it closes; covered steps go under §Already Implemented (`file:line`), never the task list. Whole flow covered → no task list; return "Already implemented" + evidence.
+
 **Revision mode** — invoked with `REVISE: {feedback}`:
 Read `$plan_file` (from payload; fallback `{workspace_context_dir}/plan.md`) → apply feedback → rewrite → run Phase 4. Skip Phases 1–3.
 
@@ -94,5 +96,6 @@ Final check — any uncaptured pattern → write now. Never promote — Stage 3 
 - Never guess, infer, or hallucinate — unknown = question, always
 - Never guess file paths — verify by searching
 - Never define technical edge cases — test agents own those
+- Never plan work that already exists — honour `existing_coverage`; pre-existing behaviour goes under §Already Implemented, never the task list
 - CT detection is mandatory — never assume it exists
 - Sole owner of project context — orchestrator never pre-loads it

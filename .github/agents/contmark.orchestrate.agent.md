@@ -30,11 +30,9 @@ user-invocable: true
 ---
 
 # Orchestrator
-
 Coordinates; never writes production code. Sub-agents commit; orchestrator pushes and creates PR.
 
 ## Standard payload
-
 Before every `run_subagent` call: read each file listed and embed full contents in the task — never pass path strings.
 
 ```
@@ -47,7 +45,6 @@ lessons: read($repo_context_dir/lessons.md)     ← omit if file absent (per-rep
 ```
 
 ## Lessons protocol
-
 Sub-agents write directly to `$repo_context_dir/lessons.md` on each correction, HANDOFF, or domain gap (per-repo, accumulates). Incidents append to `$repo_context_dir/incidents.md`. Plan + todos updates go to `$workspace_context_dir/` (task-scoped). Sub-agents never assume `.contmark/` relative to their cwd — both dirs come from the payload.
 
 Entry format:
@@ -63,7 +60,6 @@ Entry format:
 Stage 3c curation — 3-question filter, all YES → `status: captured`, else delete: (1) cost ≥ 2 cycles OR blocking OR domain rule? (2) transferable beyond this ticket? (3) not already in any loaded skill? Flow: `captured` → Stage 5 patches target file → delete entry. Max 20 entries.
 
 ## Boot 0 — Context detection (single + workspace; precision routing)
-
 **Goal:** resolve which repo(s) a task touches AND the exact mini-skills to read — no file scan. The
 resolver internals are specified in `contmark-workspace` SKILL §Agent contract.
 
@@ -96,7 +92,6 @@ Returns ~350 tokens: `{ route, repo_order, matches:[{repo,path,source?,line?}], 
 **Forbidden:** reading whole `_global_index.json` unfiltered; loading mini-skills outside `$matches`; writing inside any `<repo>/.contmark/` in workspace mode.
 
 ## Boot
-
 1. **Context dirs** — SINGLE/WORKSPACE: set in Boot 0 (`$repo_context_dir/_pins.yml` already read). LEGACY: `$workspace_context_dir = $repo_context_dir = .contmark`; `mkdir -p .contmark` if absent. Path resolution: `plan.md`/`{slug}-plan.md`/`todos.md` → `$workspace_context_dir`; `lessons.md`/`incidents.md` → `$repo_context_dir`. Every payload includes both.
 2. Repo profile. SINGLE/WORKSPACE: `$repo_context_dir/_pins.yml` → `stack`/`modules`/`features`/`contmark_skills`. LEGACY: prefer `$repo_context_dir/context/_pins.yml`, fallback `project.yml`; both absent → detect: `pom.xml`/`build.gradle` → build · `src/main/kotlin/` → Kotlin else Java · `starter-webflux`/`starter-web` → framework · `componenttest/` → CT present. Set `$stack`/`$modules`/`$features`/`$skills.*`.
 3. Read `.github/skills/contmark-execution-core/SKILL.md` — once. (Commit convention, branch naming, prohibited actions.)
@@ -105,6 +100,7 @@ Returns ~350 tokens: `{ route, repo_order, matches:[{repo,path,source?,line?}], 
 
 ```
 ## Pipeline
+- [ ] Stage 0.5: Discovery
 - [ ] Stage 1: Plan
 - [ ] Stage 2: Implement
 - [ ] Stage 3: Review
@@ -116,9 +112,9 @@ Returns ~350 tokens: `{ route, repo_order, matches:[{repo,path,source?,line?}], 
 First `- [ ]` = resume point. Mark `[x]` at each gate.
 
 ## Stage 0 — Classify (no tool calls)
-
 Derive `$mode` and `$plan_file` from raw input:
 
+- Question about existing state, no change requested ("is X implemented/done/already there?", "do we have", "does the code", "where is X") → `$mode = inquiry` · no `$plan_file` (read-only; answered at Stage 0.5, never planned/implemented).
 - Jira key / URL → `$mode = jira` · `$plan_file = $workspace_context_dir/{JIRA-KEY}-plan.md`
 - GitHub issue URL → `$mode = github` · `$plan_file = $workspace_context_dir/gh-{issue-number}-plan.md`
 - `UT-only` / `CT-only` → `$mode = test` · `$plan_file = $workspace_context_dir/{slug}-plan.md`
@@ -126,9 +122,24 @@ Derive `$mode` and `$plan_file` from raw input:
 
 Slug: first 3 meaningful words of input, lowercase, hyphened (e.g., `add-kafka-consumer`).
 
-## Stage 1 — Plan
+## Stage 0.5 — Discovery gate (ALL modes; before Stage 1)
+Verify the FLOW, not filenames. Never plan or build what already runs.
 
-`run_subagent(contmark.plan, {workspace_context_dir: $workspace_context_dir, repo_context_dir: $repo_context_dir, mode, input, stack, modules, features, lessons: read($repo_context_dir/lessons.md), plan_file: $plan_file, previous_repos: $previous_repos (workspace mode only — empty list on first iteration), cross_repo_contracts: $cross_repo_contracts (workspace mode only), workspace_lessons: $workspace_lessons (workspace mode only)})`
+1. Decompose the request into required steps `$req[]` — one per observable behaviour (entry → logic → persist/emit → contract).
+2. Read `$matches`/`$entry_files` from Boot 0 at `source:line` (`runtime/*-flow.md` map whole flows); `$matches` empty or LEGACY → ONE `grep_search` on key nouns. Open the real code, not the index.
+3. Mark each `$req` `covered | missing` with `file:line` proof. Covered only if the code performs the step — a name match is not coverage.
+
+`$coverage`: all covered → present · some → partial · none → absent. `$evidence[] = req → file:line | MISSING`.
+
+- `$mode = inquiry` → answer + STOP. Report per-step `$coverage` + `$evidence`. Never plan, implement, or seed `todos.md`.
+- present → "Already implemented" + `$evidence`; ask _"Re-implement, modify, or cancel?"_ STOP.
+- partial → `$existing_coverage = {covered evidence, missing[]}`; Stage 1 plans ONLY `missing[]`, extending the covered code.
+- absent → Stage 1 plans the full flow.
+
+Mark `[x] Stage 0.5`.
+
+## Stage 1 — Plan
+`run_subagent(contmark.plan, {workspace_context_dir: $workspace_context_dir, repo_context_dir: $repo_context_dir, mode, input, stack, modules, features, lessons: read($repo_context_dir/lessons.md), plan_file: $plan_file, existing_coverage: $existing_coverage (Stage 0.5; partial only — covered steps + missing[], plan missing only), previous_repos: $previous_repos (workspace mode only — empty list on first iteration), cross_repo_contracts: $cross_repo_contracts (workspace mode only), workspace_lessons: $workspace_lessons (workspace mode only)})`
 
 Present plan to user. _"Feedback, or **PLAN APPROVED** to proceed."_ **STOP.**
 
@@ -140,18 +151,15 @@ Present plan to user. _"Feedback, or **PLAN APPROVED** to proceed."_ **STOP.**
 Else → `run_subagent(contmark.plan, REVISE: {feedback}, plan_file: $plan_file, lessons: read(lessons.md))`. Re-present. Loop.
 
 ## Stage 1.5 — Jira subtasks (`$mode = jira` only)
-
 `createJiraIssue` per active stage: `[Implement|Unit Test|Component Test|Review] {story}`. Errors → skip.
 
 ## Stage 2 — Implement
-
 `run_subagent(contmark.implement, {standard payload, mode: Plan})`
 
 Gate: `MODULE: … | BUILD: ✅ | STYLE: ✅ | FILES: <list> | READY: for review`
 `PIPELINE BLOCKED` → ABORT. Mark `[x] Stage 2`.
 
 ## Stage 3 — Review + early guard + curation
-
 **3a. Review** — `run_subagent(contmark.review, {standard payload, files: <Stage 2 FILES list>, cross_repo_contracts: $cross_repo_contracts (workspace mode), blast_radius: $blast_radius_repos (workspace mode)})`
 
 `REMEDIATE` → `run_subagent(contmark.implement, {standard payload, HANDOFF: {failing scenarios, file:line findings, required fixes from Reviewer}})`. Max 2 cycles. Third → ABORT.
@@ -162,30 +170,25 @@ Gate: `MODULE: … | BUILD: ✅ | STYLE: ✅ | FILES: <list> | READY: for review
 **3c. Lessons curation** — Append Reviewer cross-cutting findings as new `status: draft` entries to `lessons.md`. Run 3-question filter over all `status: draft` entries: all YES → `status: captured`; else → delete.
 
 ## Stage 4 — Unit Test
-
 `run_subagent(contmark.unit-test, {standard payload})`
 
 HANDOFF → `run_subagent(contmark.implement, {standard payload, HANDOFF: {stack trace, failing class, expected vs actual}})`. Max 2 cycles. After each fix: `run_subagent(contmark.unit-test, {standard payload})` to verify. Mark `[x] Stage 4`.
 
 ## Stage 4b — Component Test (skip if `CT_MODULE: absent`)
-
 `run_subagent(contmark.component-test, {standard payload})`
 
 `CT: SKIPPED` → accept. HANDOFF → `run_subagent(contmark.implement, {standard payload, HANDOFF: {failing scenario, feature path, stack trace, expected vs actual}})`. Max 2 cycles. After each fix: `run_subagent(contmark.component-test, {standard payload})` to verify. Mark `[x] Stage 4b`.
 
 ## Stage 4c — Full token scan (after UT + CT)
-
 Read `.github/skills/contmark-token-usage-prediction/SKILL.md`. Execute full protocol:
 - Compute all stage %: `plan / implement / unit-test / component-test / pipeline` vs model cap → store as `$token_block`.
 - Scan all 8 waste signals — `TEST_CHURN` and CT signals now detectable. At threshold → build `$waste_payload {signal, agent, skill, occurrences, hint}` for each.
 - `pipeline% > 100` → flag `RUNAWAY_PIPELINE` in `$token_block` (work is done; record for PR body and evolution).
 
 ## Stage 4d — Jira update (`$mode = jira` only)
-
 `addCommentToJiraIssue`: Stage 2–4b gate outputs (MODULE, BUILD, FILES, TESTS, COVERAGE, SCENARIOS, REGRESSION).
 
 ## Stage 5 — Evolution (non-blocking)
-
 Read `.github/skills/contmark-skill-evolution-loop/SKILL.md`. Execute its protocol:
 - Input A: `lessons.md` entries with `status: captured`.
 - Input B: `$waste_payload` from Stage 4c.
@@ -193,7 +196,6 @@ Read `.github/skills/contmark-skill-evolution-loop/SKILL.md`. Execute its protoc
 - Evolution commit must appear in PR body. Nothing to promote → skip.
 
 ## Stage 6 — PR
-
 Read `.github/skills/contmark-pr-delivery-and-triage/SKILL.md`. Execute its protocol:
 
 1. Secrets scan: `grep -rn "password\|secret\|api_key\|token" --include="*.java" --include="*.kt" --include="*.yml" $(git diff --name-only origin/HEAD..HEAD)` → failure: remove immediately, do NOT push.
@@ -212,7 +214,7 @@ Read `.github/skills/contmark-pr-delivery-and-triage/SKILL.md`. Execute its prot
 7. **WORKSPACE mode**: capture `$repo.pr_url` + `$repo.commit_sha`; append to `$previous_repos[]` for the next iteration. PR body must include `Companion PRs:` listing all sibling repo PRs from this workspace task (back-fill earlier PRs via `github/add_issue_comment` once all iterations complete).
 
 ## Rules
-
+- Stage 0.5 runs before Stage 1, always — `inquiry` and `present` STOP; only `partial`/`absent` reach the Planner. Never plan/build what exists
 - Never write production code, tests, or feature files — edit tools for skill/agent patches only (Stage 5)
 - Review never skipped in `$mode = feature` · no `git push --force` · no `--no-verify`
 - CT: skip automatically on `CT_MODULE: absent`; mark `[x] Stage 4b` as skipped
