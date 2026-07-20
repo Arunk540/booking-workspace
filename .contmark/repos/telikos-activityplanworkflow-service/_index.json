@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-18T11:55:20+05:30",
-  "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+  "generated_at": "2026-07-20T12:30:00.000+05:30",
+  "verified_against": "7798712a7734edab3d5702cb92271fe7c607933c",
   "files": [
     {
       "path": "architecture/cross-cutting.md",
@@ -288,7 +288,11 @@
         "billing signal with start",
         "activity plan cost workflow",
         "invoice dispatch billing",
-        "billing feedback queue"
+        "billing feedback queue",
+        "document pouch billing references",
+        "chassis rental charge filter",
+        "scm vs finance billing routing",
+        "po number customer reference billing"
       ],
       "capabilities": [
         "billing-dispatch",
@@ -303,17 +307,21 @@
         "EventProcessorServiceImpl",
         "BillingWorker",
         "BillingProducerWorker",
-        "BillingProducerWorker2"
+        "BillingProducerWorker2",
+        "BillingServiceImpl",
+        "PopulateBillingDataActivityImpl"
       ],
       "sources": [
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingWorker.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker2.java",
-        "service/src/main/resources/application.yml"
+        "service/src/main/resources/application.yml",
+        "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
-      "last_updated": "2026-06-18",
+      "verified_against": "7798712a7734edab3d5702cb92271fe7c607933c",
+      "last_updated": "2026-07-20",
       "related": [
         "runtime/billing-flow.md",
         "operations/retries.md"
@@ -724,7 +732,8 @@
         "nam country bypass",
         "non sap billing list",
         "activity plan country lists",
-        "revenue line flag"
+        "revenue line flag",
+        "chassis rental charge code flag"
       ],
       "capabilities": [
         "flag-audit"
@@ -736,7 +745,8 @@
       "entities": [
         "ActivityPlanWorkflowImplV2",
         "TemporalWorker",
-        "SendRevenueLineItemToBookingActivityImpl"
+        "SendRevenueLineItemToBookingActivityImpl",
+        "BillingServiceImpl"
       ],
       "sources": [
         "service/src/main/resources/application.yml",
@@ -745,8 +755,8 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendRevenueLineItemToBookingActivityImpl.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
-      "last_updated": "2026-06-18",
+      "verified_against": "7798712a7734edab3d5702cb92271fe7c607933c",
+      "last_updated": "2026-07-20",
       "related": [
         "operations/monitoring.md",
         "runtime/cancellation-email-flow.md"
@@ -858,7 +868,10 @@
         "billing activity feedback",
         "activity plan invoice dispatch",
         "activity plan job closure",
-        "billing revenue update"
+        "billing revenue update",
+        "scm booking billing",
+        "send to scm vs finance",
+        "activity datetime second precision utc"
       ],
       "capabilities": [
         "billing-feedback",
@@ -875,17 +888,21 @@
         "ActivityPlanWorkflow",
         "ActivityPlanWorkflowImplV2",
         "BillingFeedbackActivityForV2Impl",
-        "JobClosureActivityImpl"
+        "JobClosureActivityImpl",
+        "PopulateBillingDataActivityImpl",
+        "BillingServiceImpl"
       ],
       "sources": [
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BillingFeedbackActivityForV2Impl.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/JobClosureActivityImpl.java",
-        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java"
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java",
+        "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
-      "last_updated": "2026-06-18",
+      "verified_against": "7798712a7734edab3d5702cb92271fe7c607933c",
+      "last_updated": "2026-07-20",
       "related": [
         "integrations/billing.md",
         "integrations/booking-service.md"

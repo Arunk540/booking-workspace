@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-06-18T06:43:37.975396+00:00",
   "workspace": "booking-workspace",
-  "schema_version": 2,
+  "schema_version": 3,
   "request_buckets": {
     "activity plan api": [
       "telikos-activityplanworkflow-service"
@@ -1413,6 +1413,30 @@
         "send service plan to ap",
         "booking dispatches to ap"
       ]
+    }
+  ],
+  "glossary": [
+    {
+      "aliases": [
+        "flow",
+        "flow type",
+        "service type",
+        "servicetype",
+        "import export",
+        "import/export",
+        "direction"
+      ],
+      "canonical": "transportActivity",
+      "values": [
+        "EXPORT",
+        "IMPORT"
+      ],
+      "type": "String",
+      "owner_repos": [
+        "telikos-email-service"
+      ],
+      "source": "telikos-email-service ActivityPlanInvoice.transportActivity (service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/ActivityPlanInvoice.java:24)",
+      "notes": "Import/Export is carried as transportActivity on the invoice/email DTO. Bind to transportActivity — do not invent a flow/serviceType field. (Re-run the 03-repo-router setup prompt to expand this glossary as booking evolves.)"
     }
   ]
 }

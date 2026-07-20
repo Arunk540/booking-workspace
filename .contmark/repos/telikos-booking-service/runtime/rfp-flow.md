@@ -36,3 +36,15 @@ related:
 - READY_FOR_PLANNING activities run in this order: `saveServicePlanDetailsToDB`, `saveTODetails`, `saveSODetails`, `sendServicePlanDetailsToAP`, `updateWorkProcessStartDateTimeInDB`, `sendStartBookingEventToIOM`, `sendServicePlanDetailsToEH`. (source: service/src/main/resources/application.yml:315)
 - EDIT_AMEND_READY_FOR_PLANNING replaces the initial TO/SO creation with `processEditAmendReadyForPlanning` and `updateTransportOrder`, then keeps the same AP/IOM/EH fan-out pattern. (source: service/src/main/resources/application.yml:335)
 - DRAFT_CANCELLATION omits TO version reset, while BOOKING_CANCELLATION adds `updateTOVersionStatusAndResetOldTOAck` before AP/IOM/EH dispatch. (source: service/src/main/resources/application.yml:364)
+
+## Mapping Chain
+
+MapStruct/hand-written mappers fail silently — an unmapped field compiles green and drops data. A field added to this flow must touch every hop below.
+
+| Hop | Mapper | From → To | Source |
+|---|---|---|---|
+| ingest | `BookingResponseMapper` | RFP event → application model | events/mapper/ · used by domain/inland/service/eventsservice/router/EventRouterService.java |
+| ingest | `ServicePlanApplicationMapper` | event payload → service-plan model | events/mapper/ · used by events/service/BookingEventOperationService.java |
+| persist | `ServicePlanEntityMapper` | domain → Mongo entity | infrastructure/mapper/ · used by infrastructure/service/BookingEventsOperationInfraServiceImpl.java |
+| persist | `TransportOrderMapper` | domain TO → entity | infrastructure/mapper/ · used by infrastructure/service/BookingEventsOperationInfraServiceImpl.java |
+| audit | `ReadyForPlanningEventHistoryMapper` / `InitialReadyForPlanningHistoryMapper` | event → history record | events/audit/mappers/ · via events/audit/dispatchers/* |

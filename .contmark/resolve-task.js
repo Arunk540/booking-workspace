@@ -135,6 +135,32 @@ for (const term of Array.from(taskTerms)) {
   }
 }
 
+// GLOSSARY GROUNDING — map ticket vocabulary to the codebase's canonical terms + owner repos.
+// Fixes two failure modes at once: (a) a routing MISS when the ticket word is absent from every
+// bucket (ticket says "flow" / "service type" but the code field is transportActivity), and
+// (b) NAME DRIFT when the implementer invents a field from the ticket word instead of binding to
+// the real symbol. Injects the canonical term (so symbol/bucket matching can fire on the real
+// noun), seeds owner_repos as a recall net, and emits glossary_hits as the naming contract.
+const glossaryHits = [];
+const glossarySeed = new Set();
+for (const g of router.glossary || []) {
+  const alias = (g.aliases || []).find((a) => {
+    const p = String(a).toLowerCase().replace(/-/g, ' ').trim();
+    if (!p) return false;
+    if (taskLc.includes(p)) return true;                 // phrase substring
+    const words = p.split(/\s+/).filter((w) => w.length >= 3);
+    return words.length > 0 && words.every((w) => taskTerms.has(w)); // all content words present
+  });
+  if (!alias) continue;
+  glossaryHits.push({
+    matched: alias, canonical: g.canonical, values: g.values || null, type: g.type || null,
+    owner_repos: g.owner_repos || [], source: g.source || null, notes: g.notes || null,
+  });
+  for (const w of tokenise(String(g.canonical || '').replace(/([a-z0-9])([A-Z])/g, '$1 $2'))) taskTerms.add(w);
+  taskLc += ' ' + String(g.canonical || '').toLowerCase();
+  (g.owner_repos || []).forEach((r) => glossarySeed.add(r));
+}
+
 // ── matching primitives (substring OR content-word containment) ──────────────
 const contentWords = (phrase) => tokenise(phrase).filter((w) => w.length >= 4 && !STOP.has(w));
 // substring match only — for specific marker phrases where a single shared word must NOT count
@@ -261,11 +287,19 @@ if (!impacted.length) {
   }
 }
 
-// empty → ask
+// GLOSSARY RECALL NET — nothing matched a bucket/flow/symbol, but a known domain term did →
+// route to that concept's owner repos (the parent/owner is never silently dropped).
+if (!impacted.length && glossarySeed.size) {
+  impacted = Array.from(glossarySeed);
+  route = 'glossary';
+  trace.push(`glossary seed → ${impacted.join(',')}`);
+}
+
+// empty → ask (still surface glossary_hits so the naming contract survives even with no route)
 if (!impacted.length) {
   console.log(JSON.stringify({
     route: 'ask', impacted_repos: [], repo_order: [], matches: [], entry_files: {}, blast_radius: [],
-    candidates: router.per_repo_summary || {}, trace,
+    glossary_hits: glossaryHits, candidates: router.per_repo_summary || {}, trace,
   }, null, 2));
   process.exit(3);
 }
@@ -355,13 +389,46 @@ if (!matches.length && Object.keys(entryFiles).length) {
 // ═════════════════ CROSS-REPO EXPANSION (§7) ═════════════════════════════════
 // Gate: only expand when the link's CONTRACT is named in $resolve_text (topic + payload tokens),
 // so a task doesn't drag in every producer of every topic an impacted repo merely touches.
+// generic contract-scaffolding words that must not, on their own, "name" a contract
+const CONTRACT_STOP = new Set(['type', 'types', 'base', 'url', 'rest', 'http', 'model', 'lookup', 'lookups',
+  'request', 'response', 'service', 'services', 'cleanup', 'delete', 'patch', 'post', 'local', 'data', 'v1', 'v2', 'v3']);
 function contractNamed(link) {
   const blob = `${link.topic_or_endpoint || ''} ${link.payload || ''}`;
   const toks = blob
     .replace(/([a-z])([A-Z])/g, '$1 $2')   // split camelCase: ServicePlanDomainEvent -> Service Plan Domain Event
     .toLowerCase().split(/[^a-z0-9]+/)
-    .filter((t) => t.length >= 4 && !STOP.has(t));
-  return toks.some((t) => taskTerms.has(t) || taskLc.includes(t));
+    .filter((t) => t.length >= 4 && !STOP.has(t) && !CONTRACT_STOP.has(t));
+  // Require ≥2 DISTINCT contract tokens present in the task, OR one distinctive long identifier
+  // (≥10 chars, e.g. a full CamelCase class). A single generic token ("container", "service")
+  // is too weak — it dragged in unrelated contracts (master-data container-type lookups, offered-
+  // service-plan cleanup) whenever the word merely appeared.
+  const matched = [...new Set(toks.filter((t) => taskTerms.has(t) || taskLc.includes(t)))];
+  return matched.length >= 2 || matched.some((t) => t.length >= 10);
+}
+// generic REST path segments that must NOT, on their own, name a contract
+const GENERIC_SEG = new Set(['search', 'status', 'update', 'customer', 'download', 'incident', 'charges',
+  'charge', 'multi', 'amend', 'finops', 'detail', 'details', 'create', 'delete', 'list', 'count', 'action',
+  'behaviour', 'behavior', 'ref', 'numbers', 'associations', 'transportation']);
+// endpoint-precise gate for REST callee-expansion: the task must name a DISTINCTIVE path segment of
+// THIS edge (a specific resource like "containers"/"reprice"), not a generic one. Prefix/substring
+// match handles singular↔plural ("container" ↔ "containers").
+function restContractNamed(link) {
+  if (contractNamed(link)) return true;
+  const taskHas = (p) => { for (const t of taskTerms) if (t.length >= 5 && (p.includes(t) || t.includes(p))) return true; return false; };
+  // Match on the LEAF resource segment of each endpoint. A single-part leaf ("containers") counts on
+  // its own; a multi-part leaf ("container-and-cargo-weight-rules") needs ≥2 parts named — so a bare
+  // "container" won't drag in master-data's container-type rules, but a real /containers call does.
+  for (const ep of link.endpoints || []) {
+    const parts = String(ep).split('/').filter(Boolean);
+    let leaf = parts.pop() || '';
+    if (/^\{.*\}$/.test(leaf)) leaf = parts.pop() || '';           // skip trailing path variable
+    const words = leaf.replace(/\{[^}]*\}/g, '').replace(/[^a-z0-9-]/gi, '').toLowerCase().split('-')
+      .filter((p) => p.length >= 5 && !GENERIC_SEG.has(p) && !CONTRACT_STOP.has(p));
+    if (!words.length) continue;
+    const hits = words.filter(taskHas).length;
+    if (words.length === 1 ? hits === 1 : hits >= 2) return true;
+  }
+  return false;
 }
 
 // 7a UPSTREAM — pull producers of topics an impacted repo consumes, ONLY if the contract is named
@@ -373,13 +440,33 @@ for (const link of links) {
 }
 impacted = Array.from(new Set(impacted));
 
-// 7b DOWNSTREAM blast radius — consumers of topics an impacted repo produces
+// 7a2 REST CALLEE — a caller repo that changes a REST request forces the SERVER (callee) to honour
+// it. In the links' REST convention producer=caller, consumers=callee. Kafka §7b keeps the callee as
+// advisory blast radius (a companion decision), but a REST request-contract change is not optional:
+// promote the callee into repo_order so the parent/server repo is planned, not filed as a "risk".
+for (const link of links) {
+  if ((link.protocol || '') !== 'rest') continue;
+  if (!inImpacted(link.producer) || !restContractNamed(link)) continue;
+  for (const c of link.consumers || []) {
+    if (!inImpacted(c)) {
+      impacted.push(c);
+      trace.push(`rest-callee: +${c} (server for ${link.topic_or_endpoint}; caller ${link.producer} impacted; endpoint named)`);
+    }
+  }
+}
+impacted = Array.from(new Set(impacted));
+
+// 7b DOWNSTREAM blast radius — consumers of a contract an impacted repo produces, ONLY when that
+// contract is NAMED in the task (symmetric with §7a). Un-gated, this surfaced every consumer of
+// everything an impacted repo touches (master-data, facilities, scheduler) as noise. Gated, it
+// surfaces only the downstream repos genuinely on THIS flow — which the agent's discovery gate then
+// code-verifies and promotes into repo_order if impacted.
 const blast = [];
 for (const link of links) {
-  if (inImpacted(link.producer)) {
+  if (inImpacted(link.producer) && contractNamed(link)) {
     for (const c of link.consumers || []) {
       if (!inImpacted(c) && !blast.find((b) => b.repo === c && b.topic === link.topic_or_endpoint)) {
-        blast.push({ repo: c, contract: 'contracts/kafka-events.md', topic: link.topic_or_endpoint, schema_path: link.schema_path || null });
+        blast.push({ repo: c, contract: link.protocol === 'rest' ? 'contracts/api-contracts.md' : 'contracts/kafka-events.md', topic: link.topic_or_endpoint, schema_path: link.schema_path || null });
       }
     }
   }
@@ -414,6 +501,7 @@ console.log(JSON.stringify({
   entry_files: entryFiles,
   blast_radius: blast,
   scores: repoScores,
+  glossary_hits: glossaryHits,
   trace,
 }, null, 2));
 process.exit(0);

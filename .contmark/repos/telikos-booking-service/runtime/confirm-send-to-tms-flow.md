@@ -34,3 +34,15 @@ related:
 - `ProcessSendToTmsImpl` short-circuits if the SEND_TO_TMS work process is already STARTED, which is the idempotency guard for repeated triggers. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessSendToTmsImpl.java:55)
 - The same activity inserts additional executions for NAM registrations: rail bookings queue `CONTAINER_AVAILABILITY_REGISTER`, while non-rail bookings queue `VESSEL_REGISTER_TRACKING`. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessSendToTmsImpl.java:90)
 - Requests with unchanged CAMS/VTS registration payloads on amendments skip the extra registration step, which prevents duplicate external registrations. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessSendToTmsImpl.java:102)
+
+## Mapping Chain
+
+MapStruct/hand-written mappers fail silently — an unmapped field compiles green and drops data. A field added to this flow must touch every hop below.
+
+| Hop | Mapper | From → To | Source |
+|---|---|---|---|
+| api | `ConfirmApplicationMapper` | confirm request → application model | api/mapper/confirm/ · used by api/service/BookingConfirmService.java |
+| api | `SendToExecutionMapper` | send-to-execution request → application model | api/mapper/sendtoexecution/ · used by api/service/BookingSendToExecutionService.java |
+| persist | `TransportOrderMapper` | domain TO → entity | infrastructure/mapper/ · used by infrastructure/service/TransportOrderInfraService.java |
+| persist | `ServicePlanEntityMapper` | domain → Mongo entity | infrastructure/mapper/ · used by infrastructure/service/BookingEventsOperationInfraServiceImpl.java |
+| audit | `ConfirmBookingEventHistoryMapper` / `BookingSendToExecutionEventHistoryMapper` | event → history record | events/audit/mappers/ · via events/audit/dispatchers/* |

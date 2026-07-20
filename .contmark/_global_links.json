@@ -2,28 +2,36 @@
   {
     "topic_or_endpoint": "TEMPORAL_ACTIVITY_PLAN_TASK_QUEUE",
     "producer": "telikos-booking-service",
-    "consumers": ["telikos-activityplanworkflow-service"],
+    "consumers": [
+      "telikos-activityplanworkflow-service"
+    ],
     "protocol": "temporal-signal",
     "schema_path": "telikos-activityplanworkflow-service/common/src/main/resources/avro/ActivityPlanInternal.v2.avsc"
   },
   {
     "topic_or_endpoint": "EMAIL_TASK_QUEUE",
     "producer": "telikos-activityplanworkflow-service",
-    "consumers": ["telikos-email-service"],
+    "consumers": [
+      "telikos-email-service"
+    ],
     "protocol": "temporal-signal",
     "schema_path": "telikos-activityplanworkflow-service/common/src/main/resources/avro/ActivityPlanInternal.v2.avsc"
   },
   {
     "topic_or_endpoint": "EMAIL_TASK_QUEUE_INVOICE_DISPATCH",
     "producer": "telikos-activityplanworkflow-service",
-    "consumers": ["telikos-email-service"],
+    "consumers": [
+      "telikos-email-service"
+    ],
     "protocol": "temporal-signal",
     "schema_path": null
   },
   {
     "topic_or_endpoint": "BOOKING_WORKER_TASK_QUEUE",
     "producer": "telikos-activityplanworkflow-service",
-    "consumers": ["telikos-booking-service"],
+    "consumers": [
+      "telikos-booking-service"
+    ],
     "protocol": "temporal-signal",
     "schema_path": null
   }

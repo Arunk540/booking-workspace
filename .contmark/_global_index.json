@@ -1,930 +1,5 @@
 [
   {
-    "repo": "telikos-booking-service",
-    "path": "domain/service-plan.md",
-    "category": "domain",
-    "title": "service plan aggregate",
-    "summary": "Canonical shape of the booking aggregate, its sibling order documents, and the persistence rules Temporal activities apply.",
-    "primary_for": [
-      "service-plan-state"
-    ],
-    "mentions": [
-      "transport-order-lifecycle",
-      "customs-order-lifecycle",
-      "retry-event-payload"
-    ],
-    "scenarios": [
-      "service plan fields",
-      "service plan dates",
-      "service plan persistence",
-      "booking state lookup",
-      "service plan retries"
-    ],
-    "capabilities": [
-      "aggregate-persistence",
-      "workflow-state-storage"
-    ],
-    "domains": [
-      "booking",
-      "service-plan"
-    ],
-    "entities": [
-      "ServicePlan",
-      "Booking",
-      "TransportOrder",
-      "CustomsServiceOrder",
-      "RetryEntity"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "architecture/modules.md",
-    "category": "architecture",
-    "title": "module topology",
-    "summary": "Maps the repo modules and the main Java package areas so agents can land work in the right slice first time.",
-    "primary_for": [
-      "booking-module-topology"
-    ],
-    "mentions": [
-      "component-test-topology",
-      "performance-test-topology",
-      "package-boundaries"
-    ],
-    "scenarios": [
-      "booking module layout",
-      "booking module boundaries",
-      "service module packages",
-      "component test module",
-      "performance test module"
-    ],
-    "capabilities": [
-      "repo-navigation",
-      "module-placement"
-    ],
-    "domains": [
-      "booking",
-      "engineering-system"
-    ],
-    "entities": [
-      "service module",
-      "componenttest module",
-      "perftest module"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "architecture/cross-cutting.md",
-    "category": "architecture",
-    "title": "cross-cutting concerns",
-    "summary": "Summarises the reactive, security, workflow, messaging, and persistence rules that cut across all booking flows.",
-    "primary_for": [
-      "booking-cross-cutting-concerns"
-    ],
-    "mentions": [
-      "oauth-resource-security",
-      "temporal-orchestration",
-      "reactive-mongo-patterns"
-    ],
-    "scenarios": [
-      "booking cross cutting",
-      "booking security model",
-      "workflow orchestration rules",
-      "reactive persistence rules",
-      "messaging retry model"
-    ],
-    "capabilities": [
-      "architecture-reasoning",
-      "shared-constraint-discovery"
-    ],
-    "domains": [
-      "booking",
-      "platform"
-    ],
-    "entities": [
-      "BookingController",
-      "KafkaConsumerService",
-      "BookingEventsWorkflowImplementation"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "stack/stack.md",
-    "category": "stack",
-    "title": "stack profile",
-    "summary": "Operationally relevant stack facts for booking service builds, runtime libraries, test tooling, and platform integrations.",
-    "primary_for": [
-      "booking-tech-stack"
-    ],
-    "mentions": [
-      "maven-build-profile",
-      "webflux-runtime",
-      "temporal-library-stack"
-    ],
-    "scenarios": [
-      "booking stack overview",
-      "booking build tool",
-      "java framework version",
-      "temporal stack details",
-      "mongo stack details"
-    ],
-    "capabilities": [
-      "stack-detection",
-      "build-selection"
-    ],
-    "domains": [
-      "booking",
-      "platform"
-    ],
-    "entities": [
-      "Maven",
-      "Spring WebFlux",
-      "Temporal",
-      "Kafka",
-      "MongoDB"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "runtime/rfp-flow.md",
-    "category": "runtime",
-    "title": "rfp variant routing and flow",
-    "summary": "Forensic map of the READY_FOR_PLANNING ingress path, including amendment and cancellation variants selected by the inland resolver chain.",
-    "primary_for": [
-      "rfp-variant-routing"
-    ],
-    "mentions": [
-      "product-resolver-chain",
-      "booking-cancellation-routing",
-      "one-click-booking"
-    ],
-    "scenarios": [
-      "rfp flow entry",
-      "rfp variant routing",
-      "rfp duplicate guard",
-      "booking cancellation routing",
-      "amendment routing chain"
-    ],
-    "capabilities": [
-      "event-routing",
-      "workflow-initiation"
-    ],
-    "domains": [
-      "booking",
-      "service-plan"
-    ],
-    "entities": [
-      "ProductOrchestration",
-      "InlandBookingHandler",
-      "InitialReadyForPlanningEventsDomainService",
-      "AmendEditRfpEventsDomainService",
-      "CancelBookingEventsDomainService"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "runtime/confirm-send-to-tms-flow.md",
-    "category": "runtime",
-    "title": "confirm booking and send to tms",
-    "summary": "Covers the REST-triggered BOOKING_CONFIRMED and SEND_TO_TMS workflow legs, including validation, guards, and NAM registration branching.",
-    "primary_for": [
-      "confirm-send-to-tms"
-    ],
-    "mentions": [
-      "booking-status-guards",
-      "nam-registration-branching",
-      "sap-country-validation"
-    ],
-    "scenarios": [
-      "confirm booking api",
-      "confirm booking guard",
-      "send to tms api",
-      "send to tms routing",
-      "nam registration branch"
-    ],
-    "capabilities": [
-      "rest-triggered-workflows",
-      "validation-routing"
-    ],
-    "domains": [
-      "booking",
-      "tms-dispatch"
-    ],
-    "entities": [
-      "BookingController",
-      "ConfirmBookingDomainService",
-      "BookingSendToTmsDomainService",
-      "ProcessSendToTmsImpl"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "runtime/sap-tms-feedback-flow.md",
-    "category": "runtime",
-    "title": "sap tms feedback handling",
-    "summary": "Inbound SAP feedback paths for transport-order acknowledgement and execution-status updates, including payload guards and workflow activity chains.",
-    "primary_for": [
-      "sap-tms-feedback-handling"
-    ],
-    "mentions": [
-      "transport-order-ack-processing",
-      "execution-status-update",
-      "sap-shared-consumers"
-    ],
-    "scenarios": [
-      "sap feedback topic",
-      "sap feedback guards",
-      "sap ack flow",
-      "sap execution flow",
-      "transport order feedback"
-    ],
-    "capabilities": [
-      "kafka-feedback-processing",
-      "sap-status-reconciliation"
-    ],
-    "domains": [
-      "booking",
-      "sap-tms"
-    ],
-    "entities": [
-      "SapFeedbackConsumerService",
-      "SapTmsExecutionStatusConsumerService",
-      "UpdateTransportOrderFeedbackDomainService"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "runtime/customs-vessel-flow.md",
-    "category": "runtime",
-    "title": "customs and vessel registration flows",
-    "summary": "Combines customs feedback, rail container-availability feedback, and VTS registration/feedback behavior for NAM bookings.",
-    "primary_for": [
-      "customs-vessel-registration"
-    ],
-    "mentions": [
-      "customs-notification-path",
-      "container-availability-feedback",
-      "vts-child-wait"
-    ],
-    "scenarios": [
-      "customs feedback topic",
-      "customs feedback guard",
-      "vessel registration flow",
-      "container availability flow",
-      "vts deadline wait"
-    ],
-    "capabilities": [
-      "external-feedback-processing",
-      "nam-registration-handling"
-    ],
-    "domains": [
-      "booking",
-      "customs",
-      "vessel-tracking"
-    ],
-    "entities": [
-      "CustomsServiceOrderConsumer",
-      "ContainerAvailabilityDomainService",
-      "VesselInformationDomainService",
-      "VtsWaitChildWorkflowImpl"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "runtime/event-activity-matrix.md",
-    "category": "runtime",
-    "title": "event activity matrix",
-    "summary": "Ordered activity matrix for the booking workflow events defined in configuration, plus the Temporal queue behaviors that alter execution.",
-    "primary_for": [
-      "booking-event-activity-matrix"
-    ],
-    "mentions": [
-      "one-click-queue-pruning",
-      "continue-as-new-threshold",
-      "activity-ordering"
-    ],
-    "scenarios": [
-      "booking activity matrix",
-      "booking event order",
-      "workflow activity order",
-      "one click queue",
-      "temporal continue as new"
-    ],
-    "capabilities": [
-      "workflow-sequencing",
-      "event-to-activity-lookup"
-    ],
-    "domains": [
-      "booking",
-      "workflow-orchestration"
-    ],
-    "entities": [
-      "BookingEventsWorkflowImplementation",
-      "ActivitiesConfig"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "contracts/api-contracts.md",
-    "category": "contracts",
-    "title": "api contracts",
-    "summary": "Entry-point contract sheet for REST APIs, including authorization expectations and the validations performed inline by controllers.",
-    "primary_for": [
-      "booking-rest-contracts"
-    ],
-    "mentions": [
-      "booking-reprocess-api",
-      "transport-order-query",
-      "migration-guard"
-    ],
-    "scenarios": [
-      "booking api endpoints",
-      "booking api auth",
-      "booking api validations",
-      "transport order query",
-      "customs order query"
-    ],
-    "capabilities": [
-      "rest-surface-lookup",
-      "validation-tracing"
-    ],
-    "domains": [
-      "booking",
-      "api"
-    ],
-    "entities": [
-      "BookingController",
-      "TransportOrderController",
-      "CustomsOrderController",
-      "BookingReprocessApiController",
-      "MigrateDataController"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "contracts/kafka-events.md",
-    "category": "contracts",
-    "title": "kafka events",
-    "summary": "Consumer and producer topic contract sheet, mapped to Avro payloads and concrete handlers in the booking service.",
-    "primary_for": [
-      "booking-kafka-contracts"
-    ],
-    "mentions": [
-      "event-history-publish",
-      "sap-shared-topics",
-      "container-availability-feedback"
-    ],
-    "scenarios": [
-      "booking kafka topics",
-      "booking kafka schemas",
-      "service plan topic",
-      "sap feedback topic",
-      "event history topic"
-    ],
-    "capabilities": [
-      "topic-lookup",
-      "schema-lookup"
-    ],
-    "domains": [
-      "booking",
-      "messaging"
-    ],
-    "entities": [
-      "ServicePlan",
-      "TransportOrderAcknowledgement",
-      "CarrierBooking",
-      "CustomsServiceOrderResponseEvent",
-      "ContainerAvailabilityApiResponse"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "contracts/db-schemas.md",
-    "category": "contracts",
-    "title": "mongo schemas",
-    "summary": "Mongo collection contracts and the workflow operations that insert, save, or query each collection during booking processing.",
-    "primary_for": [
-      "booking-mongo-schemas"
-    ],
-    "mentions": [
-      "service-plan-storage",
-      "transport-order-storage",
-      "retry-payload-storage"
-    ],
-    "scenarios": [
-      "booking mongo collections",
-      "booking mongo writes",
-      "service plan schema",
-      "transport order schema",
-      "retry collection schema"
-    ],
-    "capabilities": [
-      "collection-lookup",
-      "persistence-operation-lookup"
-    ],
-    "domains": [
-      "booking",
-      "persistence"
-    ],
-    "entities": [
-      "ServicePlanEntity",
-      "TransportOrderNewEntity",
-      "CustomsServiceOrderEntity",
-      "RetryEntity"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "integrations/ap-temporal.md",
-    "category": "integrations",
-    "title": "activity plan temporal dispatch",
-    "summary": "Outbound handoff from booking workflows into the activity-plan workflow service through the Temporal activity-plan task queue.",
-    "primary_for": [
-      "activity-plan-dispatch"
-    ],
-    "mentions": [
-      "activity-plan-retry-storage",
-      "activity-plan-metrics",
-      "service-plan-audit-payload"
-    ],
-    "scenarios": [
-      "activity plan dispatch",
-      "activity plan task queue",
-      "activity plan retry",
-      "service plan to ap",
-      "activity plan temporal"
-    ],
-    "capabilities": [
-      "peer-workflow-dispatch",
-      "audit-payload-mapping"
-    ],
-    "domains": [
-      "booking",
-      "activity-plan"
-    ],
-    "entities": [
-      "BookingActivityPlanDispatcher",
-      "ActivityPlan"
-    ],
-    "peer_systems": [
-      "telikos-activityplanworkflow-service"
-    ]
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "integrations/iom.md",
-    "category": "integrations",
-    "title": "iom booking events",
-    "summary": "Outbound Booking-domain event publication to IOM for workflow start, end, and acknowledgement milestones.",
-    "primary_for": [
-      "iom-booking-publish"
-    ],
-    "mentions": [
-      "start-event-emission",
-      "end-event-emission",
-      "one-click-pruning"
-    ],
-    "scenarios": [
-      "iom booking topic",
-      "iom booking publish",
-      "booking start event",
-      "booking end event",
-      "iom ack event"
-    ],
-    "capabilities": [
-      "booking-event-publication",
-      "workflow-status-fanout"
-    ],
-    "domains": [
-      "booking",
-      "iom"
-    ],
-    "entities": [
-      "IomBookingEventDispatcher",
-      "Booking"
-    ],
-    "peer_systems": [
-      "iom"
-    ]
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "integrations/sap-tms.md",
-    "category": "integrations",
-    "title": "sap tms exchange",
-    "summary": "Business exchange with SAP TMS: outbound SEND_TO_TMS initiation from booking and inbound Kafka feedback/execution events from SAP.",
-    "primary_for": [
-      "sap-tms-exchange"
-    ],
-    "mentions": [
-      "sap-country-gating",
-      "ack-feedback-processing",
-      "execution-status-processing"
-    ],
-    "scenarios": [
-      "sap exchange routing",
-      "sap exchange feedback",
-      "sap tms execution",
-      "send to sap tms",
-      "sap exchange topics"
-    ],
-    "capabilities": [
-      "sap-integration-mapping",
-      "feedback-reconciliation"
-    ],
-    "domains": [
-      "booking",
-      "sap-tms"
-    ],
-    "entities": [
-      "BookingSendToTmsDomainService",
-      "SapFeedbackConsumerService",
-      "SapTmsExecutionStatusConsumerService"
-    ],
-    "peer_systems": [
-      "sap-tms"
-    ]
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "integrations/customs.md",
-    "category": "integrations",
-    "title": "customs feedback exchange",
-    "summary": "Inbound customs-response processing and the notification side effect that follows successful customs feedback handling.",
-    "primary_for": [
-      "customs-feedback-exchange"
-    ],
-    "mentions": [
-      "customs-notification-topic",
-      "receiver-guard",
-      "customs-order-state"
-    ],
-    "scenarios": [
-      "customs feedback flow",
-      "customs receiver guard",
-      "customs notification path",
-      "customs response topic",
-      "customs order updates"
-    ],
-    "capabilities": [
-      "customs-response-handling",
-      "notification-triggering"
-    ],
-    "domains": [
-      "booking",
-      "customs"
-    ],
-    "entities": [
-      "CustomsServiceOrderConsumer",
-      "CustomsServiceOrderResponseEvent"
-    ],
-    "peer_systems": [
-      "customs"
-    ]
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "integrations/vts.md",
-    "category": "integrations",
-    "title": "vessel tracking registration",
-    "summary": "Outbound vessel-tracking registration for NAM non-rail bookings and inbound REST feedback that closes the VTS holding pattern.",
-    "primary_for": [
-      "vessel-tracking-registration"
-    ],
-    "mentions": [
-      "vts-child-workflow",
-      "vessel-information-callback",
-      "deadline-shift-signal"
-    ],
-    "scenarios": [
-      "vessel tracking flow",
-      "vessel tracking callback",
-      "vts deadline update",
-      "vts child wait",
-      "vessel tracking endpoint"
-    ],
-    "capabilities": [
-      "vessel-registration",
-      "callback-reconciliation"
-    ],
-    "domains": [
-      "booking",
-      "vessel-tracking"
-    ],
-    "entities": [
-      "VesselTrackingIntegrator",
-      "VesselTrackingRegistrationActivityImpl",
-      "VtsWaitChildWorkflowImpl",
-      "VesselInformationDomainService"
-    ],
-    "peer_systems": [
-      "vts"
-    ]
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "integrations/cams.md",
-    "category": "integrations",
-    "title": "container availability registration",
-    "summary": "CAMS registration for NAM rail bookings and the inbound feedback topic that patches service-plan rail availability dates.",
-    "primary_for": [
-      "container-availability-registration"
-    ],
-    "mentions": [
-      "rail-registration-branch",
-      "container-availability-feedback",
-      "cams-feature-flag"
-    ],
-    "scenarios": [
-      "container availability flow",
-      "container availability callback",
-      "cams registration endpoint",
-      "rail availability feedback",
-      "cams feature flag"
-    ],
-    "capabilities": [
-      "rail-registration",
-      "feedback-patch-processing"
-    ],
-    "domains": [
-      "booking",
-      "container-availability"
-    ],
-    "entities": [
-      "CamsIntegrator",
-      "ContainerAvailabilityFeedbackConsumer",
-      "ContainerAvailabilityDomainService"
-    ],
-    "peer_systems": [
-      "cams"
-    ]
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "operations/retries.md",
-    "category": "operations",
-    "title": "retry controls",
-    "summary": "Exact retry behaviors for Kafka processing, Kafka connectivity, Temporal activities, and persisted event-router recovery.",
-    "primary_for": [
-      "booking-retry-controls"
-    ],
-    "mentions": [
-      "event-router-persistence",
-      "temporal-default-retries",
-      "kafka-business-retry"
-    ],
-    "scenarios": [
-      "booking retry policy",
-      "booking retry delays",
-      "kafka retry model",
-      "temporal retry model",
-      "retry collection behavior"
-    ],
-    "capabilities": [
-      "failure-recovery",
-      "retry-triage"
-    ],
-    "domains": [
-      "booking",
-      "operations"
-    ],
-    "entities": [
-      "KafkaConsumerService",
-      "SapFeedbackConsumerService",
-      "EventRouterService",
-      "RetryEntity"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "operations/failure-model.md",
-    "category": "operations",
-    "title": "failure model",
-    "summary": "Practical failure surfaces and their observable outcomes across API validation, workflow orchestration, Kafka ingress, and external peer integration.",
-    "primary_for": [
-      "booking-failure-surfaces"
-    ],
-    "mentions": [
-      "poison-message-ack",
-      "vts-hold-timeout",
-      "duplicate-booking-insert"
-    ],
-    "scenarios": [
-      "booking failure modes",
-      "booking poison messages",
-      "workflow timeout behavior",
-      "integration failure surfaces",
-      "duplicate insert recovery"
-    ],
-    "capabilities": [
-      "incident-triage",
-      "blast-radius-estimation"
-    ],
-    "domains": [
-      "booking",
-      "operations"
-    ],
-    "entities": [
-      "BookingController",
-      "KafkaConsumerService",
-      "SaveToDatabaseActivityImpl",
-      "VesselTrackingRegistrationActivityImpl"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "operations/flags-and-lists.md",
-    "category": "operations",
-    "title": "flags and routing lists",
-    "summary": "Feature flags, country/channel lists, and toggle-driven routing branches that materially change booking behavior.",
-    "primary_for": [
-      "booking-feature-switches"
-    ],
-    "mentions": [
-      "one-click-routing-lists",
-      "sap-country-list",
-      "migration-guard-flag"
-    ],
-    "scenarios": [
-      "booking feature flags",
-      "booking routing lists",
-      "one click channels",
-      "sap tms countries",
-      "migration flag"
-    ],
-    "capabilities": [
-      "toggle-audit",
-      "routing-explanation"
-    ],
-    "domains": [
-      "booking",
-      "operations"
-    ],
-    "entities": [
-      "BookingEventOperationService",
-      "MigrateDataController",
-      "EventRouterService"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "operations/monitoring.md",
-    "category": "operations",
-    "title": "monitoring and observability",
-    "summary": "Metrics, health probes, and logging surfaces used to observe booking ingestion, workflow fan-out, and platform health.",
-    "primary_for": [
-      "booking-observability-signals"
-    ],
-    "mentions": [
-      "health-probe-groups",
-      "booking-metrics-registry",
-      "json-logging-levels"
-    ],
-    "scenarios": [
-      "booking metrics names",
-      "booking health probes",
-      "booking readiness checks",
-      "activity plan metrics",
-      "http percentile metrics"
-    ],
-    "capabilities": [
-      "signal-lookup",
-      "runtime-observability"
-    ],
-    "domains": [
-      "booking",
-      "operations"
-    ],
-    "entities": [
-      "BookingMetricsRegistry",
-      "MeterRegistry",
-      "Actuator health groups"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "navigation/entry-points.md",
-    "category": "navigation",
-    "title": "entry points",
-    "summary": "Single-sheet map of all REST, Kafka, and Temporal entry points named in the forensic trace.",
-    "primary_for": [
-      "booking-entry-surface"
-    ],
-    "mentions": [
-      "rest-entry-points",
-      "kafka-entry-points",
-      "temporal-entry-points"
-    ],
-    "scenarios": [
-      "booking entry points",
-      "booking rest entries",
-      "booking kafka entries",
-      "booking temporal entries",
-      "booking ingress map"
-    ],
-    "capabilities": [
-      "entry-point-navigation",
-      "ingress-lookup"
-    ],
-    "domains": [
-      "booking",
-      "navigation"
-    ],
-    "entities": [
-      "BookingController",
-      "KafkaConsumerService",
-      "BookingEventsWorkflowImplementation"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "navigation/scenarios.md",
-    "category": "navigation",
-    "title": "scenario routing",
-    "summary": "Human-vocabulary lookup table for common booking tasks and the first mini-skills or classes to load.",
-    "primary_for": [
-      "booking-scenario-routing"
-    ],
-    "mentions": [
-      "triage-shortcuts",
-      "class-entry-hints",
-      "flow-file-shortcuts"
-    ],
-    "scenarios": [
-      "booking scenario routing",
-      "booking task lookup",
-      "rfp troubleshooting start",
-      "send to tms start",
-      "customs feedback start"
-    ],
-    "capabilities": [
-      "task-routing",
-      "starting-point-selection"
-    ],
-    "domains": [
-      "booking",
-      "navigation"
-    ],
-    "entities": [
-      "scenario map",
-      "runtime files",
-      "integration files"
-    ],
-    "peer_systems": []
-  },
-  {
-    "repo": "telikos-booking-service",
-    "path": "navigation/key-classes.md",
-    "category": "navigation",
-    "title": "key classes",
-    "summary": "Concern-to-class cheat sheet for the booking repo so an agent can jump directly to the likely owner of a behavior.",
-    "primary_for": [
-      "booking-class-landmarks"
-    ],
-    "mentions": [
-      "workflow-landmarks",
-      "consumer-landmarks",
-      "integrator-landmarks"
-    ],
-    "scenarios": [
-      "booking class map",
-      "booking key classes",
-      "workflow owner class",
-      "consumer owner class",
-      "integration owner class"
-    ],
-    "capabilities": [
-      "class-routing",
-      "owner-discovery"
-    ],
-    "domains": [
-      "booking",
-      "navigation"
-    ],
-    "entities": [
-      "BookingController",
-      "ProductOrchestration",
-      "BookingEventsWorkflowImplementation"
-    ],
-    "peer_systems": []
-  },
-  {
     "repo": "telikos-activityplanworkflow-service",
     "path": "architecture/cross-cutting.md",
     "category": "architecture",
@@ -1217,7 +292,11 @@
       "billing signal with start",
       "activity plan cost workflow",
       "invoice dispatch billing",
-      "billing feedback queue"
+      "billing feedback queue",
+      "document pouch billing references",
+      "chassis rental charge filter",
+      "scm vs finance billing routing",
+      "po number customer reference billing"
     ],
     "capabilities": [
       "billing-dispatch",
@@ -1232,17 +311,21 @@
       "EventProcessorServiceImpl",
       "BillingWorker",
       "BillingProducerWorker",
-      "BillingProducerWorker2"
+      "BillingProducerWorker2",
+      "BillingServiceImpl",
+      "PopulateBillingDataActivityImpl"
     ],
     "sources": [
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingWorker.java",
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker.java",
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker2.java",
-      "service/src/main/resources/application.yml"
+      "service/src/main/resources/application.yml",
+      "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java",
+      "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java"
     ],
-    "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
-    "last_updated": "2026-06-18",
+    "verified_against": "7798712a7734edab3d5702cb92271fe7c607933c",
+    "last_updated": "2026-07-20",
     "related": [
       "runtime/billing-flow.md",
       "operations/retries.md"
@@ -1300,7 +383,7 @@
       "runtime/billing-flow.md"
     ],
     "peer_systems": [
-      "telikos-booking-service"
+      "telikos-booking-service-1"
     ],
     "direction": "bidirectional",
     "protocol": "temporal-signal",
@@ -1402,7 +485,7 @@
       "operations/flags-and-lists.md"
     ],
     "peer_systems": [
-      "telikos-email-service"
+      "telikos-email-service-02"
     ],
     "direction": "outbound",
     "protocol": "temporal-signal",
@@ -1662,7 +745,8 @@
       "nam country bypass",
       "non sap billing list",
       "activity plan country lists",
-      "revenue line flag"
+      "revenue line flag",
+      "chassis rental charge code flag"
     ],
     "capabilities": [
       "flag-audit"
@@ -1674,7 +758,8 @@
     "entities": [
       "ActivityPlanWorkflowImplV2",
       "TemporalWorker",
-      "SendRevenueLineItemToBookingActivityImpl"
+      "SendRevenueLineItemToBookingActivityImpl",
+      "BillingServiceImpl"
     ],
     "sources": [
       "service/src/main/resources/application.yml",
@@ -1683,8 +768,8 @@
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java",
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendRevenueLineItemToBookingActivityImpl.java"
     ],
-    "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
-    "last_updated": "2026-06-18",
+    "verified_against": "7798712a7734edab3d5702cb92271fe7c607933c",
+    "last_updated": "2026-07-20",
     "related": [
       "operations/monitoring.md",
       "runtime/cancellation-email-flow.md"
@@ -1799,7 +884,10 @@
       "billing activity feedback",
       "activity plan invoice dispatch",
       "activity plan job closure",
-      "billing revenue update"
+      "billing revenue update",
+      "scm booking billing",
+      "send to scm vs finance",
+      "activity datetime second precision utc"
     ],
     "capabilities": [
       "billing-feedback",
@@ -1816,17 +904,21 @@
       "ActivityPlanWorkflow",
       "ActivityPlanWorkflowImplV2",
       "BillingFeedbackActivityForV2Impl",
-      "JobClosureActivityImpl"
+      "JobClosureActivityImpl",
+      "PopulateBillingDataActivityImpl",
+      "BillingServiceImpl"
     ],
     "sources": [
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java",
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BillingFeedbackActivityForV2Impl.java",
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/JobClosureActivityImpl.java",
-      "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java"
+      "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
+      "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java",
+      "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java"
     ],
-    "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
-    "last_updated": "2026-06-18",
+    "verified_against": "7798712a7734edab3d5702cb92271fe7c607933c",
+    "last_updated": "2026-07-20",
     "related": [
       "integrations/billing.md",
       "integrations/booking-service.md"
@@ -2076,7 +1168,956 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-booking-service-1",
+    "path": "domain/service-plan.md",
+    "category": "domain",
+    "title": "service plan aggregate",
+    "summary": "Canonical shape of the booking aggregate, its sibling order documents, and the persistence rules Temporal activities apply.",
+    "primary_for": [
+      "service-plan-state"
+    ],
+    "mentions": [
+      "transport-order-lifecycle",
+      "customs-order-lifecycle",
+      "retry-event-payload"
+    ],
+    "scenarios": [
+      "service plan fields",
+      "service plan dates",
+      "service plan persistence",
+      "booking state lookup",
+      "service plan retries"
+    ],
+    "capabilities": [
+      "aggregate-persistence",
+      "workflow-state-storage"
+    ],
+    "domains": [
+      "booking",
+      "service-plan"
+    ],
+    "entities": [
+      "ServicePlan",
+      "Booking",
+      "TransportOrder",
+      "CustomsServiceOrder",
+      "RetryEntity"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "architecture/modules.md",
+    "category": "architecture",
+    "title": "module topology",
+    "summary": "Maps the repo modules and the main Java package areas so agents can land work in the right slice first time.",
+    "primary_for": [
+      "booking-module-topology"
+    ],
+    "mentions": [
+      "component-test-topology",
+      "performance-test-topology",
+      "package-boundaries"
+    ],
+    "scenarios": [
+      "booking module layout",
+      "booking module boundaries",
+      "service module packages",
+      "component test module",
+      "performance test module"
+    ],
+    "capabilities": [
+      "repo-navigation",
+      "module-placement"
+    ],
+    "domains": [
+      "booking",
+      "engineering-system"
+    ],
+    "entities": [
+      "service module",
+      "componenttest module",
+      "perftest module"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "architecture/cross-cutting.md",
+    "category": "architecture",
+    "title": "cross-cutting concerns",
+    "summary": "Summarises the reactive, security, workflow, messaging, and persistence rules that cut across all booking flows.",
+    "primary_for": [
+      "booking-cross-cutting-concerns"
+    ],
+    "mentions": [
+      "oauth-resource-security",
+      "temporal-orchestration",
+      "reactive-mongo-patterns"
+    ],
+    "scenarios": [
+      "booking cross cutting",
+      "booking security model",
+      "workflow orchestration rules",
+      "reactive persistence rules",
+      "messaging retry model"
+    ],
+    "capabilities": [
+      "architecture-reasoning",
+      "shared-constraint-discovery"
+    ],
+    "domains": [
+      "booking",
+      "platform"
+    ],
+    "entities": [
+      "BookingController",
+      "KafkaConsumerService",
+      "BookingEventsWorkflowImplementation"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "stack/stack.md",
+    "category": "stack",
+    "title": "stack profile",
+    "summary": "Operationally relevant stack facts for booking service builds, runtime libraries, test tooling, and platform integrations.",
+    "primary_for": [
+      "booking-tech-stack"
+    ],
+    "mentions": [
+      "maven-build-profile",
+      "webflux-runtime",
+      "temporal-library-stack"
+    ],
+    "scenarios": [
+      "booking stack overview",
+      "booking build tool",
+      "java framework version",
+      "temporal stack details",
+      "mongo stack details"
+    ],
+    "capabilities": [
+      "stack-detection",
+      "build-selection"
+    ],
+    "domains": [
+      "booking",
+      "platform"
+    ],
+    "entities": [
+      "Maven",
+      "Spring WebFlux",
+      "Temporal",
+      "Kafka",
+      "MongoDB"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "runtime/rfp-flow.md",
+    "category": "runtime",
+    "title": "rfp variant routing and flow",
+    "summary": "Forensic map of the READY_FOR_PLANNING ingress path, including amendment and cancellation variants selected by the inland resolver chain.",
+    "primary_for": [
+      "rfp-variant-routing"
+    ],
+    "mentions": [
+      "product-resolver-chain",
+      "booking-cancellation-routing",
+      "one-click-booking"
+    ],
+    "scenarios": [
+      "rfp flow entry",
+      "rfp variant routing",
+      "rfp duplicate guard",
+      "booking cancellation routing",
+      "amendment routing chain"
+    ],
+    "capabilities": [
+      "event-routing",
+      "workflow-initiation"
+    ],
+    "domains": [
+      "booking",
+      "service-plan"
+    ],
+    "entities": [
+      "ProductOrchestration",
+      "InlandBookingHandler",
+      "InitialReadyForPlanningEventsDomainService",
+      "AmendEditRfpEventsDomainService",
+      "CancelBookingEventsDomainService"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "runtime/confirm-send-to-tms-flow.md",
+    "category": "runtime",
+    "title": "confirm booking and send to tms",
+    "summary": "Covers the REST-triggered BOOKING_CONFIRMED and SEND_TO_TMS workflow legs, including validation, guards, and NAM registration branching.",
+    "primary_for": [
+      "confirm-send-to-tms"
+    ],
+    "mentions": [
+      "booking-status-guards",
+      "nam-registration-branching",
+      "sap-country-validation"
+    ],
+    "scenarios": [
+      "confirm booking api",
+      "confirm booking guard",
+      "send to tms api",
+      "send to tms routing",
+      "nam registration branch"
+    ],
+    "capabilities": [
+      "rest-triggered-workflows",
+      "validation-routing"
+    ],
+    "domains": [
+      "booking",
+      "tms-dispatch"
+    ],
+    "entities": [
+      "BookingController",
+      "ConfirmBookingDomainService",
+      "BookingSendToTmsDomainService",
+      "ProcessSendToTmsImpl"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "runtime/sap-tms-feedback-flow.md",
+    "category": "runtime",
+    "title": "sap tms feedback handling",
+    "summary": "Inbound SAP feedback paths for transport-order acknowledgement and execution-status updates, including payload guards and workflow activity chains.",
+    "primary_for": [
+      "sap-tms-feedback-handling"
+    ],
+    "mentions": [
+      "transport-order-ack-processing",
+      "execution-status-update",
+      "sap-shared-consumers"
+    ],
+    "scenarios": [
+      "sap feedback topic",
+      "sap feedback guards",
+      "sap ack flow",
+      "sap execution flow",
+      "transport order feedback"
+    ],
+    "capabilities": [
+      "kafka-feedback-processing",
+      "sap-status-reconciliation"
+    ],
+    "domains": [
+      "booking",
+      "sap-tms"
+    ],
+    "entities": [
+      "SapFeedbackConsumerService",
+      "SapTmsExecutionStatusConsumerService",
+      "UpdateTransportOrderFeedbackDomainService"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "runtime/customs-vessel-flow.md",
+    "category": "runtime",
+    "title": "customs and vessel registration flows",
+    "summary": "Combines customs feedback, rail container-availability feedback, and VTS registration/feedback behavior for NAM bookings.",
+    "primary_for": [
+      "customs-vessel-registration"
+    ],
+    "mentions": [
+      "customs-notification-path",
+      "container-availability-feedback",
+      "vts-child-wait"
+    ],
+    "scenarios": [
+      "customs feedback topic",
+      "customs feedback guard",
+      "vessel registration flow",
+      "container availability flow",
+      "vts deadline wait",
+      "cams retry deadline",
+      "rail registration retry"
+    ],
+    "capabilities": [
+      "external-feedback-processing",
+      "nam-registration-handling"
+    ],
+    "domains": [
+      "booking",
+      "customs",
+      "vessel-tracking"
+    ],
+    "entities": [
+      "CustomsServiceOrderConsumer",
+      "ContainerAvailabilityDomainService",
+      "VesselInformationDomainService",
+      "VtsWaitChildWorkflowImpl",
+      "CamsRetryChildWorkflowImpl",
+      "VtsCamsChildFanBackActivity"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "runtime/event-activity-matrix.md",
+    "category": "runtime",
+    "title": "event activity matrix",
+    "summary": "Ordered activity matrix for the booking workflow events defined in configuration, plus the Temporal queue behaviors that alter execution.",
+    "primary_for": [
+      "booking-event-activity-matrix"
+    ],
+    "mentions": [
+      "one-click-queue-pruning",
+      "continue-as-new-threshold",
+      "activity-ordering"
+    ],
+    "scenarios": [
+      "booking activity matrix",
+      "booking event order",
+      "workflow activity order",
+      "one click queue",
+      "temporal continue as new"
+    ],
+    "capabilities": [
+      "workflow-sequencing",
+      "event-to-activity-lookup"
+    ],
+    "domains": [
+      "booking",
+      "workflow-orchestration"
+    ],
+    "entities": [
+      "BookingEventsWorkflowImplementation",
+      "ActivitiesConfig"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "contracts/api-contracts.md",
+    "category": "contracts",
+    "title": "api contracts",
+    "summary": "Entry-point contract sheet for REST APIs, including authorization expectations and the validations performed inline by controllers.",
+    "primary_for": [
+      "booking-rest-contracts"
+    ],
+    "mentions": [
+      "booking-reprocess-api",
+      "transport-order-query",
+      "migration-guard"
+    ],
+    "scenarios": [
+      "booking api endpoints",
+      "booking api auth",
+      "booking api validations",
+      "transport order query",
+      "customs order query"
+    ],
+    "capabilities": [
+      "rest-surface-lookup",
+      "validation-tracing"
+    ],
+    "domains": [
+      "booking",
+      "api"
+    ],
+    "entities": [
+      "BookingController",
+      "TransportOrderController",
+      "CustomsOrderController",
+      "BookingReprocessApiController",
+      "MigrateDataController"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "contracts/kafka-events.md",
+    "category": "contracts",
+    "title": "kafka events",
+    "summary": "Consumer and producer topic contract sheet, mapped to Avro payloads and concrete handlers in the booking service.",
+    "primary_for": [
+      "booking-kafka-contracts"
+    ],
+    "mentions": [
+      "event-history-publish",
+      "sap-shared-topics",
+      "container-availability-feedback"
+    ],
+    "scenarios": [
+      "booking kafka topics",
+      "booking kafka schemas",
+      "service plan topic",
+      "sap feedback topic",
+      "event history topic"
+    ],
+    "capabilities": [
+      "topic-lookup",
+      "schema-lookup"
+    ],
+    "domains": [
+      "booking",
+      "messaging"
+    ],
+    "entities": [
+      "ServicePlan",
+      "TransportOrderAcknowledgement",
+      "CarrierBooking",
+      "CustomsServiceOrderResponseEvent",
+      "ContainerAvailabilityApiResponse"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "contracts/db-schemas.md",
+    "category": "contracts",
+    "title": "mongo schemas",
+    "summary": "Mongo collection contracts and the workflow operations that insert, save, or query each collection during booking processing.",
+    "primary_for": [
+      "booking-mongo-schemas"
+    ],
+    "mentions": [
+      "service-plan-storage",
+      "transport-order-storage",
+      "retry-payload-storage"
+    ],
+    "scenarios": [
+      "booking mongo collections",
+      "booking mongo writes",
+      "service plan schema",
+      "transport order schema",
+      "retry collection schema",
+      "asset compatibility",
+      "plan level work processes",
+      "transport plan work processes"
+    ],
+    "capabilities": [
+      "collection-lookup",
+      "persistence-operation-lookup"
+    ],
+    "domains": [
+      "booking",
+      "persistence"
+    ],
+    "entities": [
+      "ServicePlanEntity",
+      "TransportOrderNewEntity",
+      "CustomsServiceOrderEntity",
+      "RetryEntity",
+      "AssetEntity",
+      "AssetTypeEntity",
+      "CompatibleAssetTypeSetEntity",
+      "TransportPlanEntity"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "integrations/ap-temporal.md",
+    "category": "integrations",
+    "title": "activity plan temporal dispatch",
+    "summary": "Outbound handoff from booking workflows into the activity-plan workflow service through the Temporal activity-plan task queue.",
+    "primary_for": [
+      "activity-plan-dispatch"
+    ],
+    "mentions": [
+      "activity-plan-retry-storage",
+      "activity-plan-metrics",
+      "service-plan-audit-payload"
+    ],
+    "scenarios": [
+      "activity plan dispatch",
+      "activity plan task queue",
+      "activity plan retry",
+      "service plan to ap",
+      "activity plan temporal"
+    ],
+    "capabilities": [
+      "peer-workflow-dispatch",
+      "audit-payload-mapping"
+    ],
+    "domains": [
+      "booking",
+      "activity-plan"
+    ],
+    "entities": [
+      "BookingActivityPlanDispatcher",
+      "ActivityPlan"
+    ],
+    "peer_systems": [
+      "telikos-activityplanworkflow-service_02"
+    ]
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "integrations/iom.md",
+    "category": "integrations",
+    "title": "iom booking events",
+    "summary": "Outbound Booking-domain event publication to IOM for workflow start, end, and acknowledgement milestones.",
+    "primary_for": [
+      "iom-booking-publish"
+    ],
+    "mentions": [
+      "start-event-emission",
+      "end-event-emission",
+      "one-click-pruning"
+    ],
+    "scenarios": [
+      "iom booking topic",
+      "iom booking publish",
+      "booking start event",
+      "booking end event",
+      "iom ack event"
+    ],
+    "capabilities": [
+      "booking-event-publication",
+      "workflow-status-fanout"
+    ],
+    "domains": [
+      "booking",
+      "iom"
+    ],
+    "entities": [
+      "IomBookingEventDispatcher",
+      "Booking"
+    ],
+    "peer_systems": [
+      "iom"
+    ]
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "integrations/sap-tms.md",
+    "category": "integrations",
+    "title": "sap tms exchange",
+    "summary": "Business exchange with SAP TMS: outbound SEND_TO_TMS initiation from booking and inbound Kafka feedback/execution events from SAP.",
+    "primary_for": [
+      "sap-tms-exchange"
+    ],
+    "mentions": [
+      "sap-country-gating",
+      "ack-feedback-processing",
+      "execution-status-processing"
+    ],
+    "scenarios": [
+      "sap exchange routing",
+      "sap exchange feedback",
+      "sap tms execution",
+      "send to sap tms",
+      "sap exchange topics",
+      "container delivery execution",
+      "tms execution work process",
+      "final destination ata"
+    ],
+    "capabilities": [
+      "sap-integration-mapping",
+      "feedback-reconciliation"
+    ],
+    "domains": [
+      "booking",
+      "sap-tms"
+    ],
+    "entities": [
+      "BookingSendToTmsDomainService",
+      "SapFeedbackConsumerService",
+      "SapTmsExecutionStatusConsumerService",
+      "SapTmsExecutionStatusTransportOrderMapper",
+      "ProcessTmsExecutionImpl"
+    ],
+    "peer_systems": [
+      "sap-tms"
+    ]
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "integrations/customs.md",
+    "category": "integrations",
+    "title": "customs feedback exchange",
+    "summary": "Inbound customs-response processing and the notification side effect that follows successful customs feedback handling.",
+    "primary_for": [
+      "customs-feedback-exchange"
+    ],
+    "mentions": [
+      "customs-notification-topic",
+      "receiver-guard",
+      "customs-order-state"
+    ],
+    "scenarios": [
+      "customs feedback flow",
+      "customs receiver guard",
+      "customs notification path",
+      "customs response topic",
+      "customs order updates"
+    ],
+    "capabilities": [
+      "customs-response-handling",
+      "notification-triggering"
+    ],
+    "domains": [
+      "booking",
+      "customs"
+    ],
+    "entities": [
+      "CustomsServiceOrderConsumer",
+      "CustomsServiceOrderResponseEvent"
+    ],
+    "peer_systems": [
+      "customs"
+    ]
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "integrations/vts.md",
+    "category": "integrations",
+    "title": "vessel tracking registration",
+    "summary": "Outbound vessel-tracking registration for NAM non-rail bookings and inbound REST feedback that closes the VTS holding pattern.",
+    "primary_for": [
+      "vessel-tracking-registration"
+    ],
+    "mentions": [
+      "vts-child-workflow",
+      "vessel-information-callback",
+      "deadline-shift-signal"
+    ],
+    "scenarios": [
+      "vessel tracking flow",
+      "vessel tracking callback",
+      "vts deadline update",
+      "vts child wait",
+      "vessel tracking endpoint"
+    ],
+    "capabilities": [
+      "vessel-registration",
+      "callback-reconciliation"
+    ],
+    "domains": [
+      "booking",
+      "vessel-tracking"
+    ],
+    "entities": [
+      "VesselTrackingIntegrator",
+      "VesselTrackingRegistrationActivityImpl",
+      "VtsWaitChildWorkflowImpl",
+      "VesselInformationDomainService"
+    ],
+    "peer_systems": [
+      "vts"
+    ]
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "integrations/cams.md",
+    "category": "integrations",
+    "title": "container availability registration",
+    "summary": "CAMS registration for NAM rail bookings and the inbound feedback topic that patches service-plan rail availability dates.",
+    "primary_for": [
+      "container-availability-registration"
+    ],
+    "mentions": [
+      "rail-registration-branch",
+      "container-availability-feedback",
+      "cams-feature-flag"
+    ],
+    "scenarios": [
+      "container availability flow",
+      "container availability callback",
+      "cams registration endpoint",
+      "rail availability feedback",
+      "cams feature flag",
+      "cams retry child workflow",
+      "cams registration retry",
+      "rail eta deadline retry"
+    ],
+    "capabilities": [
+      "rail-registration",
+      "feedback-patch-processing"
+    ],
+    "domains": [
+      "booking",
+      "container-availability"
+    ],
+    "entities": [
+      "CamsIntegrator",
+      "ContainerAvailabilityFeedbackConsumer",
+      "ContainerAvailabilityDomainService",
+      "CamsRetryChildWorkflowImpl",
+      "VtsCamsChildFanBackActivity"
+    ],
+    "peer_systems": [
+      "cams"
+    ]
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "operations/retries.md",
+    "category": "operations",
+    "title": "retry controls",
+    "summary": "Exact retry behaviors for Kafka processing, Kafka connectivity, Temporal activities, and persisted event-router recovery.",
+    "primary_for": [
+      "booking-retry-controls"
+    ],
+    "mentions": [
+      "event-router-persistence",
+      "temporal-default-retries",
+      "kafka-business-retry"
+    ],
+    "scenarios": [
+      "booking retry policy",
+      "booking retry delays",
+      "kafka retry model",
+      "temporal retry model",
+      "retry collection behavior"
+    ],
+    "capabilities": [
+      "failure-recovery",
+      "retry-triage"
+    ],
+    "domains": [
+      "booking",
+      "operations"
+    ],
+    "entities": [
+      "KafkaConsumerService",
+      "SapFeedbackConsumerService",
+      "EventRouterService",
+      "RetryEntity"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "operations/failure-model.md",
+    "category": "operations",
+    "title": "failure model",
+    "summary": "Practical failure surfaces and their observable outcomes across API validation, workflow orchestration, Kafka ingress, and external peer integration.",
+    "primary_for": [
+      "booking-failure-surfaces"
+    ],
+    "mentions": [
+      "poison-message-ack",
+      "vts-hold-timeout",
+      "duplicate-booking-insert"
+    ],
+    "scenarios": [
+      "booking failure modes",
+      "booking poison messages",
+      "workflow timeout behavior",
+      "integration failure surfaces",
+      "duplicate insert recovery"
+    ],
+    "capabilities": [
+      "incident-triage",
+      "blast-radius-estimation"
+    ],
+    "domains": [
+      "booking",
+      "operations"
+    ],
+    "entities": [
+      "BookingController",
+      "KafkaConsumerService",
+      "SaveToDatabaseActivityImpl",
+      "VesselTrackingRegistrationActivityImpl"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "operations/flags-and-lists.md",
+    "category": "operations",
+    "title": "flags and routing lists",
+    "summary": "Feature flags, country/channel lists, and toggle-driven routing branches that materially change booking behavior.",
+    "primary_for": [
+      "booking-feature-switches"
+    ],
+    "mentions": [
+      "one-click-routing-lists",
+      "sap-country-list",
+      "migration-guard-flag"
+    ],
+    "scenarios": [
+      "booking feature flags",
+      "booking routing lists",
+      "one click channels",
+      "sap tms countries",
+      "migration flag"
+    ],
+    "capabilities": [
+      "toggle-audit",
+      "routing-explanation"
+    ],
+    "domains": [
+      "booking",
+      "operations"
+    ],
+    "entities": [
+      "BookingEventOperationService",
+      "MigrateDataController",
+      "EventRouterService"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "operations/monitoring.md",
+    "category": "operations",
+    "title": "monitoring and observability",
+    "summary": "Metrics, health probes, and logging surfaces used to observe booking ingestion, workflow fan-out, and platform health.",
+    "primary_for": [
+      "booking-observability-signals"
+    ],
+    "mentions": [
+      "health-probe-groups",
+      "booking-metrics-registry",
+      "json-logging-levels"
+    ],
+    "scenarios": [
+      "booking metrics names",
+      "booking health probes",
+      "booking readiness checks",
+      "activity plan metrics",
+      "http percentile metrics"
+    ],
+    "capabilities": [
+      "signal-lookup",
+      "runtime-observability"
+    ],
+    "domains": [
+      "booking",
+      "operations"
+    ],
+    "entities": [
+      "BookingMetricsRegistry",
+      "MeterRegistry",
+      "Actuator health groups"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "navigation/entry-points.md",
+    "category": "navigation",
+    "title": "entry points",
+    "summary": "Single-sheet map of all REST, Kafka, and Temporal entry points named in the forensic trace.",
+    "primary_for": [
+      "booking-entry-surface"
+    ],
+    "mentions": [
+      "rest-entry-points",
+      "kafka-entry-points",
+      "temporal-entry-points"
+    ],
+    "scenarios": [
+      "booking entry points",
+      "booking rest entries",
+      "booking kafka entries",
+      "booking temporal entries",
+      "booking ingress map"
+    ],
+    "capabilities": [
+      "entry-point-navigation",
+      "ingress-lookup"
+    ],
+    "domains": [
+      "booking",
+      "navigation"
+    ],
+    "entities": [
+      "BookingController",
+      "KafkaConsumerService",
+      "BookingEventsWorkflowImplementation"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "navigation/scenarios.md",
+    "category": "navigation",
+    "title": "scenario routing",
+    "summary": "Human-vocabulary lookup table for common booking tasks and the first mini-skills or classes to load.",
+    "primary_for": [
+      "booking-scenario-routing"
+    ],
+    "mentions": [
+      "triage-shortcuts",
+      "class-entry-hints",
+      "flow-file-shortcuts"
+    ],
+    "scenarios": [
+      "booking scenario routing",
+      "booking task lookup",
+      "rfp troubleshooting start",
+      "send to tms start",
+      "customs feedback start"
+    ],
+    "capabilities": [
+      "task-routing",
+      "starting-point-selection"
+    ],
+    "domains": [
+      "booking",
+      "navigation"
+    ],
+    "entities": [
+      "scenario map",
+      "runtime files",
+      "integration files"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service-1",
+    "path": "navigation/key-classes.md",
+    "category": "navigation",
+    "title": "key classes",
+    "summary": "Concern-to-class cheat sheet for the booking repo so an agent can jump directly to the likely owner of a behavior.",
+    "primary_for": [
+      "booking-class-landmarks"
+    ],
+    "mentions": [
+      "workflow-landmarks",
+      "consumer-landmarks",
+      "integrator-landmarks"
+    ],
+    "scenarios": [
+      "booking class map",
+      "booking key classes",
+      "workflow owner class",
+      "consumer owner class",
+      "integration owner class"
+    ],
+    "capabilities": [
+      "class-routing",
+      "owner-discovery"
+    ],
+    "domains": [
+      "booking",
+      "navigation"
+    ],
+    "entities": [
+      "BookingController",
+      "ProductOrchestration",
+      "BookingEventsWorkflowImplementation",
+      "CamsRetryChildWorkflowImpl",
+      "ProcessTmsExecutionImpl",
+      "SapTmsExecutionStatusTransportOrderMapper"
+    ],
+    "peer_systems": []
+  },
+  {
+    "repo": "telikos-email-service-02",
     "path": "domain/activity-plan-events.md",
     "category": "domain",
     "title": "Activity plan events",
@@ -2115,7 +2156,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "architecture/modules.md",
     "category": "architecture",
     "title": "Modules and package map",
@@ -2148,7 +2189,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "architecture/cross-cutting.md",
     "category": "architecture",
     "title": "Cross-cutting behavior",
@@ -2182,7 +2223,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "stack/stack.md",
     "category": "stack",
     "title": "Technology stack",
@@ -2214,7 +2255,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "runtime/booking-email-flow.md",
     "category": "runtime",
     "title": "Booking email flow",
@@ -2251,7 +2292,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "runtime/invoice-dispatch-flow.md",
     "category": "runtime",
     "title": "Invoice dispatch flow",
@@ -2287,7 +2328,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "runtime/notification-workflow-flow.md",
     "category": "runtime",
     "title": "Notification workflow flow",
@@ -2305,7 +2346,11 @@
       "notification email failing",
       "why notification email failed",
       "send notification email",
-      "which class handles notification"
+      "which class handles notification",
+      "report download notification",
+      "report download email",
+      "email booking notification category",
+      "attach report to email"
     ],
     "capabilities": [
       "notification-email"
@@ -2317,11 +2362,13 @@
       "NotificationController",
       "EmailWorkflowImpl",
       "SendEmailNotificationActivityImpl",
-      "NotificationRequest"
+      "NotificationRequest",
+      "EmailServiceImpl",
+      "ReportDownloadService"
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "runtime/sendgrid-webhook-flow.md",
     "category": "runtime",
     "title": "SendGrid webhook flow",
@@ -2355,7 +2402,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "contracts/kafka-events.md",
     "category": "contracts",
     "title": "Kafka events",
@@ -2389,7 +2436,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "contracts/api-contracts.md",
     "category": "contracts",
     "title": "API contracts",
@@ -2408,7 +2455,10 @@
       "email endpoint failing",
       "why email endpoint failed",
       "call email api",
-      "email request shape"
+      "email request shape",
+      "notification action download email",
+      "report download category contract",
+      "notification actions"
     ],
     "capabilities": [
       "api-contracts"
@@ -2420,11 +2470,12 @@
       "NotificationRequest",
       "SendGridEvent",
       "ActivityPlanTemporal",
-      "ActivityPlanInvoice"
+      "ActivityPlanInvoice",
+      "NotificationAction"
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "contracts/db-schemas.md",
     "category": "contracts",
     "title": "Mongo schemas",
@@ -2461,7 +2512,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "integrations/sendgrid.md",
     "category": "integrations",
     "title": "SendGrid",
@@ -2498,7 +2549,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "integrations/ap-temporal.md",
     "category": "integrations",
     "title": "AP Temporal ingress",
@@ -2532,11 +2583,11 @@
       "SendInvoiceDispatchActivityImpl"
     ],
     "peer_systems": [
-      "telikos-activityplanworkflow-service"
+      "telikos-activityplanworkflow-service_02"
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "integrations/decision-hub.md",
     "category": "integrations",
     "title": "Decision Hub",
@@ -2571,7 +2622,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "integrations/finance-chassis.md",
     "category": "integrations",
     "title": "Finance Chassis",
@@ -2608,7 +2659,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "integrations/document-storage.md",
     "category": "integrations",
     "title": "Document Storage",
@@ -2627,7 +2678,10 @@
       "document storage failing",
       "why document storage failed",
       "upload document pdf",
-      "download billing pdf"
+      "download billing pdf",
+      "report sas url download",
+      "azure blob sas report",
+      "download report bytes"
     ],
     "capabilities": [
       "document-storage"
@@ -2640,14 +2694,15 @@
       "DocumentStorageService",
       "DocumentStorageDetails",
       "DownloadedDocument",
-      "BillingDocumentsResponse"
+      "BillingDocumentsResponse",
+      "ReportDownloadService"
     ],
     "peer_systems": [
       "document-storage"
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "operations/retries.md",
     "category": "operations",
     "title": "Retries",
@@ -2683,7 +2738,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "operations/failure-model.md",
     "category": "operations",
     "title": "Failure model",
@@ -2719,7 +2774,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "operations/flags-and-lists.md",
     "category": "operations",
     "title": "Flags and lists",
@@ -2754,7 +2809,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "operations/monitoring.md",
     "category": "operations",
     "title": "Monitoring",
@@ -2789,7 +2844,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "navigation/entry-points.md",
     "category": "navigation",
     "title": "Entry points",
@@ -2823,7 +2878,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "navigation/scenarios.md",
     "category": "navigation",
     "title": "Scenario routing",
@@ -2859,7 +2914,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service",
+    "repo": "telikos-email-service-02",
     "path": "navigation/key-classes.md",
     "category": "navigation",
     "title": "Key classes",

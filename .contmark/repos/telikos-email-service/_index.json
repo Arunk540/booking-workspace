@@ -1,7 +1,7 @@
 {
   "repo_key": "telikos-email-service-02",
-  "generated_at": "2026-06-18T11:57:03.873+05:30",
-  "verified_against": "77e78293d768c1919bf3f7d9dd53a3dd01671252",
+  "generated_at": "2026-07-20T12:30:00.000+05:30",
+  "verified_against": "a7d1d87df6fd002a83372328daa5fa8862ca59e4",
   "files": [
     {
       "path": "domain/activity-plan-events.md",
@@ -226,7 +226,11 @@
         "notification email failing",
         "why notification email failed",
         "send notification email",
-        "which class handles notification"
+        "which class handles notification",
+        "report download notification",
+        "report download email",
+        "email booking notification category",
+        "attach report to email"
       ],
       "capabilities": [
         "notification-email"
@@ -238,7 +242,9 @@
         "NotificationController",
         "EmailWorkflowImpl",
         "SendEmailNotificationActivityImpl",
-        "NotificationRequest"
+        "NotificationRequest",
+        "EmailServiceImpl",
+        "ReportDownloadService"
       ]
     },
     {
@@ -326,7 +332,10 @@
         "email endpoint failing",
         "why email endpoint failed",
         "call email api",
-        "email request shape"
+        "email request shape",
+        "notification action download email",
+        "report download category contract",
+        "notification actions"
       ],
       "capabilities": [
         "api-contracts"
@@ -338,7 +347,8 @@
         "NotificationRequest",
         "SendGridEvent",
         "ActivityPlanTemporal",
-        "ActivityPlanInvoice"
+        "ActivityPlanInvoice",
+        "NotificationAction"
       ]
     },
     {
@@ -539,7 +549,10 @@
         "document storage failing",
         "why document storage failed",
         "upload document pdf",
-        "download billing pdf"
+        "download billing pdf",
+        "report sas url download",
+        "azure blob sas report",
+        "download report bytes"
       ],
       "capabilities": [
         "document-storage"
@@ -552,7 +565,8 @@
         "DocumentStorageService",
         "DocumentStorageDetails",
         "DownloadedDocument",
-        "BillingDocumentsResponse"
+        "BillingDocumentsResponse",
+        "ReportDownloadService"
       ],
       "peer_systems": [
         "document-storage"

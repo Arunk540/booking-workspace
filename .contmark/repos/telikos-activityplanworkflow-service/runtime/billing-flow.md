@@ -19,8 +19,10 @@ sources:
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BillingFeedbackActivityForV2Impl.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/JobClosureActivityImpl.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java
-verified_against: 63f837a2e764f3ddcfc244c2fc2d7278d0c35436
-last_updated: 2026-06-18
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java
+  - booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java
+verified_against: 7798712a7734edab3d5702cb92271fe7c607933c
+last_updated: 2026-07-20
 related:
   - integrations/billing.md
   - integrations/booking-service.md
@@ -38,3 +40,5 @@ related:
 | outbound billing start | `startOrSignalToBilling` uses workflow id `bookingId + "_BILLING"` on `billingSecondTaskQueue` and picks start vs update signals with `signalWithStart`. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java:267) |
 | invoice dispatch feedback | AP sends invoice dispatch feedback to billing on workflow id `bookingId + "_INVOICEDISPATCH"` via signal `invoiceFeedbackFromActivityPlanToBilling`. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java:304) |
 | revenue update | Cost workflow signals become task `updateRevenue`, which executes `sendRevenueLineToBooking` in the AP workflow. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java:261) |
+| SCM vs finance routing | `PopulateBillingDataActivityImpl.isScmBooking` inspects the service plan's booking references for an `IS_SCM_BOOKING` reference; when present the billing event is emitted as `SEND_TO_SCM` (ActivityName/ActivityId), otherwise `SEND_TO_FINANCE` — so SCM bookings no longer carry send-to-finance in validation-failure feedback. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java) |
+| document pouch references | Billing payload is enriched with PO number + Customer Reference Number from the service plan `DocumentPouch`, and chassis equipment references are filtered off any job line whose charge type ≠ `chassisRentalChargeCode`. | (source: booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java) |

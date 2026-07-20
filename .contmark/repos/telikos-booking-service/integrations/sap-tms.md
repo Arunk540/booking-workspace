@@ -13,9 +13,11 @@ sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessSendToTmsImpl.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/SapFeedbackConsumerService.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/SapTmsExecutionStatusConsumerService.java
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/mapper/SapTmsExecutionStatusTransportOrderMapper.java
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessTmsExecutionImpl.java
   - service/src/main/resources/application.yml
-verified_against: b8888cd92f07b4a564e6f5f6dbaf08f61e52811d
-last_updated: "2026-06-18T11:53:42.850+05:30"
+verified_against: da20d26b87ae304ae28736fcce66794fcb3155cc
+last_updated: "2026-07-20T12:30:00.000+05:30"
 related:
   - runtime/confirm-send-to-tms-flow.md
   - runtime/sap-tms-feedback-flow.md
@@ -35,3 +37,5 @@ topic_or_endpoint: "KAFKA_SAP_TMS_FEEDBACK_TOPIC + KAFKA_SAP_TMS_EXECUTION_STATU
 - Inbound execution-status feedback arrives on `${KAFKA_SAP_TMS_EXECUTION_STATUS_TOPIC}` and is processed by `SapTmsExecutionStatusConsumerService`. (source: service/src/main/resources/application.yml:168)
 - Ack feedback reconciles transport-order acknowledgement state and then republishes AP and IOM ack events through the `SAP_TMS_ACK_FEEDBACK` activity list. (source: service/src/main/resources/application.yml:379)
 - Execution-status feedback updates transport-order and execution status state, then sends an IOM end event through the `SAP_TMS_EXECUTION_STATUS` activity list. (source: service/src/main/resources/application.yml:385)
+- `SapTmsExecutionStatusTransportOrderMapper` now maps each inbound `workProcessStatus` to a typed `WorkProcessStatus` (name enum + start/end datetimes + status code) and splits them into leg-level vs plan-level lists: a `"ContainerExecutionStatus"` status is added to the plan-level list and also drives `mapTransportPlanStatus`, everything else stays leg-level. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/mapper/SapTmsExecutionStatusTransportOrderMapper.java)
+- `ProcessTmsExecutionImpl` extracts the plan-level `CONTAINER_DELIVERY_EXECUTION` work process (skipping spec-only entries with no `workProcessStatus`) and, only when that status becomes `EXECUTED`, captures the final-destination ATA once — it is never overridden by later execution-status messages. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessTmsExecutionImpl.java)

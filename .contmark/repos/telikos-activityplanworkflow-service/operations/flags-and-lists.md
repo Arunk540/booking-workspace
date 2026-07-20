@@ -19,11 +19,12 @@ sources:
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendRevenueLineItemToBookingActivityImpl.java
-verified_against: 63f837a2e764f3ddcfc244c2fc2d7278d0c35436
-last_updated: 2026-06-18
+verified_against: 7798712a7734edab3d5702cb92271fe7c607933c
+last_updated: 2026-07-20
 related:
   - operations/monitoring.md
   - runtime/cancellation-email-flow.md
+  - integrations/billing.md
 ---
 
 # Feature flags and country lists
@@ -33,3 +34,4 @@ related:
 - NAM countries bypass outbound email in `sendAndReceiveEmailEvent`. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java:941)
 - `TemporalWorker` reads `activityplan.versioning.enabled` and `activityplan.versioning.name` to decide whether to register a build-id versioned worker on the V2 queue. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java:62)
 - Revenue line item feedback is gated by `activityplan.revenueLineItem.enabled`, and the activity no-ops unless it is `true`. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendRevenueLineItemToBookingActivityImpl.java:50)
+- `activityplan.billing.chassis-rental-charge-code` (env `CHASSIS_RENTAL_CHARGE_CODE`, default `100227`) identifies the chassis rental charge type; `BillingServiceImpl` keeps chassis equipment references only on job lines matching this code and filters them off all others. (source: service/src/main/resources/application.yml:13)

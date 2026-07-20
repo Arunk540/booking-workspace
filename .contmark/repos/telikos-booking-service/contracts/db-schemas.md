@@ -14,8 +14,10 @@ sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/CustomsServiceOrderEntity.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/RetryEntity.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SaveToDatabaseActivityImpl.java
-verified_against: b8888cd92f07b4a564e6f5f6dbaf08f61e52811d
-last_updated: "2026-06-18T11:53:42.850+05:30"
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/TransportPlanEntity.java
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/AssetEntity.java
+verified_against: da20d26b87ae304ae28736fcce66794fcb3155cc
+last_updated: "2026-07-20T12:30:00.000+05:30"
 related:
   - domain/service-plan.md
   - operations/retries.md
@@ -30,3 +32,5 @@ related:
 - `retries` stores `RetryEntity` with creation timestamp, booking id, event type, and serialized failed payload. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/RetryEntity.java:16)
 - Workflow writes to `bookings` by insert for `READY_FOR_PLANNING` and `DRAFT_CANCELLATION`, and by save for every later state transition or feedback event. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SaveToDatabaseActivityImpl.java:36)
 - The trace identifies booking repository operations as insert/save/findById/findByServicePlanNumber/updateStartDateTime/updateEndDateTime, transport-order operations as insert/save/findById/findByBookingNumber, and customs-order operations as insert/save/findById. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SaveToDatabaseActivityImpl.java:33)
+- `TransportPlanEntity` migrated work processes from a single embedded `workProcess` object to a plan-level `workProcesses: List<WorkProcessEntity>` array; the legacy singular field is kept read-only for old documents and left null on new writes (all new work-process/execution-status writes target the array). (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/TransportPlanEntity.java)
+- New embedded asset models describe the physical asset executing a transport leg: `AssetEntity` (assetIdentifier, assetType, lease/operation/ownership type) references `AssetTypeEntity`, and `CompatibleAssetTypeSetEntity` (code + name) captures interchangeable asset types. Domain mirrors: `Asset`, `AssetType`, `CompatibleAssetTypeSet`; API mirrors: `AssetApplication`, `AssetTypeApplication`, `CompatibleAssetTypeSetApplication`. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/AssetEntity.java:9)

@@ -22,9 +22,11 @@ sources:
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingWorker.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker2.java
+  - booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java
   - service/src/main/resources/application.yml
-verified_against: 63f837a2e764f3ddcfc244c2fc2d7278d0c35436
-last_updated: 2026-06-18
+verified_against: 7798712a7734edab3d5702cb92271fe7c607933c
+last_updated: 2026-07-20
 related:
   - runtime/billing-flow.md
   - operations/retries.md
@@ -37,3 +39,6 @@ related:
 - Invoice dispatch feedback targets workflow id `bookingId + "_INVOICEDISPATCH"` on `activityplan.invoiceDispatchFeedbackTaskQueue`. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java:304)
 - `BillingWorker` is the only billing-side worker here that registers an activity implementation, namely `BillingFeedbackActivityImpl`, on `biilingFeedbackQueue`. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingWorker.java:18)
 - `BillingProducerWorker` and `BillingProducerWorker2` are bare Temporal workers that only open `billingTaskQueue` and `billingSecondTaskQueue`. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker.java:16)
+- `BillingServiceImpl.addDocumentPouchReferences` now enriches the billing reference list with the PO number and Customer Reference Number read from the service plan's `DocumentPouch` — pouch references carry `referenceTypeEnum=UNKNOWN`, so they are matched by `referenceTypeName` (case-insensitive) via `DOCUMENT_POUCH_REFERENCE_NAME_TO_ENUM` and re-stamped with the billing referenceTypeEnum. (source: booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java)
+- Chassis-reference gating: when a financial job line's charge type code is NOT the configured `chassisRentalChargeCode` (`activityplan.billing.chassis-rental-charge-code`, default `100227`), chassis-related equipment references are filtered out of that line's billing references. (source: booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java)
+- `activityDateTime` sent to billing is now formatted as a second-precision UTC timestamp (`yyyy-MM-dd'T'HH:mm:ss'Z'`) — set in `ActivityPlanBookingDomainServiceImpl` / `EventProcessorServiceImpl` (#1186; an earlier `Instant` variant #1183 was reverted). (source: booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/ActivityPlanBookingDomainServiceImpl.java)

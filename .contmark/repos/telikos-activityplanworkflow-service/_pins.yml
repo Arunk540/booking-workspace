@@ -24,7 +24,7 @@ features:
   avro: true
 
 contmark_skills:
-  always:  [execution-core, project-context]
+  always:  [execution-core]
   stack:   [spring-java-conventions, java-reactive-patterns]
   build:   [maven-build-profiles]
   domain:  [kafka-consumer-patterns, temporal-workflow-patterns]

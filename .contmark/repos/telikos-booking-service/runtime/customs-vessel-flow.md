@@ -15,9 +15,10 @@ sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/VesselInformationDomainService.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VesselTrackingRegistrationActivityImpl.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/VtsWaitChildWorkflowImpl.java
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/CamsRetryChildWorkflowImpl.java
   - service/src/main/resources/application.yml
-verified_against: b8888cd92f07b4a564e6f5f6dbaf08f61e52811d
-last_updated: "2026-06-18T11:53:42.850+05:30"
+verified_against: da20d26b87ae304ae28736fcce66794fcb3155cc
+last_updated: "2026-07-20T12:30:00.000+05:30"
 related:
   - integrations/customs.md
   - integrations/cams.md
@@ -34,4 +35,15 @@ related:
 - Non-rail NAM send-to-tms registration uses `VesselTrackingRegistrationActivityImpl`, which POSTs to VTS and applies response dates immediately when the response contains schedule data. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VesselTrackingRegistrationActivityImpl.java:51)
 - If the VTS response is pending or empty, `armVtsHold` computes a deadline and starts `VtsWaitChildWorkflow`; amendments update the deadline instead of restarting the child. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VesselTrackingRegistrationActivityImpl.java:127)
 - `VtsWaitChildWorkflowImpl` waits until feedback or deadline, exits quietly on feedback, and only fans back a timeout event after deadline expiry. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/VtsWaitChildWorkflowImpl.java:35)
+- Rail (CAMS) registration has a parallel child, `CamsRetryChildWorkflowImpl`: instead of waiting for a callback it re-issues the CAMS registration with Temporal retry until success or the deadline, then fans a timeout back. Both children now share one fan-back activity, `VtsCamsChildFanBackActivity` (renamed from `VtsChildFanBackActivity`), whose `vtsCamsRegistrationTimeout` flag tells the parent path to raise the rail-ETA business exception. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/CamsRetryChildWorkflowImpl.java:41)
 - REST vessel feedback lands on `PATCH /bookings/{bookingId}/vessel-information`; the domain service stores vessel dates, signals any in-flight wait child, and then emits `VESSEL_CONTAINER_REGISTRATION_FEEDBACK` to persist the final state. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/VesselInformationDomainService.java:43)
+
+## Mapping Chain
+
+MapStruct/hand-written mappers fail silently — an unmapped field compiles green and drops data. A field added to this flow must touch every hop below.
+
+| Hop | Mapper | From → To | Source |
+|---|---|---|---|
+| ingest | `CustomsServiceOrderResponseMapper` / `CustomsServiceOrderResponseEventMapper` | customs response event → domain | events/mapper/ · used by events/service/BookingEventOperationService.java |
+| persist | `CustomsServiceOrderMapper` | domain → Mongo entity | infrastructure/mapper/ · used by infrastructure/service/CustomsServiceOrderInfraService.java |
+| audit | `CustomsExecutionStatusEventHistoryMapper` | event → history record | events/audit/mappers/categories/ · via events/audit/dispatchers/* |

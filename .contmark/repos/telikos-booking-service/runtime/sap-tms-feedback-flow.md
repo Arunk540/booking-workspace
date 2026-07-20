@@ -31,3 +31,14 @@ related:
 - A second execution-status guard rejects invalid receive-channel data or work processes missing start datetimes before any downstream mutation occurs. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/SapTmsExecutionStatusConsumerService.java:74)
 - `SAP_TMS_EXECUTION_STATUS` then runs `processTmsExecution`, `updateTransportOrder`, `updateExecutionStatus`, and `sendEndBookingEventToIOM`. (source: service/src/main/resources/application.yml:385)
 - Both SAP consumers use effectively infinite Kafka connection retry with ten-second fixed delay, so the steady-state recovery model is reconnect-not-crash. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/SapFeedbackConsumerService.java:53)
+
+## Mapping Chain
+
+MapStruct/hand-written mappers fail silently — an unmapped field compiles green and drops data. A field added to this flow must touch every hop below.
+
+| Hop | Mapper | From → To | Source |
+|---|---|---|---|
+| ingest | `TransportOrderFeedbackAvroMapper` | Avro feedback → domain | events/mapper/ · used by events/service/BookingEventOperationService.java |
+| ingest | `SapTmsExecutionStatusTransportOrderMapper` | execution status → TO update | events/mapper/ · used by events/service/BookingEventOperationService.java |
+| persist | `TransportOrderMapper` | domain TO → entity | infrastructure/mapper/ · used by infrastructure/service/TransportOrderInfraService.java |
+| audit | `SapTmsExecutionStatusEventHistoryMapper` | event → history record | events/audit/mappers/categories/ · via events/audit/dispatchers/* |
