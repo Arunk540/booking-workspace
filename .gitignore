@@ -11,4 +11,6 @@ telikos-email-service/
 .idea/tasks.xml
 .idea/dictionaries
 .idea/vcs.xml
+.idea
+npmcache
 

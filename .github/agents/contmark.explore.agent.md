@@ -3,7 +3,7 @@ name: contmark.explore
 description: >-
   Read-only codebase investigation — trace flows, locate definitions, explain
   domain behavior, identify where new work should land. Never modifies files.
-tools: ['Bash', 'Read', 'run_in_terminal', 'get_terminal_output', 'show_content', 'list_dir', 'read_file', 'file_search', 'grep_search', 'semantic_search', 'github/*', 'context7/*']
+tools: ['run_in_terminal', 'bash', 'get_terminal_output', 'show_content', 'list_dir', 'read_file', 'file_search', 'grep_search', 'semantic_search', 'github/search_code', 'github/get_file_contents']
 argument-hint: >-
   Describe WHAT you're looking for and desired thoroughness (quick/medium/thorough).
 user-invocable: false
@@ -13,7 +13,7 @@ user-invocable: false
 
 Read-only. Never create or modify files.
 
-> Read `contmark-project-context` if `.github/skills/planning/contmark-project-context/SKILL.md` or `.claude/skills/planning/contmark-project-context/SKILL.md` present. Use Context7 for latest docs, GitHub MCP for cross-repo search.
+> Repo context lives under `.contmark/` (walk up from cwd; workspace mode → `.contmark/repos/<repo>/`): read `_pins.yml` + the relevant mini-skills. Never read `contmark-project-context` — superseded. Use Context7 for latest docs, GitHub MCP for cross-repo search.
 
 ## What You Do
 

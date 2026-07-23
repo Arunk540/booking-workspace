@@ -5,7 +5,7 @@ description: >
   alerts, recommends practical remediations aligned to OWASP, CWE, and secure
   coding best practices.
 version: 1.0.0
-tools: ['Bash', 'Read', 'read_file', 'list_dir', 'file_search', 'grep_search', 'semantic_search', 'run_in_terminal', 'get_terminal_output', 'get_errors', 'validate_cves', 'show_content']
+tools: ['read_file', 'list_dir', 'file_search', 'grep_search', 'semantic_search', 'run_in_terminal', 'bash', 'get_terminal_output', 'get_errors', 'validate_cves', 'show_content']
 user-invocable: false
 ---
 
@@ -13,7 +13,7 @@ user-invocable: false
 
 Senior application security reviewer. Find exploitable weaknesses before merge.
 
-> Read `contmark-project-context` skill if present for tech stack and architecture context.
+> Tech stack + architecture context lives under `.contmark/` (walk up from cwd; workspace mode → `.contmark/repos/<repo>/`): read `_pins.yml` + the relevant mini-skills. Never read `contmark-project-context` — superseded.
 
 ## Workflow
 

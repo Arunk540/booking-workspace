@@ -9,12 +9,15 @@ modules:
   componentTest: componenttest
 
 # Exact commands — standalone module poms (no root reactor). Run verbatim.
+# `clean` is MANDATORY on every compile/test here: MapStruct fails with
+# "Attempt to recreate a file for type …MapperImpl" against stale generated
+# sources otherwise (see lessons.md). Scope a run with `-Dtest=<Class>`.
 commands:
   build:          "mvn -f service/pom.xml clean package"
-  unit_test:      "mvn -f service/pom.xml test"
+  unit_test:      "mvn -f service/pom.xml clean test"
   component_test: "mvn -f componenttest/pom.xml verify -Dspring.profiles.active=local"
   lint:           "none"
-  verify:         "mvn -f service/pom.xml verify"
+  verify:         "mvn -f service/pom.xml clean verify"
 
 features:
   kafka: true

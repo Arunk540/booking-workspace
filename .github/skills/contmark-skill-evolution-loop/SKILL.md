@@ -53,10 +53,9 @@ if target is null          → use routing table below
 | Generic Java / Kotlin / reactive        | Shared → matching conventions skill          |
 | Generic Kafka / Temporal / testing      | Shared → matching domain skill               |
 | Generic build / compile                 | Shared → `maven-build-profiles` / `gradle-build-profiles` |
-| Service-specific entity / contract      | Repo → `project-context` (legacy) **or** workspace mini-skill |
-| Service-specific build quirk            | Repo → `project-context`                    |
+| Service-specific entity / contract / build quirk | Repo → workspace mini-skill via `resolve-skill-target.js` |
 | New/changed integration, endpoint, entity (workspace) | Repo → workspace mini-skill via `resolve-skill-target.js` |
-| Routing or model issue                  | Shared → `execution-standards`              |
+| Routing or model issue                  | Shared → `execution-extras`                 |
 
 When pattern is specific to one repo → repo skill. When it would recur in any repo → shared skill.
 

@@ -7,7 +7,7 @@ description: Spring review — axes, severity, output format. Apply rules from c
 
 Stage 3 review wrapper. The **rules** live in the convention/domain skills already loaded at Stage 2 — re-stating them here would just duplicate context. This file adds: review axes, severity classification, output format, and a small set of *cross-cutting* checks that no convention skill owns.
 
-> Apply rules from whichever of these are loaded (per project.yml `$skills.stack` / `$skills.domain` or the Stage 2 fallback): `spring-java-conventions` · `spring-mvc-patterns` · `java-reactive-patterns` · `kotlin-conventions` · `kafka-patterns` · `temporal-workflow-patterns` · `db-migration-guardrails`. Do **not** re-read them at Stage 3.
+> Apply rules from whichever of these are loaded (per `_pins.yml` `$skills.stack` / `$skills.domain` or the Stage 2 fallback): `spring-java-conventions` · `spring-mvc-patterns` · `java-reactive-patterns` · `kotlin-conventions` · `kafka-patterns` · `temporal-workflow-patterns` · `db-migration-guardrails`. Do **not** re-read them at Stage 3.
 
 ---
 

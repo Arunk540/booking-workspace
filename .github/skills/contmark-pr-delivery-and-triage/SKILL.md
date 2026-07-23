@@ -29,7 +29,7 @@ Failure → remove immediately, do NOT push.
 
 ## Agent Commit Protocol
 
-Sub-agents commit per execution-standards §Commit convention. Orchestrator never commits — pushes and creates PR only.
+Sub-agents commit per execution-core §Commit Convention. Orchestrator never commits — pushes and creates PR only.
 
 ---
 

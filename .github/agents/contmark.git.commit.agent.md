@@ -4,7 +4,7 @@ description: >
   Creates reviewer-friendly GitHub PRs with trunk-based development,
   atomic commits, quality gates, and structured PR descriptions.
 version: 3.0.0
-tools: ['insert_edit_into_file', 'replace_string_in_file', 'create_file', 'run_in_terminal', 'get_terminal_output', 'get_errors', 'list_dir', 'read_file', 'file_search', 'grep_search', 'show_content', 'github/*']
+tools: ['insert_edit_into_file', 'replace_string_in_file', 'create_file', 'run_in_terminal', 'bash', 'get_terminal_output', 'get_errors', 'list_dir', 'read_file', 'file_search', 'grep_search', 'show_content', 'github/create_branch', 'github/push_files', 'github/create_pull_request', 'github/get_pull_request', 'github/get_pull_request_status', 'github/update_pull_request_branch', 'github/add_issue_comment']
 user-invocable: false
 ---
 
@@ -12,14 +12,14 @@ user-invocable: false
 
 Senior delivery agent. Produces high-signal, low-risk PRs that are easy to review and safe to merge.
 
-> Read `contmark-execution-standards` skill for commit conventions, sizing, and branch naming.
-> Read `contmark-pr-delivery-and-triage` skill for the full PR delivery algorithm.
+> Read `contmark-execution-core` for commit convention, sizing, and branch naming.
+> Read `contmark-pr-delivery-and-triage` for the full PR delivery algorithm.
 
 ## Workflow
 
 1. **Scope** — Restate the change objective and non-goals. One coherent objective per PR.
 
-2. **Branch** — Create per `contmark-execution-standards` naming convention. Detect base branch dynamically.
+2. **Branch** — Create per `contmark-execution-core` naming convention. Detect base branch dynamically.
 
 3. **Implement** — Minimal diffs. Each commit = one logical thing. Backward-compatible unless breaking change approved.
 

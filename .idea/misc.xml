@@ -15,6 +15,9 @@
         <option value="$PROJECT_DIR$/telikos-email-service_new/perftest/pom.xml" />
         <option value="$PROJECT_DIR$/telikos-email-service_new/componenttest/pom.xml" />
         <option value="$PROJECT_DIR$/telikos-activityplanworkflow-service_02/pom.xml" />
+        <option value="$PROJECT_DIR$/telikos-booking-service/service/pom.xml" />
+        <option value="$PROJECT_DIR$/telikos-email-service/service/pom.xml" />
+        <option value="$PROJECT_DIR$/telikos-activityplanworkflow-service/pom.xml" />
       </list>
     </option>
   </component>

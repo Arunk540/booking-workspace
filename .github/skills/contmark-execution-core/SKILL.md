@@ -1,15 +1,47 @@
 ---
 name: contmark-execution-core
-description: Boot-loaded baseline — terminal, timeouts, build loop, commits, prohibited actions, quality. Read ONCE at boot.
+description: Boot-loaded baseline — paths, lessons format, naming contract, live-window guard, terminal, build loop, commits, prohibited actions. Read ONCE at boot.
 ---
 
 # Execution Core
 
-Baseline rules every stage relies on. **Read once at boot.** Do not re-read in later stages — content is stable for the session.
+Read once at boot. Never re-read — content is stable for the session.
 
-> Routing, classification, phase ownership, lessons protocol → `execution-extras` (loaded only when needed).
+## State-File Paths
 
----
+Payload provides both dirs — never assume `.contmark/` at cwd:
+
+| Dir | Files |
+|---|---|
+| `{workspace_context_dir}` | `plan.md` · `{slug}-plan.md` · `todos.md` · `handoff.md` |
+| `{repo_context_dir}` | `lessons.md` · `incidents.md` |
+
+## Lessons Entry Format
+
+Single format, no exceptions:
+
+```
+## YYYY-MM-DD — <pattern-name>
+- what:   <exact error or finding>
+- rule:   <concrete fix — no generics>
+- target: skill → <skill>/SKILL.md | agent → <agent>/.agent.md
+```
+
+## Naming Contract (`glossary_hits`)
+
+Each hit maps a ticket word to the real code symbol: `matched → canonical` + enum `values` + `source` file:line.
+- Bind to `canonical` — never coin a field/method/enum from a ticket word (ticket "flow" → existing `transportActivity (EXPORT|IMPORT)`, never a new `flow` field).
+- Low-confidence or missing mapping → user question **with options**, never a silent bind or a guess.
+
+## Live-Window Guard (smart zone <100K)
+
+`est = conversation chars ÷ 3.5` · `live% = est ÷ modelCap` (claude-* 200K · gpt-4* 128K · gemini-* 1M · default 128K). `pipelineBudget = modelCap`. Check at every stage boundary:
+
+| live% | Action |
+|---|---|
+| ≥ 50% | WARN — payloads carry paths not blobs; persist ticket/plan to disk |
+| ≥ 65% | `CONTEXT_PRESSURE` — compact or split BEFORE the next sub-agent call |
+| ≥ 85% | STOP |
 
 ## Prohibited Actions
 
@@ -17,71 +49,56 @@ Baseline rules every stage relies on. **Read once at boot.** Do not re-read in l
 |---|---|
 | Agent running a build phase beyond its own | Duplicate work, 60–100s waste |
 | Implementer running `test`/`verify`/`package`/`check`/`build` | Test execution belongs to test agents |
-| Unit Tester recompiling main without `skip-main-recompile` | Wastes 60–100s; main already compiled |
+| Unit Tester recompiling main without `skip-main-recompile` | Main already compiled |
 | Unit Tester skipping full-suite regression | Regressions go undetected |
 | Any agent running `clean` (exception: Avro schema change) | Destroys compiled classes next agent reuses |
 | Crossing file ownership boundaries | Each agent owns exactly one file subtree |
 | Multiple terminal sessions | Lost output, delayed response |
 
----
+## Terminal Discipline
 
-## Terminal Session Discipline
-
-- One `run_in_terminal` / `Bash` at a time — always read output before the next
-- Chain with `&&` in one call — never split
-- Always read actual output — never assume
-- One session per turn — never open new windows
-- Never issue parallel terminal calls
+- One terminal call at a time — read output before the next; chain with `&&`; never parallel calls
 - BUILD FAILURE → extract `ERROR`/`FAILED` lines only — never re-read full output
 
-### Timeout Rules
-
-Prefix every command with `timeout {N}`. **Claude Code:** also set `Bash(timeout: N×1000)` — both timers are independent, one does not protect the other.
+Prefix every command with `timeout {N}`. **Claude Code:** also set `Bash(timeout: N×1000)` — the timers are independent.
 
 | Operation | Timeout | On exit 124 |
 |---|---|---|
-| Compile | `timeout 180` | Retry once → still fails → escalate |
-| Unit tests | `timeout 300` | Retry once → still fails → escalate |
+| Compile | `timeout 180` | Retry once → escalate |
+| Unit tests | `timeout 300` | Retry once → escalate |
 | CT verify | `timeout 1500` | **Escalate immediately — no retry** |
-| Any other | `timeout 120` | Retry once → still fails → escalate |
+| Any other | `timeout 120` | Retry once → escalate |
 
-CT never retries on timeout — a second attempt wastes another 40 min on the same hang.
+Escalation: `TIMEOUT: {command} exceeded {N}s — last output: {last line} · pipeline stopped`
 
-**Escalation format:** `TIMEOUT: {command} exceeded {N}s — last output: {last line} · pipeline stopped`
+## Build Loop
 
----
-
-## Build Loop Discipline
-
-RUN your agent command → READ output → IF BUILD FAILURE: fix in your scope, REPEAT → WHEN BUILD SUCCESS + 0 failures: emit READY. Never hand off with a failing build.
-
----
+RUN your agent command → READ output → BUILD FAILURE: fix in your scope, repeat → BUILD SUCCESS + 0 failures: emit READY. Never hand off a failing build.
 
 ## Google Java Style
 
-When `google_checks.xml` is checkstyle config: 2-space indent, 100-char limit, static→third-party→`java.*` imports, braces on all blocks, Javadoc on public API. Never suppress with `@SuppressWarnings("checkstyle")`.
-
----
+When `google_checks.xml` is checkstyle config: 2-space indent, 100-char limit, static→third-party→`java.*` imports, braces on all blocks, Javadoc on public API. Never `@SuppressWarnings("checkstyle")`.
 
 ## Commit Convention
 
-`<type>(<scope>): <what changed>` — Types: `feat` · `fix` · `refactor` · `test` · `docs` · `chore`.
-Agent types: Implementer → `feat`/`fix` · Unit Tester → `test` · Component Tester → `test`.
-`git add <specific files>` → `git commit`. Never `git add .`. Never push — Orchestrator handles PR.
+`<type>(<scope>): <what changed>` — `feat` · `fix` · `refactor` · `test` · `docs` · `chore`.
+Implementer → `feat`/`fix` · testers → `test`. `git add <specific files>`, never `git add .`. Never push — Orchestrator owns the PR.
 
----
+## Core Principles
 
-## Change Sizing
+- **Simplicity First** — simplest change, minimal code impact, one task per sub-agent
+- **No Laziness** — root causes only; no temporary fixes; senior standards
+- **Minimal Impact** — touch only what's necessary; note out-of-scope issues, don't fix them
+- **Verification Before Done** — never claim complete without proof (diff, test run, log)
+- **Demand Elegance (balanced)** — >50-line change: pause, ask "simpler way?"; skip for trivial fixes
+
+## Change Sizing & Quality Signals
 
 ~100 lines ideal · ~300 acceptable · ~500+ split.
 
----
-
-## Code Quality Signals
-
 | Signal | Action |
 |---|---|
-| Deep nesting (3+ levels) | Extract guard clauses / helpers |
-| Long methods (50+ lines) | Split by responsibility |
-| Generic names (`data`, `temp`) | Rename to describe content |
+| Deep nesting (3+) | Guard clauses / helpers |
+| Long methods (50+) | Split by responsibility |
+| Generic names (`data`, `temp`) | Rename |
 | Dead code / unused imports | Remove |
