@@ -507,7 +507,16 @@
         "send tms sync",
         "tms activity status",
         "transport order schema version",
-        "facility type values"
+        "facility type values",
+        "scp booking operational facility",
+        "operational facility as transit",
+        "scp multistage container",
+        "why is my facility transit",
+        "place of delivery transit",
+        "container stuffing location transit",
+        "which facilities qualify for the scp transit conversion",
+        "facility qualifies as transit",
+        "operational facility eligibility"
       ],
       "capabilities": [
         "tms-dispatch"

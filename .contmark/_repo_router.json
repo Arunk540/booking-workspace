@@ -1757,6 +1757,93 @@
     ],
     "blast radius of a schema change": [
       "telikos-booking-service"
+    ],
+    "scp booking operational facility": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "operational facility as transit": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "scp multistage container": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "why is my facility transit": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "place of delivery transit": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "container stuffing location transit": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "ata capturing": [
+      "telikos-booking-service"
+    ],
+    "where is ata stored": [
+      "telikos-booking-service"
+    ],
+    "ata timezone id": [
+      "telikos-booking-service"
+    ],
+    "booking references wiped": [
+      "telikos-booking-service"
+    ],
+    "vessel eta reference": [
+      "telikos-booking-service"
+    ],
+    "chassis vendor on transport order": [
+      "telikos-booking-service"
+    ],
+    "actual chassis vendor": [
+      "telikos-booking-service"
+    ],
+    "recommended chassis vendor": [
+      "telikos-booking-service"
+    ],
+    "ZA ZR party role": [
+      "telikos-booking-service"
+    ],
+    "chassis on tms execution": [
+      "telikos-booking-service"
+    ],
+    "import vessel eta": [
+      "telikos-booking-service"
+    ],
+    "vessel ata import": [
+      "telikos-booking-service"
+    ],
+    "downsync vessel eta from upstream": [
+      "telikos-booking-service"
+    ],
+    "why did my vessel eta not apply": [
+      "telikos-booking-service"
+    ],
+    "vts precedence over reference": [
+      "telikos-booking-service"
+    ],
+    "rfp failed missing vts dates": [
+      "telikos-booking-service"
+    ],
+    "import vs export vessel dates": [
+      "telikos-booking-service"
+    ],
+    "which facilities qualify for the scp transit conversion": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "facility qualifies as transit": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "operational facility eligibility": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "can an execution update wipe the stored ata": [
+      "telikos-booking-service"
+    ],
+    "execution update references guard": [
+      "telikos-booking-service"
+    ],
+    "references overwritten on update": [
+      "telikos-booking-service"
     ]
   },
   "flows": [

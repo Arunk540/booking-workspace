@@ -4,10 +4,10 @@ title: mongo schemas
 summary: "Mongo collection contracts and the workflow operations that insert, save, or query each collection during booking processing."
 primary_for: [booking-mongo-schemas]
 mentions: [service-plan-storage, transport-order-storage, retry-payload-storage]
-scenarios: [booking mongo collections, booking mongo writes, service plan schema, transport order schema, retry collection schema]
+scenarios: [booking mongo collections, booking mongo writes, service plan schema, transport order schema, retry collection schema, ata capturing, where is ata stored, final destination ata, ata timezone id, booking references wiped, vessel eta reference, can an execution update wipe the stored ata, execution update references guard, references overwritten on update]
 capabilities: [collection-lookup, persistence-operation-lookup]
 domains: [booking, persistence]
-entities: [ServicePlanEntity, TransportOrderNewEntity, CustomsServiceOrderEntity, RetryEntity]
+entities: [ServicePlanEntity, TransportOrderNewEntity, CustomsServiceOrderEntity, RetryEntity, ServicePlanMongoTemplate, BookingConstants]
 sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/ServicePlanEntity.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/TransportOrderNewEntity.java
@@ -16,6 +16,8 @@ sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SaveToDatabaseActivityImpl.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/TransportPlanEntity.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/AssetEntity.java
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/persistence/impl/ServicePlanMongoTemplate.java
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/common/BookingConstants.java
 verified_against: da20d26b87ae304ae28736fcce66794fcb3155cc
 last_updated: "2026-07-20T12:30:00.000+05:30"
 related:
@@ -34,3 +36,14 @@ related:
 - The trace identifies booking repository operations as insert/save/findById/findByServicePlanNumber/updateStartDateTime/updateEndDateTime, transport-order operations as insert/save/findById/findByBookingNumber, and customs-order operations as insert/save/findById. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SaveToDatabaseActivityImpl.java:33)
 - `TransportPlanEntity` migrated work processes from a single embedded `workProcess` object to a plan-level `workProcesses: List<WorkProcessEntity>` array; the legacy singular field is kept read-only for old documents and left null on new writes (all new work-process/execution-status writes target the array). (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/TransportPlanEntity.java)
 - New embedded asset models describe the physical asset executing a transport leg: `AssetEntity` (assetIdentifier, assetType, lease/operation/ownership type) references `AssetTypeEntity`, and `CompatibleAssetTypeSetEntity` (code + name) captures interchangeable asset types. Domain mirrors: `Asset`, `AssetType`, `CompatibleAssetTypeSet`; API mirrors: `AssetApplication`, `AssetTypeApplication`, `CompatibleAssetTypeSetApplication`. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/AssetEntity.java:9)
+
+## Booking-level references (ATA and its timezone)
+
+- The final-destination **ATA** and its timezone id are stored as booking-level *references*
+  (`ATA_ENUM`, `ATA_TIMEZONE_ID_ENUM` / `ATA_TIMEZONE_ID_NAME`), added during execution rather than
+  as fields on the plan. Vessel ETA uses the same shape (`VESSEL_ETA_ENUM`).
+  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/common/BookingConstants.java:450)
+- The Mongo write is **guarded**: `booking.references` is only `$set` when the incoming plan
+  actually carries references, so an execution update that carries none never wipes the ATA that a
+  previous update stored. Removing the guard loses data silently — the update still succeeds.
+  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/persistence/impl/ServicePlanMongoTemplate.java:397)

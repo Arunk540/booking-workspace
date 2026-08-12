@@ -4,10 +4,10 @@ title: sap tms exchange
 summary: "Business exchange with SAP TMS: outbound SEND_TO_TMS initiation from booking and inbound Kafka feedback/execution events from SAP."
 primary_for: [sap-tms-exchange]
 mentions: [sap-country-gating, ack-feedback-processing, execution-status-processing]
-scenarios: [sap exchange routing, sap exchange feedback, sap tms execution, send to sap tms, sap exchange topics]
+scenarios: [sap exchange routing, sap exchange feedback, sap tms execution, send to sap tms, sap exchange topics, chassis vendor on transport order, actual chassis vendor, recommended chassis vendor, ZA ZR party role, chassis on tms execution]
 capabilities: [sap-integration-mapping, feedback-reconciliation]
 domains: [booking, sap-tms]
-entities: [BookingSendToTmsDomainService, SapFeedbackConsumerService, SapTmsExecutionStatusConsumerService]
+entities: [BookingSendToTmsDomainService, SapFeedbackConsumerService, SapTmsExecutionStatusConsumerService, ProcessTmsExecutionImpl]
 sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/BookingSendToTmsDomainService.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessSendToTmsImpl.java
@@ -39,3 +39,14 @@ topic_or_endpoint: "KAFKA_SAP_TMS_FEEDBACK_TOPIC + KAFKA_SAP_TMS_EXECUTION_STATU
 - Execution-status feedback updates transport-order and execution status state, then sends an IOM end event through the `SAP_TMS_EXECUTION_STATUS` activity list. (source: service/src/main/resources/application.yml:385)
 - `SapTmsExecutionStatusTransportOrderMapper` now maps each inbound `workProcessStatus` to a typed `WorkProcessStatus` (name enum + start/end datetimes + status code) and splits them into leg-level vs plan-level lists: a `"ContainerExecutionStatus"` status is added to the plan-level list and also drives `mapTransportPlanStatus`, everything else stays leg-level. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/mapper/SapTmsExecutionStatusTransportOrderMapper.java)
 - `ProcessTmsExecutionImpl` extracts the plan-level `CONTAINER_DELIVERY_EXECUTION` work process (skipping spec-only entries with no `workProcessStatus`) and, only when that status becomes `EXECUTED`, captures the final-destination ATA once — it is never overridden by later execution-status messages. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessTmsExecutionImpl.java)
+
+## Chassis vendors on the transport order
+
+- Chassis vendors arrive as party **roles**, not as a party function like the carrier — `ZA` is the
+  ACTUAL chassis vendor and `ZR` the RECOMMENDED one. Looking for them where the carrier is found
+  returns nothing.
+  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessTmsExecutionImpl.java)
+- Both are mapped onto **every** transport leg (`TransportLeg::setActualChassisVendor` /
+  `setRecommendedChassisVendor`), not onto the order as a whole.
+- A party carrying the role but a blank `partyCode` is skipped and logged rather than written as an
+  empty vendor — so a missing chassis vendor downstream is a data problem upstream, not a mapping bug.

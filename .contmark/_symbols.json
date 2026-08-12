@@ -428,6 +428,14 @@
         "line": 24
       }
     ],
+    "BookingConstants": [
+      {
+        "repo": "telikos-booking-service",
+        "path": "contracts/db-schemas.md",
+        "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/common/BookingConstants.java",
+        "line": 7
+      }
+    ],
     "BookingController": [
       {
         "repo": "telikos-booking-service",
@@ -784,6 +792,14 @@
         "path": "integrations/decision-hub.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/DomainDataServiceImpl.java",
         "line": 37
+      }
+    ],
+    "DomainHelperUtils": [
+      {
+        "repo": "telikos-booking-service",
+        "path": "integrations/vts.md",
+        "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java",
+        "line": 95
       }
     ],
     "DomainRules": [
@@ -1622,6 +1638,14 @@
         "path": "contracts/db-schemas.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/ServicePlanEntity.java",
         "line": 24
+      }
+    ],
+    "ServicePlanMongoTemplate": [
+      {
+        "repo": "telikos-booking-service",
+        "path": "contracts/db-schemas.md",
+        "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/persistence/impl/ServicePlanMongoTemplate.java",
+        "line": 34
       }
     ],
     "StandardReason": [
