@@ -296,7 +296,9 @@
       "rate basis units",
       "charge rate basis",
       "standard reason code",
-      "chassis rental charge code"
+      "chassis rental charge code",
+      "what units can a charge be rated on",
+      "charge units"
     ],
     "capabilities": [
       "billing-dispatch",
@@ -1179,6 +1181,57 @@
     ]
   },
   {
+    "repo": "telikos-activityplanworkflow-service",
+    "category": "stack",
+    "title": "Build, test and run activityplanworkflow-service",
+    "summary": "Maven commands for building, testing, linting and locally running activityplanworkflow-service across its nine modules.",
+    "primary_for": [
+      "activityplan-build-and-test"
+    ],
+    "mentions": [
+      "activityplan-module-layout",
+      "component-test-execution",
+      "checkstyle-lint"
+    ],
+    "scenarios": [
+      "how to run the tests",
+      "run unit tests activity plan",
+      "run component tests",
+      "how to build activity plan",
+      "run checkstyle lint",
+      "run activity plan locally",
+      "start the dev server",
+      "verify my change",
+      "mvn command activityplan",
+      "run the service locally",
+      "start the service locally"
+    ],
+    "capabilities": [
+      "build",
+      "unit-test",
+      "component-test",
+      "lint",
+      "local-run"
+    ],
+    "domains": [
+      "activity-plan",
+      "developer-workflow"
+    ],
+    "entities": [
+      "Maven",
+      "JUnit5",
+      "Checkstyle",
+      "Testcontainers"
+    ],
+    "sources": [
+      "AGENTS.md",
+      "pom.xml",
+      "service/pom.xml",
+      "componenttest/pom.xml"
+    ],
+    "path": "stack/build-and-test.md"
+  },
+  {
     "repo": "telikos-booking-service",
     "path": "domain/service-plan.md",
     "category": "domain",
@@ -1271,7 +1324,14 @@
       "booking security model",
       "workflow orchestration rules",
       "reactive persistence rules",
-      "messaging retry model"
+      "messaging retry model",
+      "coding conventions",
+      "coding standards",
+      "layering rules",
+      "can i use block",
+      "global invariants",
+      "where do external http calls go",
+      "how do i publish to kafka"
     ],
     "capabilities": [
       "architecture-reasoning",
@@ -1286,7 +1346,13 @@
       "KafkaConsumerService",
       "BookingEventsWorkflowImplementation"
     ],
-    "peer_systems": []
+    "peer_systems": [],
+    "sources": [
+      "service/pom.xml",
+      "service/src/main/resources/application.yml",
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java",
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/KafkaConsumerService.java"
+    ]
   },
   {
     "repo": "telikos-booking-service",
@@ -1346,7 +1412,12 @@
       "rfp duplicate guard",
       "booking cancellation routing",
       "amendment routing chain",
-      "process ready for planning activity"
+      "process ready for planning activity",
+      "how are the mappers structured",
+      "what breaks silently",
+      "mapping chain",
+      "mapstruct mappers",
+      "add a field to the flow"
     ],
     "capabilities": [
       "event-routing",
@@ -1977,7 +2048,11 @@
       "booking routing lists",
       "one click channels",
       "sap tms countries",
-      "migration flag"
+      "migration flag",
+      "one click booking",
+      "when does a booking become one click",
+      "which countries are eligible for sap tms",
+      "nam countries"
     ],
     "capabilities": [
       "toggle-audit",
@@ -2140,6 +2215,104 @@
       "SapTmsExecutionStatusTransportOrderMapper"
     ],
     "peer_systems": []
+  },
+  {
+    "repo": "telikos-booking-service",
+    "category": "stack",
+    "title": "Build, test and run booking-service",
+    "summary": "Maven commands for building, unit-testing, component-testing and linting booking-service, plus the module layout that makes the usual root-level command fail.",
+    "primary_for": [
+      "booking-build-and-test"
+    ],
+    "mentions": [
+      "booking-module-layout",
+      "component-test-execution",
+      "checkstyle-lint"
+    ],
+    "scenarios": [
+      "how to run the tests",
+      "run unit tests booking service",
+      "run component tests",
+      "how to build booking service",
+      "run checkstyle lint",
+      "run booking service locally",
+      "verify my change",
+      "mvn command booking",
+      "run the service locally",
+      "start the service locally"
+    ],
+    "capabilities": [
+      "build",
+      "unit-test",
+      "component-test",
+      "lint"
+    ],
+    "domains": [
+      "booking",
+      "developer-workflow"
+    ],
+    "entities": [
+      "Maven",
+      "JUnit5",
+      "Mockito",
+      "StepVerifier",
+      "Cucumber",
+      "Testcontainers",
+      "Checkstyle"
+    ],
+    "sources": [
+      "AGENTS.md",
+      "service/pom.xml",
+      "componenttest/pom.xml",
+      "perftest/pom.xml"
+    ],
+    "path": "stack/build-and-test.md"
+  },
+  {
+    "repo": "telikos-booking-service",
+    "category": "runtime",
+    "title": "End-to-end chain across the three services",
+    "summary": "The full path a booking takes across booking-service, activityplanworkflow-service and email-service, naming every cross-repo hop, its queue and its schema.",
+    "primary_for": [
+      "cross-repo-booking-chain"
+    ],
+    "mentions": [
+      "rfp-variant-routing",
+      "activity-plan-email-events",
+      "sap-tms-dispatch",
+      "booking-feedback-loop"
+    ],
+    "scenarios": [
+      "trace a booking end to end",
+      "trace a booking from ready for planning to the customer email",
+      "what happens after ready for planning",
+      "which services are involved in a booking",
+      "cross repo flow",
+      "who consumes ActivityPlanInternal",
+      "what consumes the activity plan schema",
+      "end to end booking flow",
+      "how do the three services talk",
+      "blast radius of a schema change"
+    ],
+    "capabilities": [
+      "cross-repo-tracing",
+      "impact-analysis"
+    ],
+    "domains": [
+      "booking",
+      "activity-plan",
+      "email-notification"
+    ],
+    "entities": [
+      "ActivityPlanInternal",
+      "TransportOrder",
+      "BookingActivity"
+    ],
+    "sources": [
+      "service/src/main/resources/application.yml",
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java"
+    ],
+    "path": "runtime/end-to-end-booking-to-email.md"
   },
   {
     "repo": "telikos-email-service",
@@ -2977,5 +3150,57 @@
       "EmailServiceImpl",
       "EventsDataServiceImpl"
     ]
+  },
+  {
+    "repo": "telikos-email-service",
+    "category": "stack",
+    "title": "Build, test and run email-service",
+    "summary": "Maven commands for building, testing and linting email-service, which are all run from inside a module, plus the docker compose path for running it locally.",
+    "primary_for": [
+      "email-build-and-test"
+    ],
+    "mentions": [
+      "email-module-layout",
+      "component-test-execution",
+      "checkstyle-lint",
+      "local-docker-compose"
+    ],
+    "scenarios": [
+      "how to run the tests",
+      "run unit tests email service",
+      "run component tests",
+      "how to build email service",
+      "run checkstyle lint",
+      "run email service locally",
+      "docker compose email",
+      "verify my change",
+      "mvn command email",
+      "run the service locally",
+      "start the service locally"
+    ],
+    "capabilities": [
+      "build",
+      "unit-test",
+      "component-test",
+      "lint",
+      "local-run"
+    ],
+    "domains": [
+      "email-notification",
+      "developer-workflow"
+    ],
+    "entities": [
+      "Maven",
+      "JUnit5",
+      "Checkstyle",
+      "Docker Compose"
+    ],
+    "sources": [
+      "AGENTS.md",
+      "service/pom.xml",
+      "componenttest/pom.xml",
+      "perftest/pom.xml"
+    ],
+    "path": "stack/build-and-test.md"
   }
 ]

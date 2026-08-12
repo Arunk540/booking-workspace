@@ -241,6 +241,18 @@
       "path": "integrations/billing.md"
     }
   ],
+  "what units can a charge be rated on": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "integrations/billing.md"
+    }
+  ],
+  "charge units": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "integrations/billing.md"
+    }
+  ],
   "booking activity plan signal": [
     {
       "repo": "telikos-activityplanworkflow-service",
@@ -797,6 +809,120 @@
       "path": "stack/stack.md"
     }
   ],
+  "how to run the tests": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "stack/build-and-test.md"
+    },
+    {
+      "repo": "telikos-booking-service",
+      "path": "stack/build-and-test.md"
+    },
+    {
+      "repo": "telikos-email-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "run unit tests activity plan": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "run component tests": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "stack/build-and-test.md"
+    },
+    {
+      "repo": "telikos-booking-service",
+      "path": "stack/build-and-test.md"
+    },
+    {
+      "repo": "telikos-email-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "how to build activity plan": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "run checkstyle lint": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "stack/build-and-test.md"
+    },
+    {
+      "repo": "telikos-booking-service",
+      "path": "stack/build-and-test.md"
+    },
+    {
+      "repo": "telikos-email-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "run activity plan locally": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "start the dev server": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "verify my change": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "stack/build-and-test.md"
+    },
+    {
+      "repo": "telikos-booking-service",
+      "path": "stack/build-and-test.md"
+    },
+    {
+      "repo": "telikos-email-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "mvn command activityplan": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "run the service locally": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "stack/build-and-test.md"
+    },
+    {
+      "repo": "telikos-booking-service",
+      "path": "stack/build-and-test.md"
+    },
+    {
+      "repo": "telikos-email-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "start the service locally": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "stack/build-and-test.md"
+    },
+    {
+      "repo": "telikos-booking-service",
+      "path": "stack/build-and-test.md"
+    },
+    {
+      "repo": "telikos-email-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
   "service plan fields": [
     {
       "repo": "telikos-booking-service",
@@ -887,6 +1013,48 @@
       "path": "architecture/cross-cutting.md"
     }
   ],
+  "coding conventions": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "architecture/cross-cutting.md"
+    }
+  ],
+  "coding standards": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "architecture/cross-cutting.md"
+    }
+  ],
+  "layering rules": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "architecture/cross-cutting.md"
+    }
+  ],
+  "can i use block": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "architecture/cross-cutting.md"
+    }
+  ],
+  "global invariants": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "architecture/cross-cutting.md"
+    }
+  ],
+  "where do external http calls go": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "architecture/cross-cutting.md"
+    }
+  ],
+  "how do i publish to kafka": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "architecture/cross-cutting.md"
+    }
+  ],
   "booking stack overview": [
     {
       "repo": "telikos-booking-service",
@@ -948,6 +1116,36 @@
     }
   ],
   "process ready for planning activity": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/rfp-flow.md"
+    }
+  ],
+  "how are the mappers structured": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/rfp-flow.md"
+    }
+  ],
+  "what breaks silently": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/rfp-flow.md"
+    }
+  ],
+  "mapping chain": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/rfp-flow.md"
+    }
+  ],
+  "mapstruct mappers": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/rfp-flow.md"
+    }
+  ],
+  "add a field to the flow": [
     {
       "repo": "telikos-booking-service",
       "path": "runtime/rfp-flow.md"
@@ -1493,6 +1691,30 @@
       "path": "operations/flags-and-lists.md"
     }
   ],
+  "one click booking": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "operations/flags-and-lists.md"
+    }
+  ],
+  "when does a booking become one click": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "operations/flags-and-lists.md"
+    }
+  ],
+  "which countries are eligible for sap tms": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "operations/flags-and-lists.md"
+    }
+  ],
+  "nam countries": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "operations/flags-and-lists.md"
+    }
+  ],
   "booking metrics names": [
     {
       "repo": "telikos-booking-service",
@@ -1605,6 +1827,90 @@
     {
       "repo": "telikos-booking-service",
       "path": "navigation/key-classes.md"
+    }
+  ],
+  "run unit tests booking service": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "how to build booking service": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "run booking service locally": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "mvn command booking": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "trace a booking end to end": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/end-to-end-booking-to-email.md"
+    }
+  ],
+  "trace a booking from ready for planning to the customer email": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/end-to-end-booking-to-email.md"
+    }
+  ],
+  "what happens after ready for planning": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/end-to-end-booking-to-email.md"
+    }
+  ],
+  "which services are involved in a booking": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/end-to-end-booking-to-email.md"
+    }
+  ],
+  "cross repo flow": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/end-to-end-booking-to-email.md"
+    }
+  ],
+  "who consumes ActivityPlanInternal": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/end-to-end-booking-to-email.md"
+    }
+  ],
+  "what consumes the activity plan schema": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/end-to-end-booking-to-email.md"
+    }
+  ],
+  "end to end booking flow": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/end-to-end-booking-to-email.md"
+    }
+  ],
+  "how do the three services talk": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/end-to-end-booking-to-email.md"
+    }
+  ],
+  "blast radius of a schema change": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/end-to-end-booking-to-email.md"
     }
   ],
   "activity plan email flow": [
@@ -2347,6 +2653,36 @@
     {
       "repo": "telikos-email-service",
       "path": "navigation/key-classes.md"
+    }
+  ],
+  "run unit tests email service": [
+    {
+      "repo": "telikos-email-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "how to build email service": [
+    {
+      "repo": "telikos-email-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "run email service locally": [
+    {
+      "repo": "telikos-email-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "docker compose email": [
+    {
+      "repo": "telikos-email-service",
+      "path": "stack/build-and-test.md"
+    }
+  ],
+  "mvn command email": [
+    {
+      "repo": "telikos-email-service",
+      "path": "stack/build-and-test.md"
     }
   ]
 }

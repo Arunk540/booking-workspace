@@ -120,6 +120,12 @@
         "line": 39
       }
     ],
+    "ActivityPlanInternal": [
+      {
+        "repo": "telikos-booking-service",
+        "path": "runtime/end-to-end-booking-to-email.md"
+      }
+    ],
     "ActivityPlanInvoice": [
       {
         "repo": "telikos-email-service",
@@ -406,6 +412,14 @@
         "line": 20
       }
     ],
+    "BookingActivity": [
+      {
+        "repo": "telikos-booking-service",
+        "path": "runtime/end-to-end-booking-to-email.md",
+        "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/model/BookingActivity.java",
+        "line": 24
+      }
+    ],
     "BookingActivityPlanDispatcher": [
       {
         "repo": "telikos-booking-service",
@@ -588,6 +602,20 @@
         "path": "contracts/kafka-events.md"
       }
     ],
+    "Checkstyle": [
+      {
+        "repo": "telikos-activityplanworkflow-service",
+        "path": "stack/build-and-test.md"
+      },
+      {
+        "repo": "telikos-booking-service",
+        "path": "stack/build-and-test.md"
+      },
+      {
+        "repo": "telikos-email-service",
+        "path": "stack/build-and-test.md"
+      }
+    ],
     "CompatibleAssetTypeSetEntity": [
       {
         "repo": "telikos-booking-service",
@@ -638,6 +666,12 @@
         "path": "integrations/cams.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/ContainerAvailabilityFeedbackConsumer.java",
         "line": 29
+      }
+    ],
+    "Cucumber": [
+      {
+        "repo": "telikos-booking-service",
+        "path": "stack/build-and-test.md"
       }
     ],
     "CustomsOrderController": [
@@ -1128,8 +1162,20 @@
     ],
     "Maven": [
       {
+        "repo": "telikos-activityplanworkflow-service",
+        "path": "stack/build-and-test.md"
+      },
+      {
+        "repo": "telikos-booking-service",
+        "path": "stack/build-and-test.md"
+      },
+      {
         "repo": "telikos-booking-service",
         "path": "stack/stack.md"
+      },
+      {
+        "repo": "telikos-email-service",
+        "path": "stack/build-and-test.md"
       }
     ],
     "MeterRegistry": [
@@ -1158,6 +1204,12 @@
         "path": "operations/flags-and-lists.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/MigrateDataController.java",
         "line": 21
+      }
+    ],
+    "Mockito": [
+      {
+        "repo": "telikos-booking-service",
+        "path": "stack/build-and-test.md"
       }
     ],
     "MongoActivityPlanRepository": [
@@ -1580,6 +1632,12 @@
         "line": 21
       }
     ],
+    "StepVerifier": [
+      {
+        "repo": "telikos-booking-service",
+        "path": "stack/build-and-test.md"
+      }
+    ],
     "Temporal": [
       {
         "repo": "telikos-booking-service",
@@ -1650,6 +1708,16 @@
         "line": 26
       }
     ],
+    "Testcontainers": [
+      {
+        "repo": "telikos-activityplanworkflow-service",
+        "path": "stack/build-and-test.md"
+      },
+      {
+        "repo": "telikos-booking-service",
+        "path": "stack/build-and-test.md"
+      }
+    ],
     "TmsServiceImpl": [
       {
         "repo": "telikos-activityplanworkflow-service",
@@ -1674,6 +1742,12 @@
       {
         "repo": "telikos-booking-service",
         "path": "domain/service-plan.md",
+        "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/models/TransportOrder.java",
+        "line": 25
+      },
+      {
+        "repo": "telikos-booking-service",
+        "path": "runtime/end-to-end-booking-to-email.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/models/TransportOrder.java",
         "line": 25
       }

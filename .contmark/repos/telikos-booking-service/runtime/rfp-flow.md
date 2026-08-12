@@ -4,7 +4,7 @@ title: rfp variant routing and flow
 summary: "Forensic map of the READY_FOR_PLANNING ingress path, including amendment and cancellation variants selected by the inland resolver chain."
 primary_for: [rfp-variant-routing]
 mentions: [product-resolver-chain, booking-cancellation-routing, one-click-booking]
-scenarios: [rfp flow entry, rfp variant routing, rfp duplicate guard, booking cancellation routing, amendment routing chain, process ready for planning activity]
+scenarios: [rfp flow entry, rfp variant routing, rfp duplicate guard, booking cancellation routing, amendment routing chain, process ready for planning activity, how are the mappers structured, what breaks silently, mapping chain, mapstruct mappers, add a field to the flow]
 capabilities: [event-routing, workflow-initiation]
 domains: [booking, service-plan]
 entities: [ProductOrchestration, InlandBookingHandler, InitialReadyForPlanningEventsDomainService, AmendEditRfpEventsDomainService, CancelBookingEventsDomainService, ProcessReadyForPlanning, ProcessReadyForPlanningImpl]

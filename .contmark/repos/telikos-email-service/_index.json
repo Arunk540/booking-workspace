@@ -816,6 +816,57 @@
         "EmailServiceImpl",
         "EventsDataServiceImpl"
       ]
+    },
+    {
+      "category": "stack",
+      "title": "Build, test and run email-service",
+      "summary": "Maven commands for building, testing and linting email-service, which are all run from inside a module, plus the docker compose path for running it locally.",
+      "primary_for": [
+        "email-build-and-test"
+      ],
+      "mentions": [
+        "email-module-layout",
+        "component-test-execution",
+        "checkstyle-lint",
+        "local-docker-compose"
+      ],
+      "scenarios": [
+        "how to run the tests",
+        "run unit tests email service",
+        "run component tests",
+        "how to build email service",
+        "run checkstyle lint",
+        "run email service locally",
+        "docker compose email",
+        "verify my change",
+        "mvn command email",
+        "run the service locally",
+        "start the service locally"
+      ],
+      "capabilities": [
+        "build",
+        "unit-test",
+        "component-test",
+        "lint",
+        "local-run"
+      ],
+      "domains": [
+        "email-notification",
+        "developer-workflow"
+      ],
+      "entities": [
+        "Maven",
+        "JUnit5",
+        "Checkstyle",
+        "Docker Compose"
+      ],
+      "sources": [
+        "AGENTS.md",
+        "service/pom.xml",
+        "componenttest/pom.xml",
+        "perftest/pom.xml"
+      ],
+      "path": "stack/build-and-test.md"
     }
   ],
   "last_reviewed": "2026-08-12"

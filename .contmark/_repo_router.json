@@ -1604,6 +1604,159 @@
     ],
     "chassis rental charge code": [
       "telikos-activityplanworkflow-service"
+    ],
+    "activityplan-build-and-test": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "how to run the tests": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "run unit tests activity plan": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "run component tests": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "how to build activity plan": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "run checkstyle lint": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "run activity plan locally": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "start the dev server": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "verify my change": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "mvn command activityplan": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "booking-build-and-test": [
+      "telikos-booking-service"
+    ],
+    "run unit tests booking service": [
+      "telikos-booking-service"
+    ],
+    "how to build booking service": [
+      "telikos-booking-service"
+    ],
+    "run booking service locally": [
+      "telikos-booking-service"
+    ],
+    "mvn command booking": [
+      "telikos-booking-service"
+    ],
+    "email-build-and-test": [
+      "telikos-email-service"
+    ],
+    "run unit tests email service": [
+      "telikos-email-service"
+    ],
+    "how to build email service": [
+      "telikos-email-service"
+    ],
+    "run email service locally": [
+      "telikos-email-service"
+    ],
+    "docker compose email": [
+      "telikos-email-service"
+    ],
+    "mvn command email": [
+      "telikos-email-service"
+    ],
+    "what units can a charge be rated on": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "charge units": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "run the service locally": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "start the service locally": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "coding conventions": [
+      "telikos-booking-service"
+    ],
+    "coding standards": [
+      "telikos-booking-service"
+    ],
+    "layering rules": [
+      "telikos-booking-service"
+    ],
+    "can i use block": [
+      "telikos-booking-service"
+    ],
+    "global invariants": [
+      "telikos-booking-service"
+    ],
+    "where do external http calls go": [
+      "telikos-booking-service"
+    ],
+    "how do i publish to kafka": [
+      "telikos-booking-service"
+    ],
+    "one click booking": [
+      "telikos-booking-service"
+    ],
+    "when does a booking become one click": [
+      "telikos-booking-service"
+    ],
+    "which countries are eligible for sap tms": [
+      "telikos-booking-service"
+    ],
+    "nam countries": [
+      "telikos-booking-service"
+    ],
+    "how are the mappers structured": [
+      "telikos-booking-service"
+    ],
+    "what breaks silently": [
+      "telikos-booking-service"
+    ],
+    "mapping chain": [
+      "telikos-booking-service"
+    ],
+    "mapstruct mappers": [
+      "telikos-booking-service"
+    ],
+    "add a field to the flow": [
+      "telikos-booking-service"
+    ],
+    "cross-repo-booking-chain": [
+      "telikos-booking-service"
+    ],
+    "trace a booking end to end": [
+      "telikos-booking-service"
+    ],
+    "trace a booking from ready for planning to the customer email": [
+      "telikos-booking-service"
+    ],
+    "what happens after ready for planning": [
+      "telikos-booking-service"
+    ],
+    "which services are involved in a booking": [
+      "telikos-booking-service"
+    ],
+    "cross repo flow": [
+      "telikos-booking-service"
+    ],
+    "who consumes ActivityPlanInternal": [
+      "telikos-booking-service"
+    ],
+    "what consumes the activity plan schema": [
+      "telikos-booking-service"
+    ],
+    "how do the three services talk": [
+      "telikos-booking-service"
+    ],
+    "blast radius of a schema change": [
+      "telikos-booking-service"
     ]
   },
   "flows": [

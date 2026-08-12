@@ -14,6 +14,8 @@ scenarios:
   - charge rate basis
   - standard reason code
   - chassis rental charge code
+  - what units can a charge be rated on
+  - charge units
 capabilities: [billing-dispatch, billing-feedback]
 domains: [billing, temporal, activity-plan]
 entities: [EventProcessorServiceImpl, BillingWorker, BillingProducerWorker, BillingProducerWorker2, RateBasisEnum, StandardReason]

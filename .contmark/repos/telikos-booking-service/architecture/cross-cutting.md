@@ -4,7 +4,7 @@ title: cross-cutting concerns
 summary: "Summarises the reactive, security, workflow, messaging, and persistence rules that cut across all booking flows."
 primary_for: [booking-cross-cutting-concerns]
 mentions: [oauth-resource-security, temporal-orchestration, reactive-mongo-patterns]
-scenarios: [booking cross cutting, booking security model, workflow orchestration rules, reactive persistence rules, messaging retry model]
+scenarios: [booking cross cutting, booking security model, workflow orchestration rules, reactive persistence rules, messaging retry model, coding conventions, coding standards, layering rules, can i use block, global invariants, where do external http calls go, how do i publish to kafka]
 capabilities: [architecture-reasoning, shared-constraint-discovery]
 domains: [booking, platform]
 entities: [BookingController, KafkaConsumerService, BookingEventsWorkflowImplementation]
@@ -30,3 +30,19 @@ related:
 - Booking workflow history is bounded; once Temporal history crosses `HISTORY_SIZE_LIMIT`, the workflow continues-as-new with the remaining queue. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java:99)
 - One-click bookings are a cross-cutting variant that alters queue construction and strips intermediate IOM end/start emissions except for the SEND_TO_TMS leg. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java:188)
 - Consumer error handling is also layered: business processing retries are short and bounded, but connection-level Kafka retries are effectively infinite. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/KafkaConsumerService.java:47)
+
+## Invariants new code must hold
+
+These are the rules a change is rejected for breaking, not preferences. (source: AGENTS.md)
+
+- **Layering is one-directional:** `api` → `domain` → `infrastructure`/`persistence`. Never skip a
+  layer and never reverse one.
+- **`.block()` is forbidden in production code.** Every chain is `Mono<T>` / `Flux<T>`; a blocking
+  call inside a reactive chain does not fail loudly, it starves the event loop under load.
+- **All external HTTP goes through** `infrastructure/integration/integrators/`. A `WebClient`
+  constructed anywhere else bypasses the shared timeout, retry and error handling.
+- **All Kafka publishing goes through** `events/audit/dispatchers/`.
+- **Temporal workflow ids come from `TemporalWorkflowIdHandler`** — never hand-built. A manually
+  formatted id silently starts a second workflow instead of signalling the existing one.
+- **Errors delegate to the `telikos-exception-handler` shared library.** Swallowing an exception
+  quietly is the one failure this codebase has no way to detect.

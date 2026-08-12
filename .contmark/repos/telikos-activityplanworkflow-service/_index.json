@@ -292,7 +292,9 @@
         "rate basis units",
         "charge rate basis",
         "standard reason code",
-        "chassis rental charge code"
+        "chassis rental charge code",
+        "what units can a charge be rated on",
+        "charge units"
       ],
       "capabilities": [
         "billing-dispatch",
@@ -1156,6 +1158,56 @@
         "architecture/modules.md",
         "operations/monitoring.md"
       ]
+    },
+    {
+      "category": "stack",
+      "title": "Build, test and run activityplanworkflow-service",
+      "summary": "Maven commands for building, testing, linting and locally running activityplanworkflow-service across its nine modules.",
+      "primary_for": [
+        "activityplan-build-and-test"
+      ],
+      "mentions": [
+        "activityplan-module-layout",
+        "component-test-execution",
+        "checkstyle-lint"
+      ],
+      "scenarios": [
+        "how to run the tests",
+        "run unit tests activity plan",
+        "run component tests",
+        "how to build activity plan",
+        "run checkstyle lint",
+        "run activity plan locally",
+        "start the dev server",
+        "verify my change",
+        "mvn command activityplan",
+        "run the service locally",
+        "start the service locally"
+      ],
+      "capabilities": [
+        "build",
+        "unit-test",
+        "component-test",
+        "lint",
+        "local-run"
+      ],
+      "domains": [
+        "activity-plan",
+        "developer-workflow"
+      ],
+      "entities": [
+        "Maven",
+        "JUnit5",
+        "Checkstyle",
+        "Testcontainers"
+      ],
+      "sources": [
+        "AGENTS.md",
+        "pom.xml",
+        "service/pom.xml",
+        "componenttest/pom.xml"
+      ],
+      "path": "stack/build-and-test.md"
     }
   ],
   "last_reviewed": "2026-08-12"

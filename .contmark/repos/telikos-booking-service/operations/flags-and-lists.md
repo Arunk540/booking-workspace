@@ -4,7 +4,7 @@ title: flags and routing lists
 summary: "Feature flags, country/channel lists, and toggle-driven routing branches that materially change booking behavior."
 primary_for: [booking-feature-switches]
 mentions: [one-click-routing-lists, sap-country-list, migration-guard-flag]
-scenarios: [booking feature flags, booking routing lists, one click channels, sap tms countries, migration flag]
+scenarios: [booking feature flags, booking routing lists, one click channels, sap tms countries, migration flag, one click booking, when does a booking become one click, which countries are eligible for sap tms, nam countries]
 capabilities: [toggle-audit, routing-explanation]
 domains: [booking, operations]
 entities: [BookingEventOperationService, MigrateDataController, EventRouterService]
