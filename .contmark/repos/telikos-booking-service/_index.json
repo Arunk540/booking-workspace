@@ -1,7 +1,7 @@
 {
-  "repo_key": "telikos-booking-service-1",
+  "repo_key": "telikos-booking-service",
   "generated_at": "2026-07-20T12:30:00.000+05:30",
-  "verified_against": "da20d26b87ae304ae28736fcce66794fcb3155cc",
+  "verified_against": "6ee7d83b6e6a427b680025a1758a40ab4775acca",
   "files": [
     {
       "path": "domain/service-plan.md",
@@ -165,7 +165,8 @@
         "rfp variant routing",
         "rfp duplicate guard",
         "booking cancellation routing",
-        "amendment routing chain"
+        "amendment routing chain",
+        "process ready for planning activity"
       ],
       "capabilities": [
         "event-routing",
@@ -180,9 +181,22 @@
         "InlandBookingHandler",
         "InitialReadyForPlanningEventsDomainService",
         "AmendEditRfpEventsDomainService",
-        "CancelBookingEventsDomainService"
+        "CancelBookingEventsDomainService",
+        "ProcessReadyForPlanning",
+        "ProcessReadyForPlanningImpl"
       ],
-      "peer_systems": []
+      "peer_systems": [],
+      "sources": [
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/KafkaConsumerService.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/productresolver/ProductOrchestration.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/InlandBookingHandler.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/InitialReadyForPlanningEventsDomainService.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/AmendEditRfpEventsDomainService.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/CancelBookingEventsDomainService.java",
+        "service/src/main/resources/application.yml",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessReadyForPlanning.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessReadyForPlanningImpl.java"
+      ]
     },
     {
       "path": "runtime/confirm-send-to-tms-flow.md",
@@ -927,5 +941,6 @@
       ],
       "peer_systems": []
     }
-  ]
+  ],
+  "last_reviewed": "2026-08-12"
 }

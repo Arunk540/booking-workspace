@@ -10,9 +10,13 @@ scenarios:
   - activity plan cost workflow
   - invoice dispatch billing
   - billing feedback queue
+  - rate basis units
+  - charge rate basis
+  - standard reason code
+  - chassis rental charge code
 capabilities: [billing-dispatch, billing-feedback]
 domains: [billing, temporal, activity-plan]
-entities: [EventProcessorServiceImpl, BillingWorker, BillingProducerWorker, BillingProducerWorker2]
+entities: [EventProcessorServiceImpl, BillingWorker, BillingProducerWorker, BillingProducerWorker2, RateBasisEnum, StandardReason]
 peer_systems: [telikos-billing-workflow]
 direction: outbound
 protocol: temporal-signal
@@ -25,8 +29,10 @@ sources:
   - booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java
   - service/src/main/resources/application.yml
-verified_against: 7798712a7734edab3d5702cb92271fe7c607933c
-last_updated: 2026-07-20
+  - common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/RateBasisEnum.java
+  - common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/StandardReason.java
+verified_against: a5fbe3845803a0a11d5f55773a966014b0596e2e
+last_updated: 2026-08-11
 related:
   - runtime/billing-flow.md
   - operations/retries.md
@@ -42,3 +48,5 @@ related:
 - `BillingServiceImpl.addDocumentPouchReferences` now enriches the billing reference list with the PO number and Customer Reference Number read from the service plan's `DocumentPouch` — pouch references carry `referenceTypeEnum=UNKNOWN`, so they are matched by `referenceTypeName` (case-insensitive) via `DOCUMENT_POUCH_REFERENCE_NAME_TO_ENUM` and re-stamped with the billing referenceTypeEnum. (source: booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java)
 - Chassis-reference gating: when a financial job line's charge type code is NOT the configured `chassisRentalChargeCode` (`activityplan.billing.chassis-rental-charge-code`, default `100227`), chassis-related equipment references are filtered out of that line's billing references. (source: booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java)
 - `activityDateTime` sent to billing is now formatted as a second-precision UTC timestamp (`yyyy-MM-dd'T'HH:mm:ss'Z'`) — set in `ActivityPlanBookingDomainServiceImpl` / `EventProcessorServiceImpl` (#1186; an earlier `Instant` variant #1183 was reverted). (source: booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/ActivityPlanBookingDomainServiceImpl.java)
+- `RateBasisEnum` is the complete set of units a charge can be rated on: `UNIT`, `MILE`, `KILOMETER`. `MILE` and `KILOMETER` are distance-based and were added for inland movements — a rate basis outside this set is not representable. (source: common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/RateBasisEnum.java)
+- `StandardReason` now carries `standardReasonCode`, and the same field travels on the TMS payload — so a reason is identified by code rather than by its display text. (source: common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/StandardReason.java)

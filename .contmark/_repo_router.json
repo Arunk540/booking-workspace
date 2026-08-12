@@ -1274,6 +1274,336 @@
     ],
     "workflow timeout behavior": [
       "telikos-booking-service"
+    ],
+    "activity-plan-cross-cutting-architecture": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-module-architecture": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-query-api": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-mongo-schema": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-kafka-contracts": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-domain-model": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-billing-integration": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "document pouch billing references": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "chassis rental charge filter": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "scm vs finance billing routing": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "po number customer reference billing": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-booking-integration": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-customs-integration": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-email-integration": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-tms-integration": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-entry-points": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-class-navigation": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-scenario-navigation": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-failure-model": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-flags-lists": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "chassis rental charge code flag": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-monitoring": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-retries": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-billing-runtime": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "scm booking billing": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "send to scm vs finance": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity datetime second precision utc": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-cancellation-email-runtime": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-customs-sde-runtime": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-event-rules": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-rfp-tms-runtime": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-stack-profile": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "service-plan-state": [
+      "telikos-booking-service"
+    ],
+    "booking-module-topology": [
+      "telikos-booking-service"
+    ],
+    "booking-cross-cutting-concerns": [
+      "telikos-booking-service"
+    ],
+    "booking-tech-stack": [
+      "telikos-booking-service"
+    ],
+    "rfp-variant-routing": [
+      "telikos-booking-service"
+    ],
+    "confirm-send-to-tms": [
+      "telikos-booking-service"
+    ],
+    "sap-tms-feedback-handling": [
+      "telikos-booking-service"
+    ],
+    "customs-vessel-registration": [
+      "telikos-booking-service"
+    ],
+    "cams retry deadline": [
+      "telikos-booking-service"
+    ],
+    "rail registration retry": [
+      "telikos-booking-service"
+    ],
+    "booking-event-activity-matrix": [
+      "telikos-booking-service"
+    ],
+    "booking-rest-contracts": [
+      "telikos-booking-service"
+    ],
+    "booking-kafka-contracts": [
+      "telikos-booking-service"
+    ],
+    "booking-mongo-schemas": [
+      "telikos-booking-service"
+    ],
+    "asset compatibility": [
+      "telikos-booking-service"
+    ],
+    "plan level work processes": [
+      "telikos-booking-service"
+    ],
+    "transport plan work processes": [
+      "telikos-booking-service"
+    ],
+    "activity-plan-dispatch": [
+      "telikos-booking-service"
+    ],
+    "iom-booking-publish": [
+      "telikos-booking-service"
+    ],
+    "sap-tms-exchange": [
+      "telikos-booking-service"
+    ],
+    "container delivery execution": [
+      "telikos-booking-service"
+    ],
+    "tms execution work process": [
+      "telikos-booking-service"
+    ],
+    "final destination ata": [
+      "telikos-booking-service"
+    ],
+    "customs-feedback-exchange": [
+      "telikos-booking-service"
+    ],
+    "vessel-tracking-registration": [
+      "telikos-booking-service"
+    ],
+    "container-availability-registration": [
+      "telikos-booking-service"
+    ],
+    "cams retry child workflow": [
+      "telikos-booking-service"
+    ],
+    "cams registration retry": [
+      "telikos-booking-service"
+    ],
+    "rail eta deadline retry": [
+      "telikos-booking-service"
+    ],
+    "booking-retry-controls": [
+      "telikos-booking-service"
+    ],
+    "booking-failure-surfaces": [
+      "telikos-booking-service"
+    ],
+    "booking-feature-switches": [
+      "telikos-booking-service"
+    ],
+    "booking-observability-signals": [
+      "telikos-booking-service"
+    ],
+    "booking-entry-surface": [
+      "telikos-booking-service"
+    ],
+    "booking-scenario-routing": [
+      "telikos-booking-service"
+    ],
+    "booking-class-landmarks": [
+      "telikos-booking-service"
+    ],
+    "activity-plan-email-events": [
+      "telikos-email-service"
+    ],
+    "email-service-modules": [
+      "telikos-email-service"
+    ],
+    "email-service-cross-cutting": [
+      "telikos-email-service"
+    ],
+    "email-service-stack": [
+      "telikos-email-service"
+    ],
+    "booking-email-dispatch": [
+      "telikos-email-service"
+    ],
+    "invoice-dispatch-email-flow": [
+      "telikos-email-service"
+    ],
+    "notification-email-workflow": [
+      "telikos-email-service"
+    ],
+    "report download notification": [
+      "telikos-email-service"
+    ],
+    "report download email": [
+      "telikos-email-service"
+    ],
+    "email booking notification category": [
+      "telikos-email-service"
+    ],
+    "attach report to email": [
+      "telikos-email-service"
+    ],
+    "sendgrid-webhook-processing": [
+      "telikos-email-service"
+    ],
+    "email-event-history-kafka": [
+      "telikos-email-service"
+    ],
+    "email-service-api-contracts": [
+      "telikos-email-service"
+    ],
+    "notification action download email": [
+      "telikos-email-service"
+    ],
+    "report download category contract": [
+      "telikos-email-service"
+    ],
+    "notification actions": [
+      "telikos-email-service"
+    ],
+    "email-mongo-schemas": [
+      "telikos-email-service"
+    ],
+    "sendgrid-email-delivery": [
+      "telikos-email-service"
+    ],
+    "activity-plan-temporal-ingress": [
+      "telikos-email-service"
+    ],
+    "decision-hub-sender-resolution": [
+      "telikos-email-service"
+    ],
+    "finance-chassis-invoice-pdf": [
+      "telikos-email-service"
+    ],
+    "document-storage-pdf-archive": [
+      "telikos-email-service"
+    ],
+    "report sas url download": [
+      "telikos-email-service"
+    ],
+    "azure blob sas report": [
+      "telikos-email-service"
+    ],
+    "download report bytes": [
+      "telikos-email-service"
+    ],
+    "email-delivery-retries": [
+      "telikos-email-service"
+    ],
+    "email-delivery-failure-model": [
+      "telikos-email-service"
+    ],
+    "email-runtime-flags": [
+      "telikos-email-service"
+    ],
+    "email-service-monitoring": [
+      "telikos-email-service"
+    ],
+    "email-entry-points": [
+      "telikos-email-service"
+    ],
+    "email-scenario-routing": [
+      "telikos-email-service"
+    ],
+    "email-key-classes": [
+      "telikos-email-service"
+    ],
+    "rate basis units": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "charge rate basis": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "standard reason code": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "transport order schema version": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "facility type values": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "booking business exception": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "rfp milestone failed": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "process ready for planning activity": [
+      "telikos-booking-service"
+    ],
+    "chassis rental charge code": [
+      "telikos-activityplanworkflow-service"
     ]
   },
   "flows": [

@@ -293,10 +293,10 @@
       "activity plan cost workflow",
       "invoice dispatch billing",
       "billing feedback queue",
-      "document pouch billing references",
-      "chassis rental charge filter",
-      "scm vs finance billing routing",
-      "po number customer reference billing"
+      "rate basis units",
+      "charge rate basis",
+      "standard reason code",
+      "chassis rental charge code"
     ],
     "capabilities": [
       "billing-dispatch",
@@ -312,17 +312,19 @@
       "BillingWorker",
       "BillingProducerWorker",
       "BillingProducerWorker2",
-      "BillingServiceImpl",
-      "PopulateBillingDataActivityImpl"
+      "RateBasisEnum",
+      "StandardReason"
     ],
     "sources": [
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingWorker.java",
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker.java",
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker2.java",
-      "service/src/main/resources/application.yml",
       "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java",
-      "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java"
+      "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java",
+      "service/src/main/resources/application.yml",
+      "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/RateBasisEnum.java",
+      "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/StandardReason.java"
     ],
     "verified_against": "7798712a7734edab3d5702cb92271fe7c607933c",
     "last_updated": "2026-07-20",
@@ -509,7 +511,9 @@
       "tms transport order",
       "activity plan tms publish",
       "send tms sync",
-      "tms activity status"
+      "tms activity status",
+      "transport order schema version",
+      "facility type values"
     ],
     "capabilities": [
       "tms-dispatch"
@@ -523,13 +527,16 @@
       "TmsServiceImpl",
       "PublishTmsActivityImpl",
       "KafkaProducerServiceImpl",
-      "TransportOrder"
+      "TransportOrder",
+      "FacilityTypeEnum"
     ],
     "sources": [
       "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/TmsServiceImpl.java",
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishTmsActivityImpl.java",
       "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java",
-      "service/src/main/resources/application.yml"
+      "service/src/main/resources/application.yml",
+      "common/src/main/resources/avro/TransportOrder.v9.avsc",
+      "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/enums/FacilityTypeEnum.java"
     ],
     "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
     "last_updated": "2026-06-18",
@@ -700,7 +707,9 @@
       "status failure mapping",
       "downstream workflow missing",
       "kafka publish failure",
-      "email failure feedback"
+      "email failure feedback",
+      "booking business exception",
+      "rfp milestone failed"
     ],
     "capabilities": [
       "failure-analysis"
@@ -712,13 +721,15 @@
     "entities": [
       "HelperUtils",
       "KafkaProducerServiceImpl",
-      "EventProcessorServiceImpl"
+      "EventProcessorServiceImpl",
+      "BusinessException"
     ],
     "sources": [
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/utils/HelperUtils.java",
       "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java",
       "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
-      "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java"
+      "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
+      "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/Booking.java"
     ],
     "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
     "last_updated": "2026-06-18",
@@ -1168,7 +1179,7 @@
     ]
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "domain/service-plan.md",
     "category": "domain",
     "title": "service plan aggregate",
@@ -1206,7 +1217,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "architecture/modules.md",
     "category": "architecture",
     "title": "module topology",
@@ -1242,7 +1253,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "architecture/cross-cutting.md",
     "category": "architecture",
     "title": "cross-cutting concerns",
@@ -1278,7 +1289,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "stack/stack.md",
     "category": "stack",
     "title": "stack profile",
@@ -1316,7 +1327,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "runtime/rfp-flow.md",
     "category": "runtime",
     "title": "rfp variant routing and flow",
@@ -1334,7 +1345,8 @@
       "rfp variant routing",
       "rfp duplicate guard",
       "booking cancellation routing",
-      "amendment routing chain"
+      "amendment routing chain",
+      "process ready for planning activity"
     ],
     "capabilities": [
       "event-routing",
@@ -1349,12 +1361,25 @@
       "InlandBookingHandler",
       "InitialReadyForPlanningEventsDomainService",
       "AmendEditRfpEventsDomainService",
-      "CancelBookingEventsDomainService"
+      "CancelBookingEventsDomainService",
+      "ProcessReadyForPlanning",
+      "ProcessReadyForPlanningImpl"
     ],
-    "peer_systems": []
+    "peer_systems": [],
+    "sources": [
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/KafkaConsumerService.java",
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/productresolver/ProductOrchestration.java",
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/InlandBookingHandler.java",
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/InitialReadyForPlanningEventsDomainService.java",
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/AmendEditRfpEventsDomainService.java",
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/CancelBookingEventsDomainService.java",
+      "service/src/main/resources/application.yml",
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessReadyForPlanning.java",
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessReadyForPlanningImpl.java"
+    ]
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "runtime/confirm-send-to-tms-flow.md",
     "category": "runtime",
     "title": "confirm booking and send to tms",
@@ -1391,7 +1416,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "runtime/sap-tms-feedback-flow.md",
     "category": "runtime",
     "title": "sap tms feedback handling",
@@ -1427,7 +1452,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "runtime/customs-vessel-flow.md",
     "category": "runtime",
     "title": "customs and vessel registration flows",
@@ -1469,7 +1494,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "runtime/event-activity-matrix.md",
     "category": "runtime",
     "title": "event activity matrix",
@@ -1504,7 +1529,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "contracts/api-contracts.md",
     "category": "contracts",
     "title": "api contracts",
@@ -1542,7 +1567,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "contracts/kafka-events.md",
     "category": "contracts",
     "title": "kafka events",
@@ -1580,7 +1605,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "contracts/db-schemas.md",
     "category": "contracts",
     "title": "mongo schemas",
@@ -1624,7 +1649,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "integrations/ap-temporal.md",
     "category": "integrations",
     "title": "activity plan temporal dispatch",
@@ -1661,7 +1686,7 @@
     ]
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "integrations/iom.md",
     "category": "integrations",
     "title": "iom booking events",
@@ -1698,7 +1723,7 @@
     ]
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "integrations/sap-tms.md",
     "category": "integrations",
     "title": "sap tms exchange",
@@ -1741,7 +1766,7 @@
     ]
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "integrations/customs.md",
     "category": "integrations",
     "title": "customs feedback exchange",
@@ -1778,7 +1803,7 @@
     ]
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "integrations/vts.md",
     "category": "integrations",
     "title": "vessel tracking registration",
@@ -1817,7 +1842,7 @@
     ]
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "integrations/cams.md",
     "category": "integrations",
     "title": "container availability registration",
@@ -1860,7 +1885,7 @@
     ]
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "operations/retries.md",
     "category": "operations",
     "title": "retry controls",
@@ -1897,7 +1922,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "operations/failure-model.md",
     "category": "operations",
     "title": "failure model",
@@ -1934,7 +1959,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "operations/flags-and-lists.md",
     "category": "operations",
     "title": "flags and routing lists",
@@ -1970,7 +1995,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "operations/monitoring.md",
     "category": "operations",
     "title": "monitoring and observability",
@@ -2006,7 +2031,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "navigation/entry-points.md",
     "category": "navigation",
     "title": "entry points",
@@ -2042,7 +2067,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "navigation/scenarios.md",
     "category": "navigation",
     "title": "scenario routing",
@@ -2078,7 +2103,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-booking-service-1",
+    "repo": "telikos-booking-service",
     "path": "navigation/key-classes.md",
     "category": "navigation",
     "title": "key classes",
@@ -2117,7 +2142,7 @@
     "peer_systems": []
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "domain/activity-plan-events.md",
     "category": "domain",
     "title": "Activity plan events",
@@ -2156,7 +2181,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "architecture/modules.md",
     "category": "architecture",
     "title": "Modules and package map",
@@ -2189,7 +2214,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "architecture/cross-cutting.md",
     "category": "architecture",
     "title": "Cross-cutting behavior",
@@ -2223,7 +2248,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "stack/stack.md",
     "category": "stack",
     "title": "Technology stack",
@@ -2255,7 +2280,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "runtime/booking-email-flow.md",
     "category": "runtime",
     "title": "Booking email flow",
@@ -2289,10 +2314,16 @@
       "ActivityPlanEventsServiceImpl",
       "ActivityPlanTemporal",
       "EmailBookingDetails"
+    ],
+    "sources": [
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/activity/SendEmailConfirmationActivityImpl.java",
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/activityplanevents/ActivityPlanEventsServiceImpl.java",
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/DomainDataServiceImpl.java",
+      "service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/EmailServiceImpl.java"
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "runtime/invoice-dispatch-flow.md",
     "category": "runtime",
     "title": "Invoice dispatch flow",
@@ -2328,7 +2359,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "runtime/notification-workflow-flow.md",
     "category": "runtime",
     "title": "Notification workflow flow",
@@ -2368,7 +2399,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "runtime/sendgrid-webhook-flow.md",
     "category": "runtime",
     "title": "SendGrid webhook flow",
@@ -2402,7 +2433,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "contracts/kafka-events.md",
     "category": "contracts",
     "title": "Kafka events",
@@ -2436,7 +2467,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "contracts/api-contracts.md",
     "category": "contracts",
     "title": "API contracts",
@@ -2475,7 +2506,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "contracts/db-schemas.md",
     "category": "contracts",
     "title": "Mongo schemas",
@@ -2512,7 +2543,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "integrations/sendgrid.md",
     "category": "integrations",
     "title": "SendGrid",
@@ -2549,7 +2580,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "integrations/ap-temporal.md",
     "category": "integrations",
     "title": "AP Temporal ingress",
@@ -2587,7 +2618,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "integrations/decision-hub.md",
     "category": "integrations",
     "title": "Decision Hub",
@@ -2622,7 +2653,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "integrations/finance-chassis.md",
     "category": "integrations",
     "title": "Finance Chassis",
@@ -2659,7 +2690,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "integrations/document-storage.md",
     "category": "integrations",
     "title": "Document Storage",
@@ -2702,7 +2733,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "operations/retries.md",
     "category": "operations",
     "title": "Retries",
@@ -2738,7 +2769,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "operations/failure-model.md",
     "category": "operations",
     "title": "Failure model",
@@ -2774,7 +2805,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "operations/flags-and-lists.md",
     "category": "operations",
     "title": "Flags and lists",
@@ -2809,7 +2840,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "operations/monitoring.md",
     "category": "operations",
     "title": "Monitoring",
@@ -2844,7 +2875,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "navigation/entry-points.md",
     "category": "navigation",
     "title": "Entry points",
@@ -2878,7 +2909,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "navigation/scenarios.md",
     "category": "navigation",
     "title": "Scenario routing",
@@ -2914,7 +2945,7 @@
     ]
   },
   {
-    "repo": "telikos-email-service-02",
+    "repo": "telikos-email-service",
     "path": "navigation/key-classes.md",
     "category": "navigation",
     "title": "Key classes",

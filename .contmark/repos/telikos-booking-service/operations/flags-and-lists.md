@@ -12,8 +12,8 @@ sources:
   - service/src/main/resources/application.yml
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/service/BookingEventOperationService.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/MigrateDataController.java
-verified_against: b8888cd92f07b4a564e6f5f6dbaf08f61e52811d
-last_updated: "2026-06-18T11:53:42.850+05:30"
+verified_against: 6ee7d83b6e6a427b680025a1758a40ab4775acca
+last_updated: "2026-08-11"
 related:
   - runtime/confirm-send-to-tms-flow.md
   - runtime/rfp-flow.md
@@ -25,6 +25,7 @@ related:
 - `app.dataMigration` defaults from `${DATA_MIGRATION:false}` and gates `POST /migrate/rel2/data`. (source: service/src/main/resources/application.yml:304)
 - `LIST_OF_ONE_CLICK_CHANNELS` feeds `spring.application.one-click-channels`; matching receive channels set `eventType=ONE_CLICK_BOOKING`. (source: service/src/main/resources/application.yml:31)
 - `LIST_OF_ONE_CLICK_COUNTRIES` feeds `spring.application.one-click-countries`; matching start-location countries also set `eventType=ONE_CLICK_BOOKING`. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/service/BookingEventOperationService.java:87)
+- Both one-click lists now default to **empty** (`${LIST_OF_ONE_CLICK_COUNTRIES:}`), not to the literal `[]` they used to. The old default was parsed as a one-element list holding the string `"[]"`, so an unset environment silently produced a list that matched nothing yet was not empty — the two behave differently anywhere the code checks `isEmpty()`. (source: service/src/main/resources/application.yml:31)
 - `LIST_OF_SAP_TMS_COUNTRIES` feeds `spring.application.sap-Tms-countries` and is the country gate for SEND_TO_TMS eligibility. (source: service/src/main/resources/application.yml:31)
 - `LIST_OF_NAM_COUNTRIES` feeds `spring.application.nam-countries` and controls CAMS/VTS registration branching for SEND_TO_TMS. (source: service/src/main/resources/application.yml:31)
 - `LIST_OF_SEND_TO_CUSTOMS_COUNTRIES` feeds `spring.application.send-to-customs-countries` and participates in additional SEND_TO_TMS side effects. (source: service/src/main/resources/application.yml:31)

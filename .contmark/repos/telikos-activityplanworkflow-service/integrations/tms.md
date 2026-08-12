@@ -10,9 +10,11 @@ scenarios:
   - activity plan tms publish
   - send tms sync
   - tms activity status
+  - transport order schema version
+  - facility type values
 capabilities: [tms-dispatch]
 domains: [tms-dispatch, kafka, activity-plan]
-entities: [TmsServiceImpl, PublishTmsActivityImpl, KafkaProducerServiceImpl, TransportOrder]
+entities: [TmsServiceImpl, PublishTmsActivityImpl, KafkaProducerServiceImpl, TransportOrder, FacilityTypeEnum]
 peer_systems: [sap-tms]
 direction: outbound
 protocol: kafka
@@ -22,8 +24,10 @@ sources:
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishTmsActivityImpl.java
   - event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java
   - service/src/main/resources/application.yml
-verified_against: 63f837a2e764f3ddcfc244c2fc2d7278d0c35436
-last_updated: 2026-06-18
+  - common/src/main/resources/avro/TransportOrder.v9.avsc
+  - common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/enums/FacilityTypeEnum.java
+verified_against: a5fbe3845803a0a11d5f55773a966014b0596e2e
+last_updated: 2026-08-11
 related:
   - runtime/rfp-tms-flow.md
   - contracts/kafka-events.md
@@ -36,3 +40,5 @@ related:
 - `PublishTmsActivityImpl` updates AP state around TMS dispatch using activity name and id resolved from workflow utilities. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishTmsActivityImpl.java:31)
 - Kafka delivery is synchronous because `KafkaProducerServiceImpl.sendMessageToTms` blocks on `kafkaProducer.send(...).get()`. (source: event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java:177)
 - Success and failure both feed the `activityplan.tms.event.sent` metric with status tags. (source: event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java:193)
+- **Payload schema is `TransportOrder.v9.avsc`; v8 no longer exists in the tree.** v9 adds `standardReasonCode`, document `source` and `documentSentAt`, `dangerousPackageCount`, `chassisServiceType`, and a nested `VehicleProfile` (parties, telecommunication numbers, party-role relationships) under `servicePlanLegs.bookingEquipments.transportAssetRequirement`. Anything asserting on the TMS payload shape must read v9. (source: common/src/main/resources/avro/TransportOrder.v9.avsc)
+- `FacilityTypeEnum.COMMERCIAL` now carries the value `"COMMERCIAL"` — it previously mapped to `"OPERATIONAL"`. A consumer still expecting the old string sees an unmatched facility type rather than an error. Added alongside: `RAIL_TERMINAL`, `TERMINAL`, `DEPOT`, `RAILHEAD`. (source: common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/enums/FacilityTypeEnum.java)

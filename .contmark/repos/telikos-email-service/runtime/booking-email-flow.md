@@ -9,8 +9,8 @@ capabilities: [booking-email]
 domains: [email-notification, activity-plan]
 entities: [SendEmailConfirmationActivityImpl, ActivityPlanEventsServiceImpl, ActivityPlanTemporal, EmailBookingDetails]
 sources: [service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/activity/SendEmailConfirmationActivityImpl.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/activityplanevents/ActivityPlanEventsServiceImpl.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/DomainDataServiceImpl.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/EmailServiceImpl.java]
-verified_against: 77e78293d768c1919bf3f7d9dd53a3dd01671252
-last_updated: 2026-06-18
+verified_against: e1b2569ff79b08fe17152b587dfeac3a15b2db52
+last_updated: 2026-08-11
 related: [domain/activity-plan-events.md, integrations/sendgrid.md, operations/failure-model.md]
 ---
 # Booking email flow
@@ -29,6 +29,7 @@ related: [domain/activity-plan-events.md, integrations/sendgrid.md, operations/f
 3. `getToEmails` reads booking-equipment instruction parties for vendor flows and booking instruction parties for all other flows, deduping recipient addresses. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/DomainDataServiceImpl.java:94)
 4. `validateEvent` checks order id, booking id, product name, sender, domain data, mapped template, recipient list, and order/booking mismatch against service-plan data. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/DomainDataServiceImpl.java:313)
 5. Success paths call either `sendEmail`, `sendEmailForVendors`, or `sendEmailDocuments`; standard and vendor paths also call `asyncInvokeDocumentStorageService`, which uploads PDFs when `DOCUMENT_STORAGE_ENABLED=TRUE` or writes local `./azurePdf_<orderId>.pdf` files when set to `SavePdf`. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/EmailServiceImpl.java:98) (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/EmailServiceImpl.java:340)
+   - Body assembly rewrites the upstream `detailedMessage` before templating: bare `http(s)` URLs are regex-replaced with `<a href>` anchors, so the message reaching the recipient is NOT the string AP sent. Anything editing the body must treat that text as HTML. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/EmailServiceImpl.java:320)
 6. `processSendEmailResponse` splits SendGrid result into status and category, marks activity-plan status, saves `EmailBookingDetails`, increments `telikos_email_sendgrid`, and publishes event history. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/activityplanevents/ActivityPlanEventsServiceImpl.java:313)
 7. `onFailure` marks the activity as failed, persists a `FAILED_DELIVERY` message when order and booking ids exist, increments failure metrics, and still publishes event history. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/activityplanevents/ActivityPlanEventsServiceImpl.java:238)
 8. The returned Temporal payload rewrites `eventName` through `EmailUtility.setEventTypes()` before feedback goes back to AP. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/activityplanevents/ActivityPlanEventsServiceImpl.java:402) (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/utilities/EmailUtility.java:266)
