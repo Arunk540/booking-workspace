@@ -10,6 +10,6 @@ user-invocable: false
 Superseded:
 - Story fetch + classification + codebase impact → `contmark.orchestrate` Boot 0 + Stage 0.5 (`inquiry` mode for analysis-only questions)
 - User grilling → `contmark.orchestrate` Stage 1a (in-thread) · brief + open questions → `contmark.plan`
-- Repo context → `.contmark/` mini-skills via `resolve-task.js`
+- Repo context → `.asta-context/` mini-skills via `resolve-task.js`
 
 Invoke `@contmark.orchestrate <JIRA-KEY>` (or `@contmark.solo.copilot` without run_subagent support).

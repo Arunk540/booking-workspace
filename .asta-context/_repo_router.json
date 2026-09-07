@@ -1,0 +1,23 @@
+{
+  "schema_version": 2,
+  "request_buckets": {
+    "telikos-activityplanworkflow-service": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "telikos-booking-service": [
+      "telikos-booking-service"
+    ],
+    "telikos-email-service": [
+      "telikos-email-service"
+    ]
+  },
+  "flows": [],
+  "per_repo_summary": {
+    "telikos-activityplanworkflow-service": "",
+    "telikos-booking-service": "",
+    "telikos-email-service": ""
+  },
+  "disambiguation_rules": [],
+  "glossary": [],
+  "default_repo": "telikos-activityplanworkflow-service"
+}

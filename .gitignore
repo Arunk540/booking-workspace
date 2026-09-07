@@ -1,7 +1,12 @@
-# Exclude the three service modules
-telikos-activityplanworkflow-service/
-telikos-booking-service/
-telikos-email-service/
+# Exclude the three service checkouts AT THE WORKSPACE ROOT.
+# Anchored with a leading slash on purpose: unanchored, these match the same
+# directory names at ANY depth, which silently excluded the generated context
+# for those repos (.asta-context/repos/telikos-*, .asta-context/graph/telikos-*)
+# from every `git add`. The old .contmark copies were only tracked because they
+# predated these rules.
+/telikos-activityplanworkflow-service/
+/telikos-booking-service/
+/telikos-email-service/
 
 # macOS
 .DS_Store

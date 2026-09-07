@@ -11,9 +11,9 @@ When working on the Telikos booking domain, the three service repos are cloned l
 
 | Purpose | How |
 |---|---|
-| Store the context of each service — how it works, its modules, its flows | `.contmark/repos/<service>/` |
-| Provide index files so agents can identify and trace flows across repos | `.contmark/_global_index.json`, `_repo_router.json`, `_scenarios.json`, `_symbols.json` |
-| Hold cross-repo contracts and dependency graph | `.contmark/workspace.yml`, `_global_links.json` |
+| Store the context of each service — how it works, its modules, its flows | `.asta-context/repos/<service>/` |
+| Provide index files so agents can identify and trace flows across repos | `.asta-context/_global_index.json`, `_repo_router.json`, `_scenarios.json`, `_symbols.json` |
+| Hold cross-repo contracts and dependency graph | `.asta-context/workspace.yml`, `_global_links.json` |
 | Provide a ready set of agents and skills to process and implement any given task | `.github/agents/`, `.github/skills/` |
 
 The three service repos are **pulled and worked on locally**. They are **never pushed** from this workspace — they are excluded via `.gitignore`.
@@ -45,7 +45,7 @@ There is also a back-channel: `telikos-activityplanworkflow-service` signals bac
 ```
 booking-workspace/
 │
-├── .contmark/                        ← Workspace intelligence hub (pushed)
+├── .asta-context/                        ← Workspace intelligence hub (pushed)
 │   ├── workspace.yml                 ← Repo registry, routing rules, cross-repo contracts
 │   ├── _global_index.json            ← Unified symbol/class index across all repos
 │   ├── _global_links.json            ← Cross-repo dependency graph
@@ -136,9 +136,9 @@ The `.github/skills/` folder contains 36 skill packs covering:
 1. **Clone** the three service repos into this workspace folder locally.
 2. **Pull** latest from each service repo before starting a task.
 3. Give a task to an agent (e.g. a Jira story, a bug fix, a feature request).
-4. The agent uses `.contmark` context to understand flows and locate the right code.
+4. The agent uses `.asta-context` context to understand flows and locate the right code.
 5. Changes are made in the local service repos.
-6. **Commit and push** workspace metadata updates (`.contmark/`, docs) back to this repo.
+6. **Commit and push** workspace metadata updates (`.asta-context/`, docs) back to this repo.
 
 ---
 
@@ -146,7 +146,7 @@ The `.github/skills/` folder contains 36 skill packs covering:
 
 | Commit & push | Keep local only |
 |---|---|
-| `.contmark/` updates (new knowledge, flow notes, index refreshes) | `telikos-booking-service/` source code |
+| `.asta-context/` updates (new knowledge, flow notes, index refreshes) | `telikos-booking-service/` source code |
 | `.github/` agent or skill updates | `telikos-activityplanworkflow-service/` source code |
 | `README.md` and root docs | `telikos-email-service/` source code |
 | `lessons.md`, `todos.md`, `diagrams.md` | `.idea/workspace.xml`, `.idea/tasks.xml` |
@@ -160,10 +160,10 @@ The `.github/skills/` folder contains 36 skill packs covering:
 git status
 
 # Detect stale context vs source code
-node .contmark/check-drift.js
+node .asta-context/check-drift.js
 
 # Commit workspace metadata only
-git add .contmark .github README.md
+git add .asta-context .github README.md
 git commit -m "chore: update workspace context"
 git push
 ```

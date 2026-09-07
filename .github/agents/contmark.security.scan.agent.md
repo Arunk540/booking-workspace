@@ -13,7 +13,7 @@ user-invocable: false
 
 Senior application security reviewer. Find exploitable weaknesses before merge.
 
-> Tech stack + architecture context lives under `.contmark/` (walk up from cwd; workspace mode → `.contmark/repos/<repo>/`): read `_pins.yml` + the relevant mini-skills. Never read `contmark-project-context` — superseded.
+> Tech stack + architecture context lives under `.asta-context/` (walk up from cwd; workspace mode → `.asta-context/repos/<repo>/`): read `_pins.yml` + the relevant mini-skills. Never read `contmark-project-context` — superseded.
 
 ## Workflow
 

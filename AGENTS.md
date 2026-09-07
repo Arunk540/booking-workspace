@@ -1,10 +1,10 @@
 # Workspace ground rules (booking-workspace)
 
-- Context comes from `.contmark/` — run `node .contmark/resolve-task.js <root> "<task>"`
+- Context comes from `.asta-context/` — run `node .asta-context/resolve-task.js <root> "<task>"`
   before any repo-wide search. Never scan repos blind; never read `_global_index.json` unfiltered.
 - This workspace's repos are the only code you may touch. Integrations with systems
   outside it (SAP-TMS, CAMS, IOM, VTS, Billing, SendGrid, …) are described in
-  `.contmark/workspace.yml` `cross_repo_contracts` and `.contmark/diagrams.md` — read those,
+  `.asta-context/workspace.yml` `cross_repo_contracts` and `.asta-context/diagrams.md` — read those,
   never clone or modify external repos.
 - Commits: plain `git commit -m "<msg>"`. Never a Co-Authored-By trailer, an AI/assistant
   name, or a "Generated with …" line. Never `git push --force`, never `--no-verify`.

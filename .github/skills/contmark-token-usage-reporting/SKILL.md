@@ -112,7 +112,7 @@ Aggregate multiple session snapshots (typically 1 sprint = 2 weeks).
 2. **Missing mock patterns** — unit-testing-java skill lacks `@MockBean` examples for Kafka consumers
 
 ### Recommended Actions
-- [ ] Re-sync stale `.contmark/` mini-skills for `telikos-booking-service` (check-drift.js flagged)
+- [ ] Re-sync stale `.asta-context/` mini-skills for `telikos-booking-service` (check-drift.js flagged)
 - [ ] Add `@MockBean` Kafka consumer example to `unit-testing-java` skill
 ```
 
@@ -125,7 +125,7 @@ When `token-usage-prediction` flags waste signals, classify them before includin
 | Waste signal | Classification | Recommended action |
 |---|---|---|
 | `retry_count > 2` on Implement stage | **High waste — skill gap** | Trigger `skill-evolution-loop` on the active skill |
-| `tokens_in > 2× baseline` on any stage | **High waste — context bloat** | Check if `.contmark/` mini-skills or skill content has grown stale (run check-drift.js) |
+| `tokens_in > 2× baseline` on any stage | **High waste — context bloat** | Check if `.asta-context/` mini-skills or skill content has grown stale (run check-drift.js) |
 | `retry_count == 1` on Review stage | **Medium waste — review ambiguity** | Review `code-review-checklist` trigger description |
 | All stages green, total > 150,000 | **Low waste — large story** | Normal; note in report but no action needed |
 | `1-shot rate < 70%` across sprint | **Systemic waste** | Full sprint retrospective; review top 3 triggering skills |

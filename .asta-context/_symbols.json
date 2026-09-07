@@ -417,7 +417,7 @@
         "repo": "telikos-booking-service",
         "path": "runtime/end-to-end-booking-to-email.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/model/BookingActivity.java",
-        "line": 24
+        "line": 25
       }
     ],
     "BookingActivityPlanDispatcher": [
@@ -1343,13 +1343,13 @@
         "repo": "telikos-booking-service",
         "path": "integrations/sap-tms.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessTmsExecutionImpl.java",
-        "line": 64
+        "line": 66
       },
       {
         "repo": "telikos-booking-service",
         "path": "navigation/key-classes.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessTmsExecutionImpl.java",
-        "line": 64
+        "line": 66
       }
     ],
     "ProductOrchestration": [
@@ -1623,13 +1623,13 @@
         "repo": "telikos-booking-service",
         "path": "contracts/kafka-events.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/models/ServicePlan.java",
-        "line": 27
+        "line": 26
       },
       {
         "repo": "telikos-booking-service",
         "path": "domain/service-plan.md",
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/models/ServicePlan.java",
-        "line": 27
+        "line": 26
       }
     ],
     "ServicePlanEntity": [
@@ -1747,7 +1747,7 @@
         "repo": "telikos-activityplanworkflow-service",
         "path": "integrations/tms.md",
         "source": "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/TmsServiceImpl.java",
-        "line": 130
+        "line": 131
       }
     ],
     "TransportOrder": [
@@ -1887,9 +1887,5 @@
       }
     ]
   },
-  "aliases": {
-    "tms": "tms-dispatch",
-    "vts": "vessel-tracking",
-    "cams": "container-availability"
-  }
+  "aliases": {}
 }

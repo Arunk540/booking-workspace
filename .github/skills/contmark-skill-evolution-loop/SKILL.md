@@ -59,7 +59,7 @@ if target is null          → use routing table below
 
 When pattern is specific to one repo → repo skill. When it would recur in any repo → shared skill.
 
-**Workspace layout** (`.contmark/repos/<key>/<category>/`) — resolve the target deterministically, no guess:
+**Workspace layout** (`.asta-context/repos/<key>/<category>/`) — resolve the target deterministically, no guess:
 
 ```
 contmark-workspace/resources/resolve-skill-target.js <root> --category <cat> --keywords "<words>" [--repo <key>]

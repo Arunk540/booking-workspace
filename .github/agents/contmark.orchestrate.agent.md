@@ -53,9 +53,9 @@ Run `execution-core §Live-Window Guard` inline (50% WARN · 65% CONTEXT_PRESSUR
 Sub-agents write `{repo_context_dir}/lessons.md` per `execution-core §Lessons Entry Format` on each correction, HANDOFF, or domain gap; incidents → `incidents.md`. Stage 3c curation — 3-question filter, all YES → `status: captured`, else delete: (1) ≥2 cycles OR blocking OR domain rule? (2) transferable beyond this ticket? (3) not already in a loaded skill? `captured` → Stage 5 patches target → delete entry. Max 20.
 
 ## Boot 0 — Context detection
-Resolver contract: `contmark-workspace` SKILL §Agent contract. Walk up from `cwd` for `.contmark/workspace.yml`:
-- **absent** → STOP: _"No `.contmark/` context engine — run the `contmark-workspace` skill first (single repo = `mode: single`)."_ No fallback detection, ever.
-- `mode: single` → SINGLE, `$root` = dir of `.contmark`. `mode: workspace` or absent → WORKSPACE, repos are subdirs.
+Resolver contract: `contmark-workspace` SKILL §Agent contract. Walk up from `cwd` for `.asta-context/workspace.yml`:
+- **absent** → STOP: _"No `.asta-context/` context engine — run the `contmark-workspace` skill first (single repo = `mode: single`)."_ No fallback detection, ever.
+- `mode: single` → SINGLE, `$root` = dir of `.asta-context`. `mode: workspace` or absent → WORKSPACE, repos are subdirs.
 
 **Classify + fetch:** Jira key/URL = `jira` → `getJiraIssue($key)` incl. comments · GitHub issue URL = `github` → `get_issue` + comments · else `prompt`. `$ticket` = description + comments — fetched ONCE.
 **Persist:** write FULL `$ticket` → `$ticket_file = $workspace_context_dir/{JIRA-KEY|gh-{n}|slug}-ticket.md`. Downstream carries `$ticket_digest` + path only.
@@ -63,22 +63,22 @@ Resolver contract: `contmark-workspace` SKILL §Agent contract. Walk up from `cw
 
 **Resolve (indexes stay on disk):**
 ```
-node <$root>/.contmark/resolve-task.js <$root> "$resolve_text"
+node <$root>/.asta-context/resolve-task.js <$root> "$resolve_text"
 ```
 Returns ~350 tok: `{route, repo_order, matches, entry_files, blast_radius, glossary_hits, trace}`. Bind all. SINGLE: `repo_order` = the one repo, `blast_radius = []`.
 - `route == ask` → append remaining body nouns, re-run ONCE; still `ask` → WORKSPACE: print `candidates`, ask _"Which repo applies?"_, STOP · SINGLE: load `navigation/entry-points.md` + `navigation/scenarios.md`, proceed.
-- Read `<$root>/.contmark/lessons.md` → `$workspace_lessons[]`. Run `check-drift.js` (exit 1 = drift) → report stale mini-skills → `contmark-skill-evolution-loop`.
-- Architecture/cross-system tasks MAY load `<$root>/.contmark/diagrams.md` if present; skip silently otherwise.
+- Read `<$root>/.asta-context/lessons.md` → `$workspace_lessons[]`. Run `check-drift.js` (exit 1 = drift) → report stale mini-skills → `contmark-skill-evolution-loop`.
+- Architecture/cross-system tasks MAY load `<$root>/.asta-context/diagrams.md` if present; skip silently otherwise.
 
 **Per `$repo` in `$repo_order` (topo-sorted):**
 - `workdir = (SINGLE ? $root : <$root>/<$repo>)`; `cd workdir`
-- `$workspace_context_dir = <$root>/.contmark` · `$repo_context_dir = <$root>/.contmark/repos/<$repo>`
+- `$workspace_context_dir = <$root>/.asta-context` · `$repo_context_dir = <$root>/.asta-context/repos/<$repo>`
 - Read ONLY `$matches WHERE repo == $repo` (or `$entry_files[$repo]`), open at `source:line`. Read `_pins.yml` → `$skills.*`.
 - Run Boot → Stage 6; pass both dirs in every payload. Sub-agents operate on `cwd` only.
 
 **WORKSPACE — blast-radius reconciliation** (per `$blast_radius_repos`): producer diff touched the topic's `schema_path` or serialization? YES → append consumer to `$repo_order` (companion PR). NO → Reviewer records `Downstream consumer <X> verified unaffected (<topic> not modified)`. Never skip silently.
 
-**Forbidden:** reading `_global_index.json` unfiltered · mini-skills outside `$matches` · writing inside any `<repo>/.contmark/` in workspace mode.
+**Forbidden:** reading `_global_index.json` unfiltered · mini-skills outside `$matches` · writing inside any `<repo>/.asta-context/` in workspace mode.
 
 Run `$ckpt`.
 

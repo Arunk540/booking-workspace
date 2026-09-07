@@ -16,21 +16,21 @@ Inline pipeline, one thread. Resolver contract: `contmark-workspace` SKILL §Age
 
 ## Boot 0 — Context detection
 
-1. `run_in_terminal: ws=""; d="$(pwd)"; while [ "$d" != "/" ]; do if [ -f "$d/.contmark/workspace.yml" ]; then ws="$d"; break; fi; d="$(dirname "$d")"; done; echo "${ws:-NONE}"`
-2. `NONE` → **STOP**: _"No `.contmark/` context engine — run the `contmark-workspace` skill first (single repo = `mode: single`)."_ No fallback detection, ever.
+1. `run_in_terminal: ws=""; d="$(pwd)"; while [ "$d" != "/" ]; do if [ -f "$d/.asta-context/workspace.yml" ]; then ws="$d"; break; fi; d="$(dirname "$d")"; done; echo "${ws:-NONE}"`
+2. `NONE` → **STOP**: _"No `.asta-context/` context engine — run the `contmark-workspace` skill first (single repo = `mode: single`)."_ No fallback detection, ever.
 3. `mode: single` → SINGLE, `$root = ws`, workdir = `$root`. `mode: workspace` or absent → WORKSPACE, repos are subdirs.
-4. **Classify + fetch ONCE:** `jira` → `getJiraIssue($key)` incl. comments · `github` → `get_issue` + comments · else raw text. `$ticket` = description + comments. Persist FULL `$ticket` → `$ticket_file = <$root>/.contmark/{JIRA-KEY|gh-{n}|slug}-ticket.md`.
+4. **Classify + fetch ONCE:** `jira` → `getJiraIssue($key)` incl. comments · `github` → `get_issue` + comments · else raw text. `$ticket` = description + comments. Persist FULL `$ticket` → `$ticket_file = <$root>/.asta-context/{JIRA-KEY|gh-{n}|slug}-ticket.md`.
    **Signal:** `$resolve_text` = title + AC titles + identifiers (CamelCase, `code spans`, service/entity names) from body AND comments; drop prose/repro/env/stack-traces. Never resolve on a bare ID.
    ```
-   node <$root>/.contmark/resolve-task.js <$root> "$resolve_text"
+   node <$root>/.asta-context/resolve-task.js <$root> "$resolve_text"
    ```
    Returns ~350 tok: `{route, repo_order, matches, entry_files, blast_radius, glossary_hits, trace}`. Bind all. SINGLE: `repo_order` = the one repo, `blast_radius = []`. Naming: `execution-core §Naming Contract`.
 5. `route == ask` → append remaining body nouns, re-run ONCE; still `ask` → WORKSPACE: print `candidates`, ask _"Which repo applies?"_, STOP · SINGLE: load `navigation/entry-points.md` + `navigation/scenarios.md`, proceed.
-6. Read `<$root>/.contmark/lessons.md` → `$workspace_lessons[]`. Run `check-drift.js` (exit 1 = drift) → report stale mini-skills → `contmark-skill-evolution-loop`. Architecture tasks MAY load `diagrams.md` if present.
-7. **Per `$repo` in `$repo_order` (topo-sorted):** `workdir = (SINGLE ? $root : <$root>/<$repo>)`, `run_in_terminal: cd workdir` · `$workspace_context_dir = <$root>/.contmark` · `$repo_context_dir = <$root>/.contmark/repos/<$repo>` · read ONLY `$matches WHERE repo == $repo` at `source:line` · read `_pins.yml` → `$skills.*` · run Boot → Stage 6.
+6. Read `<$root>/.asta-context/lessons.md` → `$workspace_lessons[]`. Run `check-drift.js` (exit 1 = drift) → report stale mini-skills → `contmark-skill-evolution-loop`. Architecture tasks MAY load `diagrams.md` if present.
+7. **Per `$repo` in `$repo_order` (topo-sorted):** `workdir = (SINGLE ? $root : <$root>/<$repo>)`, `run_in_terminal: cd workdir` · `$workspace_context_dir = <$root>/.asta-context` · `$repo_context_dir = <$root>/.asta-context/repos/<$repo>` · read ONLY `$matches WHERE repo == $repo` at `source:line` · read `_pins.yml` → `$skills.*` · run Boot → Stage 6.
 8. **WORKSPACE — blast radius** (per `$blast_radius_repos`): producer diff touched the topic's `schema_path` or serialization? YES → append consumer to `$repo_order` (companion PR). NO → Stage 3 records `Downstream consumer <X> verified unaffected`. Never skip.
 
-**Forbidden:** `_global_index.json` unfiltered · mini-skills outside `$matches` · writing inside any `<repo>/.contmark/` in workspace mode.
+**Forbidden:** `_global_index.json` unfiltered · mini-skills outside `$matches` · writing inside any `<repo>/.asta-context/` in workspace mode.
 
 ## Boot (load once, persist)
 
@@ -149,4 +149,4 @@ Delete `$plan_file` + `todos.md` · commit · read `contmark-pr-delivery-and-tri
 - Scope strict: Stage 2 `src/main/` · 4 `src/test/` · 4b `componenttest/` — zero overlap
 - Plan owns business scenarios; UT/CT add technical edge cases only
 - Jira + evolution failures never block · never guess file paths — verify via `file_search`/`grep_search`
-- State: `<$root>/.contmark/` = task-scoped `todos.md` + `{slug}-plan.md` + `handoff.md`; `repos/<$repo>/` = `lessons.md` + `incidents.md` (accumulate). ABORT in repo N halts the workspace; completed repos keep their PRs.
+- State: `<$root>/.asta-context/` = task-scoped `todos.md` + `{slug}-plan.md` + `handoff.md`; `repos/<$repo>/` = `lessons.md` + `incidents.md` (accumulate). ABORT in repo N halts the workspace; completed repos keep their PRs.

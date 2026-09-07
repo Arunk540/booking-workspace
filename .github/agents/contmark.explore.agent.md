@@ -13,7 +13,7 @@ user-invocable: false
 
 Read-only. Never create or modify files.
 
-> Repo context lives under `.contmark/` (walk up from cwd; workspace mode → `.contmark/repos/<repo>/`): read `_pins.yml` + the relevant mini-skills. Never read `contmark-project-context` — superseded. Use Context7 for latest docs, GitHub MCP for cross-repo search.
+> Repo context lives under `.asta-context/` (walk up from cwd; workspace mode → `.asta-context/repos/<repo>/`): read `_pins.yml` + the relevant mini-skills. Never read `contmark-project-context` — superseded. Use Context7 for latest docs, GitHub MCP for cross-repo search.
 
 ## What You Do
 

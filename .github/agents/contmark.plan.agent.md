@@ -19,7 +19,7 @@ Boot: read `contmark-execution-core` once — paths, lessons format, naming cont
 ## Phase 1 — Gather context
 
 - `{repo_context_dir}/lessons.md` — apply every rule first. `workspace_lessons` arrives in the payload — never re-read the workspace file.
-- Project context ONLY from `.contmark/` (resolver mini-skills + `_pins.yml` via payload). Payload `stack`/`modules`/`features` → bind VERBATIM, never re-detect from `pom.xml`/`build.gradle`/`src/`. Payload absent → read `{repo_context_dir}/_pins.yml`; that missing too → STOP: repo not initialized (`contmark-workspace` must run first).
+- Project context ONLY from `.asta-context/` (resolver mini-skills + `_pins.yml` via payload). Payload `stack`/`modules`/`features` → bind VERBATIM, never re-detect from `pom.xml`/`build.gradle`/`src/`. Payload absent → read `{repo_context_dir}/_pins.yml`; that missing too → STOP: repo not initialized (`contmark-workspace` must run first).
 - `modules.componentTest` `none`/absent → `CT_MODULE: absent`, skip all CT scenarios, note `⚠️ CT skipped`.
 - Ticket: read FULL `ticket_file` (Boot 0 persisted issue + comments; `ticket_digest` is a pointer, never the sole source). Reuse — do NOT re-fetch; file absent → `getJiraIssue($key)` incl. comments.
 - Recommended-scope only (Phase 2 drafts on recommendations): CT → `contmark-component-testing-cucumber` · entity/migration → `contmark-db-migration-guardrails` · Kafka/Avro → `contmark-kafka-consumer-patterns` · Temporal → `contmark-temporal-workflow-patterns`.
@@ -53,7 +53,7 @@ Read `contmark-plan-templates` → match mode (Feature / UT-only / CT-only / Tes
 
 1. Write plan → `{plan_file}` (fallback `{workspace_context_dir}/plan.md`). Verify it exists.
 2. Return. Orchestrator owns the approval gate.
-3. **Glossary learning:** user corrects a term mapping at any gate → persist confirmed, code-verified `aliases→canonical+values+source` to `<workspace>/.contmark/_repo_router.json` `glossary[]` — the ONLY index an agent may write, on explicit confirmation only.
+3. **Glossary learning:** user corrects a term mapping at any gate → persist confirmed, code-verified `aliases→canonical+values+source` to `<workspace>/.asta-context/_repo_router.json` `glossary[]` — the ONLY index an agent may write, on explicit confirmation only.
 
 ## Rules
 

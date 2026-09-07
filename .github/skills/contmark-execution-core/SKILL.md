@@ -9,7 +9,7 @@ Read once at boot. Never re-read — content is stable for the session.
 
 ## State-File Paths
 
-Payload provides both dirs — never assume `.contmark/` at cwd:
+Payload provides both dirs — never assume `.asta-context/` at cwd:
 
 | Dir | Files |
 |---|---|
