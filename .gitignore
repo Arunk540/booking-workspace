@@ -19,3 +19,6 @@
 .idea
 npmcache
 
+
+# Asta cuts a private worktree per code task here. Generated, never committed.
+/.asta-worktrees/
