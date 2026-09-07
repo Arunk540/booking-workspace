@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-07-20T12:30:00.000+05:30",
-  "verified_against": "a5fbe3845803a0a11d5f55773a966014b0596e2e",
+  "verified_against": "67f44a5f6db26e6d1268c5375410de45745be7e0",
   "files": [
     {
       "path": "architecture/cross-cutting.md",
@@ -516,7 +516,9 @@
         "container stuffing location transit",
         "which facilities qualify for the scp transit conversion",
         "facility qualifies as transit",
-        "operational facility eligibility"
+        "operational facility eligibility",
+        "transport asset priority tms mapping",
+        "black friday equipment priority tms"
       ],
       "capabilities": [
         "tms-dispatch"
@@ -541,8 +543,8 @@
         "common/src/main/resources/avro/TransportOrder.v9.avsc",
         "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/enums/FacilityTypeEnum.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
-      "last_updated": "2026-06-18",
+      "verified_against": "67f44a5f6db26e6d1268c5375410de45745be7e0",
+      "last_updated": "2026-09-07",
       "related": [
         "runtime/rfp-tms-flow.md",
         "contracts/kafka-events.md"
@@ -1219,5 +1221,5 @@
       "path": "stack/build-and-test.md"
     }
   ],
-  "last_reviewed": "2026-08-12"
+  "last_reviewed": "2026-09-07"
 }

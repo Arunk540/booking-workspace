@@ -11,8 +11,8 @@ entities: [ActivityPlanInternal, TransportOrder, BookingActivity]
 sources:
   - service/src/main/resources/application.yml
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java
-verified_against: 6ee7d83b6e6a427b680025a1758a40ab4775acca
-last_updated: "2026-08-11"
+verified_against: 4850c3efe7babc8364a044fed070268d6945002f
+last_updated: "2026-09-07"
 related:
   - runtime/rfp-flow.md
   - integrations/ap-temporal.md

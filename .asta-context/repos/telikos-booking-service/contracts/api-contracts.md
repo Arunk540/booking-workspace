@@ -4,18 +4,20 @@ title: api contracts
 summary: "Entry-point contract sheet for REST APIs, including authorization expectations and the validations performed inline by controllers."
 primary_for: [booking-rest-contracts]
 mentions: [booking-reprocess-api, transport-order-query, migration-guard]
-scenarios: [booking api endpoints, booking api auth, booking api validations, transport order query, customs order query]
+scenarios: [booking api endpoints, booking api auth, booking api validations, transport order query, customs order query, transport asset priority api field, driver id api field]
 capabilities: [rest-surface-lookup, validation-tracing]
 domains: [booking, api]
-entities: [BookingController, TransportOrderController, CustomsOrderController, BookingReprocessApiController, MigrateDataController]
+entities: [BookingController, TransportOrderController, CustomsOrderController, BookingReprocessApiController, MigrateDataController, BookingEquipmentApplication, DriverApplication]
 sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingController.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingReprocessApiController.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/TransportOrderController.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/CustomsOrderController.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/MigrateDataController.java
-verified_against: b8888cd92f07b4a564e6f5f6dbaf08f61e52811d
-last_updated: "2026-06-18T11:53:42.850+05:30"
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/models/BookingEquipmentApplication.java
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/models/DriverApplication.java
+verified_against: 4850c3efe7babc8364a044fed070268d6945002f
+last_updated: "2026-09-07"
 related:
   - navigation/entry-points.md
   - runtime/confirm-send-to-tms-flow.md
@@ -26,6 +28,7 @@ related:
 
 - `GET /bookings/{bookingId}` → `getBookingById`; validates `bookingId` against `[a-zA-Z0-9]{11}` before returning booking state. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingController.java:102)
 - `PUT /bookings/{bookingId}/transport-orders` → `updateBooking`; requires booking-api authority, validates booking id, rejects transport orders with missing transport plans, and reads user email from JWT claims. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingController.java:123)
+- `BookingEquipmentApplication` (booking equipment payload shape) now optionally carries `transportAssetPriority` (new `TransportAssetPriorityApplication`: `transportAssetPriorityGroupName`, `transportAssetPriorityName`), mapped through domain `TransportAssetPriority` into the persisted `TransportAssetPriorityEntity` — see `contracts/db-schemas.md`. `DriverApplication`/swagger `Driver` also gained `driverId` (max 50 chars). (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/models/BookingEquipmentApplication.java:39; api/models/DriverApplication.java:16)
 - `PATCH /bookings/{bookingId}/status` → `confirmBooking`; requires booking-api authority and at least one non-empty party email in the request. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingController.java:183)
 - `PATCH /bookings/{bookingId}/execution-instructions` → `bookingSendToExecution`; requires booking-api authority and validates execution-team emails before delegating. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingController.java:240)
 - `POST /bookings/{bookingId}/send-to-tms` → `bookingSendToTms`; requires booking-api authority and accepts an optional body. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingController.java:272)

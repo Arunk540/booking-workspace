@@ -21,6 +21,8 @@ scenarios:
   - which facilities qualify for the scp transit conversion
   - facility qualifies as transit
   - operational facility eligibility
+  - transport asset priority tms mapping
+  - black friday equipment priority tms
 capabilities: [tms-dispatch]
 domains: [tms-dispatch, kafka, activity-plan]
 entities: [TmsServiceImpl, PublishTmsActivityImpl, KafkaProducerServiceImpl, TransportOrder, FacilityTypeEnum]
@@ -35,8 +37,8 @@ sources:
   - service/src/main/resources/application.yml
   - common/src/main/resources/avro/TransportOrder.v9.avsc
   - common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/enums/FacilityTypeEnum.java
-verified_against: a5fbe3845803a0a11d5f55773a966014b0596e2e
-last_updated: 2026-08-11
+verified_against: 67f44a5f6db26e6d1268c5375410de45745be7e0
+last_updated: 2026-09-07
 related:
   - runtime/rfp-tms-flow.md
   - contracts/kafka-events.md
@@ -50,6 +52,7 @@ related:
 - Kafka delivery is synchronous because `KafkaProducerServiceImpl.sendMessageToTms` blocks on `kafkaProducer.send(...).get()`. (source: event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java:177)
 - Success and failure both feed the `activityplan.tms.event.sent` metric with status tags. (source: event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java:193)
 - **Payload schema is `TransportOrder.v9.avsc`; v8 no longer exists in the tree.** v9 adds `standardReasonCode`, document `source` and `documentSentAt`, `dangerousPackageCount`, `chassisServiceType`, and a nested `VehicleProfile` (parties, telecommunication numbers, party-role relationships) under `servicePlanLegs.bookingEquipments.transportAssetRequirement`. Anything asserting on the TMS payload shape must read v9. (source: common/src/main/resources/avro/TransportOrder.v9.avsc)
+- `servicePlanLegs.bookingEquipments` also carries a nullable `transportAssetPriority` record (`transportAssetPriorityGroupName`, `transportAssetPriorityName` — e.g. group `"BLACK FRIDAY"`, name `"HIGH"`), customer-specified equipment priority. Mapped by `TmsServiceImpl.getTransportAssetPriority(BookingEquipment)` from the equivalent field on `common.dto.BookingEquipment`, called from both booking-equipment mapping sites. Same field is added under `bookingEquipments` in booking-service's own avro/domain/api/entity chain — see telikos-booking-service `contracts/kafka-events.md` and `contracts/api-contracts.md`. (source: common/src/main/resources/avro/TransportOrder.v9.avsc:3099; booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/TmsServiceImpl.java:2046, :1556, :3028)
 - `FacilityTypeEnum.COMMERCIAL` now carries the value `"COMMERCIAL"` — it previously mapped to `"OPERATIONAL"`. A consumer still expecting the old string sees an unmatched facility type rather than an error. Added alongside: `RAIL_TERMINAL`, `TERMINAL`, `DEPOT`, `RAILHEAD`. (source: common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/enums/FacilityTypeEnum.java)
 
 ## SCP bookings: operational facilities become TRANSIT

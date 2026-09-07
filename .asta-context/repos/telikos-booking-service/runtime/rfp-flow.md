@@ -4,10 +4,10 @@ title: rfp variant routing and flow
 summary: "Forensic map of the READY_FOR_PLANNING ingress path, including amendment and cancellation variants selected by the inland resolver chain."
 primary_for: [rfp-variant-routing]
 mentions: [product-resolver-chain, booking-cancellation-routing, one-click-booking]
-scenarios: [rfp flow entry, rfp variant routing, rfp duplicate guard, booking cancellation routing, amendment routing chain, process ready for planning activity, how are the mappers structured, what breaks silently, mapping chain, mapstruct mappers, add a field to the flow]
+scenarios: [rfp flow entry, rfp variant routing, rfp duplicate guard, booking cancellation routing, amendment routing chain, process ready for planning activity, how are the mappers structured, what breaks silently, mapping chain, mapstruct mappers, add a field to the flow, servicedates mapping ignored, why isn't servicedates auto mapped]
 capabilities: [event-routing, workflow-initiation]
 domains: [booking, service-plan]
-entities: [ProductOrchestration, InlandBookingHandler, InitialReadyForPlanningEventsDomainService, AmendEditRfpEventsDomainService, CancelBookingEventsDomainService, ProcessReadyForPlanning, ProcessReadyForPlanningImpl]
+entities: [ProductOrchestration, InlandBookingHandler, InitialReadyForPlanningEventsDomainService, AmendEditRfpEventsDomainService, CancelBookingEventsDomainService, ProcessReadyForPlanning, ProcessReadyForPlanningImpl, ServicePlanApplicationMapper]
 sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/KafkaConsumerService.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/productresolver/ProductOrchestration.java
@@ -18,8 +18,9 @@ sources:
   - service/src/main/resources/application.yml
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessReadyForPlanning.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessReadyForPlanningImpl.java
-verified_against: 6ee7d83b6e6a427b680025a1758a40ab4775acca
-last_updated: "2026-08-11"
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/mapper/ServicePlanApplicationMapper.java
+verified_against: 4850c3efe7babc8364a044fed070268d6945002f
+last_updated: "2026-09-07"
 related:
   - runtime/event-activity-matrix.md
   - contracts/kafka-events.md
@@ -47,7 +48,7 @@ MapStruct/hand-written mappers fail silently — an unmapped field compiles gree
 | Hop | Mapper | From → To | Source |
 |---|---|---|---|
 | ingest | `BookingResponseMapper` | RFP event → application model | events/mapper/ · used by domain/inland/service/eventsservice/router/EventRouterService.java |
-| ingest | `ServicePlanApplicationMapper` | event payload → service-plan model | events/mapper/ · used by events/service/BookingEventOperationService.java |
+| ingest | `ServicePlanApplicationMapper` | event payload → service-plan model | events/mapper/ · used by events/service/BookingEventOperationService.java — `serviceDates` is now explicitly `@Mapping(ignore = true)` (mapper/ServicePlanApplicationMapper.java:33); auto-mapping it is no longer trusted for this hop |
 | persist | `ServicePlanEntityMapper` | domain → Mongo entity | infrastructure/mapper/ · used by infrastructure/service/BookingEventsOperationInfraServiceImpl.java |
 | persist | `TransportOrderMapper` | domain TO → entity | infrastructure/mapper/ · used by infrastructure/service/BookingEventsOperationInfraServiceImpl.java |
 | audit | `ReadyForPlanningEventHistoryMapper` / `InitialReadyForPlanningHistoryMapper` | event → history record | events/audit/mappers/ · via events/audit/dispatchers/* |

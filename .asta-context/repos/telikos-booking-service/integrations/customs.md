@@ -11,8 +11,8 @@ entities: [CustomsServiceOrderConsumer, CustomsServiceOrderResponseEvent]
 sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/CustomsServiceOrderConsumer.java
   - service/src/main/resources/application.yml
-verified_against: b8888cd92f07b4a564e6f5f6dbaf08f61e52811d
-last_updated: "2026-06-18T11:53:42.850+05:30"
+verified_against: 4850c3efe7babc8364a044fed070268d6945002f
+last_updated: "2026-09-07"
 related:
   - runtime/customs-vessel-flow.md
   - contracts/kafka-events.md

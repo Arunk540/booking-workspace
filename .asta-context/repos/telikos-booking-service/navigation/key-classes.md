@@ -15,8 +15,8 @@ sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/KafkaConsumerService.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/dispatchers/BookingActivityPlanDispatcher.java
-verified_against: da20d26b87ae304ae28736fcce66794fcb3155cc
-last_updated: "2026-07-20T12:30:00.000+05:30"
+verified_against: 4850c3efe7babc8364a044fed070268d6945002f
+last_updated: "2026-09-07"
 related:
   - navigation/entry-points.md
   - navigation/scenarios.md

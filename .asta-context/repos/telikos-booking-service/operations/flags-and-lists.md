@@ -4,16 +4,17 @@ title: flags and routing lists
 summary: "Feature flags, country/channel lists, and toggle-driven routing branches that materially change booking behavior."
 primary_for: [booking-feature-switches]
 mentions: [one-click-routing-lists, sap-country-list, migration-guard-flag]
-scenarios: [booking feature flags, booking routing lists, one click channels, sap tms countries, migration flag, one click booking, when does a booking become one click, which countries are eligible for sap tms, nam countries]
+scenarios: [booking feature flags, booking routing lists, one click channels, sap tms countries, migration flag, one click booking, when does a booking become one click, which countries are eligible for sap tms, nam countries, rental chassis exclusion flag, rental chassis excluded customers scac]
 capabilities: [toggle-audit, routing-explanation]
 domains: [booking, operations]
-entities: [BookingEventOperationService, MigrateDataController, EventRouterService]
+entities: [BookingEventOperationService, MigrateDataController, EventRouterService, RentalChassisEligibilityEvaluator]
 sources:
   - service/src/main/resources/application.yml
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/service/BookingEventOperationService.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/MigrateDataController.java
-verified_against: 6ee7d83b6e6a427b680025a1758a40ab4775acca
-last_updated: "2026-08-11"
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/RentalChassisEligibilityEvaluator.java
+verified_against: 4850c3efe7babc8364a044fed070268d6945002f
+last_updated: "2026-09-07"
 related:
   - runtime/confirm-send-to-tms-flow.md
   - runtime/rfp-flow.md
@@ -33,3 +34,4 @@ related:
 - `containerAvailability.enabled` defaults false and disables outbound CAMS calls when off. (source: service/src/main/resources/application.yml:65)
 - `VESSEL_TRACKING_ENABLED` defaults true and controls VTS registration activity execution. (source: service/src/main/resources/application.yml:74)
 - `TEMPORAL_HANDLE_OLD_BOOKINGS_ENABLED` defaults false and alters Temporal handling for older bookings. (source: service/src/main/resources/application.yml:225)
+- `LIST_OF_RENTAL_CHASSIS_EXCLUDED_CUSTOMERS`/`LIST_OF_RENTAL_CHASSIS_EXCLUDED_SCAC_CODES` feed `spring.application.rental-chassis-excluded-customers`/`-scac-codes`; both configured booked-by customer AND ocean SCAC must match for `RentalChassisEligibilityEvaluator.isExcludedByCustomerAndScac` to skip rental chassis billing references. (source: service/src/main/resources/application.yml:40)

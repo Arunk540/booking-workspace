@@ -4,15 +4,15 @@ title: event activity matrix
 summary: "Ordered activity matrix for the booking workflow events defined in configuration, plus the Temporal queue behaviors that alter execution."
 primary_for: [booking-event-activity-matrix]
 mentions: [one-click-queue-pruning, continue-as-new-threshold, activity-ordering]
-scenarios: [booking activity matrix, booking event order, workflow activity order, one click queue, temporal continue as new]
+scenarios: [booking activity matrix, booking event order, workflow activity order, one click queue, temporal continue as new, one click iom pruning removed]
 capabilities: [workflow-sequencing, event-to-activity-lookup]
 domains: [booking, workflow-orchestration]
 entities: [BookingEventsWorkflowImplementation, ActivitiesConfig]
 sources:
   - service/src/main/resources/application.yml
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java
-verified_against: b8888cd92f07b4a564e6f5f6dbaf08f61e52811d
-last_updated: "2026-06-18T11:53:42.850+05:30"
+verified_against: 4850c3efe7babc8364a044fed070268d6945002f
+last_updated: "2026-09-07"
 related:
   - runtime/rfp-flow.md
   - runtime/confirm-send-to-tms-flow.md
@@ -36,4 +36,4 @@ related:
 - `SAP_TMS_EXECUTION_STATUS` → processTmsExecution → updateTransportOrder → updateExecutionStatus → sendEndBookingEventToIOM. (source: service/src/main/resources/application.yml:385)
 - `SEND_DOCUMENTS` → sendServicePlanDetailsToAP. (source: service/src/main/resources/application.yml:395)
 - `CUSTOMS_FEEDBACK` → processCustomsFeedback → checkAndSendNotification; `CUSTOMS_UPDATE` → manualCustomsUpdate → updateExecutionStatus → sendEndBookingEventToIOM → sendServicePlanDetailsToEH. (source: service/src/main/resources/application.yml:397)
-- Queue execution is dynamic: additional CAMS/VTS/customs activities can be inserted mid-flight, one-click mode can prune end events, and large histories continue-as-new with the remaining queue. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java:88)
+- Queue execution is dynamic: additional CAMS/VTS/customs activities can be inserted mid-flight, and large histories continue-as-new with the remaining queue. One-click mode no longer prunes IOM start/end activities from the queue — that removal code was deleted; see `architecture/cross-cutting.md`. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java:88, :121)

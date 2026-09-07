@@ -15,8 +15,8 @@ sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/VesselInformationDomainService.java
   - service/src/main/resources/application.yml
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java
-verified_against: b8888cd92f07b4a564e6f5f6dbaf08f61e52811d
-last_updated: "2026-06-18T11:53:42.850+05:30"
+verified_against: 4850c3efe7babc8364a044fed070268d6945002f
+last_updated: "2026-09-07"
 related:
   - runtime/customs-vessel-flow.md
   - runtime/confirm-send-to-tms-flow.md
@@ -46,11 +46,11 @@ topic_or_endpoint: "VESSEL_TRACKING_API_ENDPOINT + /bookings/{bookingId}/vessel-
 - **When VTS gives nothing, the plan down-syncs from the upstream reference.**
   `DomainHelperUtils.syncVesselServiceDateFromReference` copies the user/upstream-entered
   `VESSEL_ETA` / `VESSEL_ETD` booking reference into the matching estimated service date.
-  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2387)
+  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2507)
 - **VTS precedence is the rule to remember:** if a VTS-sourced estimated value already exists on
   the current plan, THAT value wins and is re-applied to both stores — the upstream reference is
   ignored, not merged. A reference edit that appears to "not take" is usually this.
-  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2382)
+  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2488)
 - **Failure is asymmetric by direction.** With no dates from VTS and no reference to fall back on:
   IMPORT appends a VTS/CAMS registration business exception and READY_FOR_PLANNING resolves
   **FAILED**; everything else arms a VTS hold and waits until the deadline instead.
