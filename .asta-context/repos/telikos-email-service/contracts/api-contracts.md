@@ -9,8 +9,8 @@ capabilities: [api-contracts]
 domains: [email-notification]
 entities: [NotificationRequest, SendGridEvent, ActivityPlanTemporal, ActivityPlanInvoice]
 sources: [service/src/main/java/net/apmoller/crb/telikos/microservices/email/api/controller/NotificationController.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/api/controller/SendGridEventWebhookController.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/models/notification/NotificationRequest.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/models/notification/NotificationAction.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/SendGridEvent.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/EmailWorkflow.java]
-verified_against: a7d1d87df6fd002a83372328daa5fa8862ca59e4
-last_updated: 2026-07-20
+verified_against: 473e07ebffd0d0920e4153642bdc1eb97a80eb45
+last_updated: "2026-09-29"
 related: [navigation/entry-points.md, runtime/notification-workflow-flow.md, runtime/sendgrid-webhook-flow.md]
 ---
 # API contracts
@@ -23,3 +23,6 @@ related: [navigation/entry-points.md, runtime/notification-workflow-flow.md, run
 | Temporal workflow `EmailWorkflow.startWorkFlow` + signal `email_signal` | `NotificationRequest` | `startWorkFlow` blocks on `Workflow.await`; `signalFromBooking` is the entry that unblocks it. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/EmailWorkflow.java:12) |
 | Temporal activity `sendEmail` | `ActivityPlanTemporal` | Booking email contract; response is the same DTO with normalized `eventName` and updated status. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/ActivityPlanTemporal.java:17) |
 | Temporal activity `sendInvoice` | `ActivityPlanInvoice` | Invoice dispatch contract; includes `invoiceData` and per-recipient invoice mail state. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/ActivityPlanInvoice.java:24) |
+
+- `POST /api/v1/notifications/email` dispatch to the booking template is exact-match (case-insensitive `.equals`), not substring containment — a `notificationCategory` merely containing "EMAIL BOOKING" now falls through to the generic template instead of matching. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/EmailServiceImpl.java:223)
+- Inbound `BookingEquipment.transportAssetPriority` (group/name) is accepted and deserialized on the wire DTO but `ServicePlanMapper.mapEquipmentSizeTypes` does not map it onto the internal model used for mail content — the field is currently a no-op for any email. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/BookingEquipment.java:25; service/src/main/java/net/apmoller/crb/telikos/microservices/email/mapper/ServicePlanMapper.java:52)

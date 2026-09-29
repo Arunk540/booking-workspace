@@ -9,8 +9,8 @@ capabilities: [booking-email, invoice-dispatch, notification-email]
 domains: [email-notification, activity-plan, billing]
 entities: [ActivityPlanTemporal, ActivityPlanInvoice, ActivityPlanEvent, EmailBookingDetails]
 sources: [service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/ActivityPlanTemporal.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/ActivityPlanInvoice.java, service/src/main/avro/activityPlanEvent.avsc, service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/utilities/EmailUtility.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/DomainDataServiceImpl.java]
-verified_against: 77e78293d768c1919bf3f7d9dd53a3dd01671252
-last_updated: 2026-06-18
+verified_against: 473e07ebffd0d0920e4153642bdc1eb97a80eb45
+last_updated: "2026-09-29"
 related: [runtime/booking-email-flow.md, runtime/invoice-dispatch-flow.md, contracts/db-schemas.md]
 ---
 # Activity plan events
@@ -37,3 +37,4 @@ related: [runtime/booking-email-flow.md, runtime/invoice-dispatch-flow.md, contr
 ## Validation invariants
 - Booking mail fails validation when `orderId`, `bookingId`, `productName`, `domainData`, sender email, recipient list, or mapped template is missing, or when domain `servicePlanNumber` disagrees with the activity payload order id. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/DomainDataServiceImpl.java:313)
 - Vendor-recipient extraction switches from `booking.instructions[*].parties[*].emailAddresses` to `bookingEquipments[*].instructions[*].parties[*].emailAddresses` for `Send To Execution`, `Booking Cancelled For Vendor`, and `Amendment Send To Execution`. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/DomainDataServiceImpl.java:94)
+- For SCP-received bookings (`receiveChannel.communicationMediaTypeCode == "SCP"`), `EmailUtility.filterVendorInstructions` drops any instruction typed `VENDOR_INSTRUCTIONS` before recipient/vendor-text extraction, at both booking level and per-equipment level; every other receive channel is unaffected. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/utilities/EmailUtility.java:220; service/src/main/java/net/apmoller/crb/telikos/microservices/email/domain/emailservice/DomainDataServiceImpl.java:106)

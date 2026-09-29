@@ -1,7 +1,7 @@
 {
   "repo_key": "telikos-email-service",
   "generated_at": "2026-07-20T12:30:00.000+05:30",
-  "verified_against": "e1b2569ff79b08fe17152b587dfeac3a15b2db52",
+  "verified_against": "473e07ebffd0d0920e4153642bdc1eb97a80eb45",
   "files": [
     {
       "path": "domain/activity-plan-events.md",
@@ -22,7 +22,8 @@
         "activity plan event mapping",
         "activity plan status mapping",
         "where activity plan lives",
-        "why activity plan failed"
+        "why activity plan failed",
+        "vendor instructions filtered scp"
       ],
       "capabilities": [
         "booking-email",
@@ -236,7 +237,8 @@
         "report download notification",
         "report download email",
         "email booking notification category",
-        "attach report to email"
+        "attach report to email",
+        "booking notification subject exact match"
       ],
       "capabilities": [
         "notification-email"
@@ -341,7 +343,9 @@
         "email request shape",
         "notification action download email",
         "report download category contract",
-        "notification actions"
+        "notification actions",
+        "notification category exact match",
+        "transport asset priority email dto"
       ],
       "capabilities": [
         "api-contracts"
@@ -447,7 +451,9 @@
         "activity plan temporal",
         "activity plan email task",
         "activity plan invoice task",
-        "where activity plan enters"
+        "where activity plan enters",
+        "rate basis enum mismatch",
+        "percentage rate basis email"
       ],
       "capabilities": [
         "temporal-ingress"
@@ -558,7 +564,8 @@
         "download billing pdf",
         "report sas url download",
         "azure blob sas report",
-        "download report bytes"
+        "download report bytes",
+        "tms document download url"
       ],
       "capabilities": [
         "document-storage"

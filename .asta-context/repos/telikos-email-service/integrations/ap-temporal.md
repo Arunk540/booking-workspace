@@ -12,9 +12,9 @@ peer_systems: [telikos-activityplanworkflow-service_02]
 direction: inbound
 protocol: temporal-signal
 topic_or_endpoint: EMAIL_TASK_QUEUE
-sources: [service/src/main/resources/application.yml, service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/worker/TemporalWorker.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/activity/SendEmailConfirmationActivityImpl.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/activity/SendInvoiceDispatchActivityImpl.java]
-verified_against: 77e78293d768c1919bf3f7d9dd53a3dd01671252
-last_updated: 2026-06-18
+sources: [service/src/main/resources/application.yml, service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/worker/TemporalWorker.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/activity/SendEmailConfirmationActivityImpl.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/activity/SendInvoiceDispatchActivityImpl.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/RateBasisEnum.java, service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/models/RateBasisEnum.java]
+verified_against: 473e07ebffd0d0920e4153642bdc1eb97a80eb45
+last_updated: "2026-09-29"
 related: [runtime/booking-email-flow.md, runtime/invoice-dispatch-flow.md, navigation/entry-points.md]
 ---
 # AP Temporal ingress
@@ -27,3 +27,7 @@ related: [runtime/booking-email-flow.md, runtime/invoice-dispatch-flow.md, navig
 - `emailSend(...)` logs the booking id, delegates to booking-email orchestration, and returns the transformed `ActivityPlanTemporal` payload back to the caller. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/activity/SendEmailConfirmationActivityImpl.java:20)
 - `sendInvoice(...)` logs order and booking ids, delegates to invoice orchestration, and returns `ActivityPlanInvoice` feedback. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/activity/SendInvoiceDispatchActivityImpl.java:17)
 - Notification workflow runs on a third queue `${NOTIFICATION_QUEUE}`, but it is a local REST-triggered workflow rather than AP ingress. (source: service/src/main/resources/application.yml:223) (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/workflow/src/main/java/net/apmoller/crb/telikos/microservices/workflow/worker/TemporalWorker.java:69)
+
+## Rate-basis enum mirroring
+- Inbound `rateBasis` values (on `ActivityPlanTemporal`/`ActivityPlanInvoice` payloads) are validated against three independently-maintained `RateBasisEnum` copies (`common/dto`, `common/models`, componenttest fixture) — an unmirrored value throws Jackson `InvalidFormatException` and fails the WHOLE payload, not just that charge. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/dto/RateBasisEnum.java:5)
+- This range added `MILE`/`KILOMETER` (inland-movement distance charging) and `PERCENTAGE` (value-based pricing) to all three copies — any new upstream rate-basis value needs the same 3-way edit before deploy, or AP-originated mail delivery breaks. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/email/common/models/RateBasisEnum.java:5)

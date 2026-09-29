@@ -35,10 +35,11 @@ sources:
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishTmsActivityImpl.java
   - event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java
   - service/src/main/resources/application.yml
-  - common/src/main/resources/avro/TransportOrder.v9.avsc
+  - common/src/main/resources/avro/TransportOrder.v10.avsc
   - common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/enums/FacilityTypeEnum.java
-verified_against: 67f44a5f6db26e6d1268c5375410de45745be7e0
-last_updated: 2026-09-07
+  - common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/constant/Constants.java
+verified_against: da1e3f3e49ee4b21e574d717c688c0f3a0e4198d
+last_updated: "2026-09-29"
 related:
   - runtime/rfp-tms-flow.md
   - contracts/kafka-events.md
@@ -51,7 +52,9 @@ related:
 - `PublishTmsActivityImpl` updates AP state around TMS dispatch using activity name and id resolved from workflow utilities. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishTmsActivityImpl.java:31)
 - Kafka delivery is synchronous because `KafkaProducerServiceImpl.sendMessageToTms` blocks on `kafkaProducer.send(...).get()`. (source: event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java:177)
 - Success and failure both feed the `activityplan.tms.event.sent` metric with status tags. (source: event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java:193)
-- **Payload schema is `TransportOrder.v9.avsc`; v8 no longer exists in the tree.** v9 adds `standardReasonCode`, document `source` and `documentSentAt`, `dangerousPackageCount`, `chassisServiceType`, and a nested `VehicleProfile` (parties, telecommunication numbers, party-role relationships) under `servicePlanLegs.bookingEquipments.transportAssetRequirement`. Anything asserting on the TMS payload shape must read v9. (source: common/src/main/resources/avro/TransportOrder.v9.avsc)
+- **Payload schema is now `TransportOrder.v10.avsc` (renamed from v9, not superseded — near-total content carry-over).** v9's fields (`standardReasonCode`, document `source`/`documentSentAt`, `dangerousPackageCount`, `chassisServiceType`, nested `VehicleProfile`) all carry over; v10 additionally adds `RateBasisEnum.PERCENTAGE` and `bookingEquipments.expectedPackageQuantity`/`expectedPackageQuantityUnit`. Anything asserting on the TMS payload shape must read v10. (source: common/src/main/resources/avro/TransportOrder.v10.avsc)
+- **Disambiguation — do not conflate:** the Kafka `TMS_TOPIC` name's trailing `vN` (e.g. `...topic.internal.any.v12` in helm values) is an independent per-environment topic-recreation counter, unrelated to the Avro schema file's `TransportOrder.vN.avsc` version — they drift independently across envs and over time. (source: helm/prod-values.yml; helm/qa-values.yml)
+- **New SCP-only invariant:** `getInstructions(servicePlan, bookingEquipment)` populates `bookingEquipments.instructions` only for SCP bookings (`Constants.SCP_TENANT`) and only forwards instructions whose `instructionType.instructionTypeName == "VENDOR_INSTRUCTIONS"` — every other instruction type, or a non-SCP booking, gets an empty list. (source: booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/TmsServiceImpl.java:640)
 - `servicePlanLegs.bookingEquipments` also carries a nullable `transportAssetPriority` record (`transportAssetPriorityGroupName`, `transportAssetPriorityName` — e.g. group `"BLACK FRIDAY"`, name `"HIGH"`), customer-specified equipment priority. Mapped by `TmsServiceImpl.getTransportAssetPriority(BookingEquipment)` from the equivalent field on `common.dto.BookingEquipment`, called from both booking-equipment mapping sites. Same field is added under `bookingEquipments` in booking-service's own avro/domain/api/entity chain — see telikos-booking-service `contracts/kafka-events.md` and `contracts/api-contracts.md`. (source: common/src/main/resources/avro/TransportOrder.v9.avsc:3099; booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/TmsServiceImpl.java:2046, :1556, :3028)
 - `FacilityTypeEnum.COMMERCIAL` now carries the value `"COMMERCIAL"` — it previously mapped to `"OPERATIONAL"`. A consumer still expecting the old string sees an unmatched facility type rather than an error. Added alongside: `RAIL_TERMINAL`, `TERMINAL`, `DEPOT`, `RAILHEAD`. (source: common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/enums/FacilityTypeEnum.java)
 

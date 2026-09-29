@@ -11,8 +11,8 @@ entities: [BookingEventsWorkflowImplementation, ActivitiesConfig]
 sources:
   - service/src/main/resources/application.yml
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java
-verified_against: 4850c3efe7babc8364a044fed070268d6945002f
-last_updated: "2026-09-07"
+verified_against: dbe41b122b0e4dd1daaa248204c70c2b809caed2
+last_updated: "2026-09-29"
 related:
   - runtime/rfp-flow.md
   - runtime/confirm-send-to-tms-flow.md
@@ -28,7 +28,7 @@ related:
 - `EDIT_AMEND_READY_FOR_PLANNING` → processEditAmendReadyForPlanning → saveServicePlanDetailsToDB → updateTransportOrder → sendServicePlanDetailsToAP → updateWorkProcessStartDateTimeInDB → sendStartBookingEventToIOM → sendServicePlanDetailsToEH. (source: service/src/main/resources/application.yml:335)
 - `SEND_TO_EXECUTION` → saveServicePlanDetailsToDB → sendServicePlanDetailsToAP → updateWorkProcessStartDateTimeInDB → sendStartBookingEventToIOM → sendServicePlanDetailsToEH. (source: service/src/main/resources/application.yml:343)
 - `SEND_TO_TMS` → processSendToTms → saveServicePlanDetailsToDB → updateTOVersionStatusAndResetOldTOAck → sendServicePlanDetailsToAP → updateWorkProcessStartDateTimeInDB → sendStartBookingEventToIOM. (source: service/src/main/resources/application.yml:349)
-- `VESSEL_CONTAINER_REGISTRATION_FEEDBACK` → updateVesselRailAvailabilityDate. (source: service/src/main/resources/application.yml:356)
+- `VESSEL_CONTAINER_REGISTRATION_FEEDBACK` → updateVesselRailAvailabilityDate → sendVesselCamsTrackingToEh (appended; see `integrations/vts.md` for what it emits). (source: service/src/main/resources/application.yml:361)
 - `UPDATE_TO` → saveServicePlanDetailsToDB → updateTransportOrder → updateExecutionStatus → sendStartBookingEventToIOM → sendServicePlanDetailsToEH. (source: service/src/main/resources/application.yml:358)
 - `DRAFT_CANCELLATION` → processBookingCancellation → saveServicePlanDetailsToDB → sendServicePlanDetailsToAP → updateWorkProcessStartDateTimeInDB → sendStartBookingEventToIOM → sendServicePlanDetailsToEH. (source: service/src/main/resources/application.yml:364)
 - `BOOKING_CANCELLATION` → processBookingCancellation → saveServicePlanDetailsToDB → updateTOVersionStatusAndResetOldTOAck → sendServicePlanDetailsToAP → updateWorkProcessStartDateTimeInDB → sendStartBookingEventToIOM → sendServicePlanDetailsToEH. (source: service/src/main/resources/application.yml:371)

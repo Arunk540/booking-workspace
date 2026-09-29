@@ -1937,6 +1937,52 @@
         "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/email/integration/config/WebClientConfig.java",
         "line": 17
       }
+    ],
+    "PrepareBillingActivityImpl": [
+      {
+        "repo": "telikos-activityplanworkflow-service",
+        "path": "integrations/billing.md",
+        "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PrepareBillingActivityImpl.java",
+        "line": 25
+      },
+      {
+        "repo": "telikos-activityplanworkflow-service",
+        "path": "runtime/billing-flow.md",
+        "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PrepareBillingActivityImpl.java",
+        "line": 25
+      }
+    ],
+    "BookingFeedbackActivityImpl": [
+      {
+        "repo": "telikos-activityplanworkflow-service",
+        "path": "integrations/booking-service.md",
+        "source": "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BookingFeedbackActivityImpl.java",
+        "line": 28
+      }
+    ],
+    "RentalChassisBillableDurationCalculator": [
+      {
+        "repo": "telikos-booking-service",
+        "path": "integrations/sap-tms.md",
+        "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/RentalChassisBillableDurationCalculator.java",
+        "line": 262
+      }
+    ],
+    "RentalChassisReferenceApplier": [
+      {
+        "repo": "telikos-booking-service",
+        "path": "integrations/sap-tms.md",
+        "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/RentalChassisReferenceApplier.java",
+        "line": 31
+      }
+    ],
+    "VesselCamsTrackingEhSupport": [
+      {
+        "repo": "telikos-booking-service",
+        "path": "integrations/vts.md",
+        "source": "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/mappers/categories/VesselCamsTrackingEhSupport.java",
+        "line": 41
+      }
     ]
   },
   "aliases": {}

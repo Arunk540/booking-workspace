@@ -1,7 +1,7 @@
 {
   "repo_key": "telikos-booking-service",
   "generated_at": "2026-07-20T12:30:00.000+05:30",
-  "verified_against": "4850c3efe7babc8364a044fed070268d6945002f",
+  "verified_against": "dbe41b122b0e4dd1daaa248204c70c2b809caed2",
   "files": [
     {
       "path": "domain/service-plan.md",
@@ -21,7 +21,8 @@
         "service plan dates",
         "service plan persistence",
         "booking state lookup",
-        "service plan retries"
+        "service plan retries",
+        "percentage rate basis"
       ],
       "capabilities": [
         "aggregate-persistence",
@@ -381,7 +382,8 @@
         "workflow activity order",
         "one click queue",
         "temporal continue as new",
-        "one click iom pruning removed"
+        "one click iom pruning removed",
+        "vessel cams tracking event history activity"
       ],
       "capabilities": [
         "workflow-sequencing",
@@ -421,7 +423,8 @@
         "transport order query",
         "customs order query",
         "transport asset priority api field",
-        "driver id api field"
+        "driver id api field",
+        "service plan version default v10"
       ],
       "capabilities": [
         "rest-surface-lookup",
@@ -448,7 +451,8 @@
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/CustomsOrderController.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/MigrateDataController.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/models/BookingEquipmentApplication.java",
-        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/models/DriverApplication.java"
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/models/DriverApplication.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/mapper/ServicePlanEntityMapper.java"
       ]
     },
     {
@@ -472,7 +476,9 @@
         "event history topic",
         "transport asset priority kafka schema",
         "black friday equipment priority",
-        "transport asset priority"
+        "transport asset priority",
+        "topic suffix version vs schema version",
+        "booking equipment equals hashcode"
       ],
       "capabilities": [
         "topic-lookup",
@@ -688,7 +694,12 @@
         "driver id zdriverid alternative code",
         "nam container execution status resolver",
         "tare weight wiped by tms execution status",
-        "equipment profile omitted tms message"
+        "equipment profile omitted tms message",
+        "multi hop ecl fcl execution status",
+        "chassis billable duration multi leg",
+        "multi container chassis reference",
+        "nam actual time cleared no staging leg",
+        "nam actual time from stored plan"
       ],
       "capabilities": [
         "sap-integration-mapping",
@@ -704,7 +715,9 @@
         "SapTmsExecutionStatusConsumerService",
         "ProcessTmsExecutionImpl",
         "NamContainerExecutionStatusResolver",
-        "DomainHelperUtils"
+        "DomainHelperUtils",
+        "RentalChassisBillableDurationCalculator",
+        "RentalChassisReferenceApplier"
       ],
       "peer_systems": [
         "sap-tms"
@@ -786,7 +799,9 @@
         "why did my vessel eta not apply",
         "vts precedence over reference",
         "rfp failed missing vts dates",
-        "import vs export vessel dates"
+        "import vs export vessel dates",
+        "vts cams event history labels",
+        "vessel eta ata event history label"
       ],
       "capabilities": [
         "vessel-registration",
@@ -801,7 +816,8 @@
         "VesselTrackingRegistrationActivityImpl",
         "VtsWaitChildWorkflowImpl",
         "VesselInformationDomainService",
-        "DomainHelperUtils"
+        "DomainHelperUtils",
+        "VesselCamsTrackingEhSupport"
       ],
       "peer_systems": [
         "vts"

@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-07-20T12:30:00.000+05:30",
-  "verified_against": "67f44a5f6db26e6d1268c5375410de45745be7e0",
+  "verified_against": "da1e3f3e49ee4b21e574d717c688c0f3a0e4198d",
   "files": [
     {
       "path": "architecture/cross-cutting.md",
@@ -199,7 +199,8 @@
         "tms kafka schema",
         "customs kafka schema",
         "event history topic",
-        "activity plan avro payloads"
+        "activity plan avro payloads",
+        "tms schema version drift"
       ],
       "capabilities": [
         "kafka-producer-contracts"
@@ -219,12 +220,12 @@
         "service/src/main/resources/application.yml",
         "service/src/main/resources/application-local.yml",
         "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java",
-        "common/src/main/resources/avro/TransportOrder.v8.avsc",
+        "common/src/main/resources/avro/TransportOrder.v10.avsc",
         "common/src/main/resources/avro/EventHistoryInternal.v2.avsc",
         "common/src/main/resources/avro/CustomServiceOrderEvent.v1.avsc"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
-      "last_updated": "2026-06-18",
+      "verified_against": "da1e3f3e49ee4b21e574d717c688c0f3a0e4198d",
+      "last_updated": "2026-09-29",
       "related": [
         "integrations/tms.md",
         "integrations/customs.md"
@@ -294,7 +295,10 @@
         "standard reason code",
         "chassis rental charge code",
         "what units can a charge be rated on",
-        "charge units"
+        "charge units",
+        "percentage rate basis",
+        "billing intake queue",
+        "billing intake enabled flag"
       ],
       "capabilities": [
         "billing-dispatch",
@@ -311,7 +315,8 @@
         "BillingProducerWorker",
         "BillingProducerWorker2",
         "RateBasisEnum",
-        "StandardReason"
+        "StandardReason",
+        "PrepareBillingActivityImpl"
       ],
       "sources": [
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
@@ -322,10 +327,12 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java",
         "service/src/main/resources/application.yml",
         "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/RateBasisEnum.java",
-        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/StandardReason.java"
+        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/StandardReason.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PrepareBillingActivityImpl.java",
+        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/constant/Constants.java"
       ],
-      "verified_against": "7798712a7734edab3d5702cb92271fe7c607933c",
-      "last_updated": "2026-07-20",
+      "verified_against": "da1e3f3e49ee4b21e574d717c688c0f3a0e4198d",
+      "last_updated": "2026-09-29",
       "related": [
         "runtime/billing-flow.md",
         "operations/retries.md"
@@ -354,7 +361,9 @@
         "activity plan booking feedback",
         "booking invoice feedback",
         "revenue update booking",
-        "booking workflow id"
+        "booking workflow id",
+        "booking feedback failed timestamp",
+        "invoice parties to booking"
       ],
       "capabilities": [
         "booking-signal-ingress",
@@ -367,16 +376,18 @@
       "entities": [
         "ActivityPlanWorkflow",
         "EventProcessorServiceImpl",
-        "BookingWorker"
+        "BookingWorker",
+        "BookingFeedbackActivityImpl"
       ],
       "sources": [
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BookingWorker.java",
-        "service/src/main/resources/application.yml"
+        "service/src/main/resources/application.yml",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BookingFeedbackActivityImpl.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
-      "last_updated": "2026-06-18",
+      "verified_against": "da1e3f3e49ee4b21e574d717c688c0f3a0e4198d",
+      "last_updated": "2026-09-29",
       "related": [
         "runtime/cancellation-email-flow.md",
         "runtime/billing-flow.md"
@@ -518,7 +529,10 @@
         "facility qualifies as transit",
         "operational facility eligibility",
         "transport asset priority tms mapping",
-        "black friday equipment priority tms"
+        "black friday equipment priority tms",
+        "transport order v10 schema",
+        "scp vendor instructions tms",
+        "tms topic version vs schema version"
       ],
       "capabilities": [
         "tms-dispatch"
@@ -540,11 +554,12 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishTmsActivityImpl.java",
         "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java",
         "service/src/main/resources/application.yml",
-        "common/src/main/resources/avro/TransportOrder.v9.avsc",
-        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/enums/FacilityTypeEnum.java"
+        "common/src/main/resources/avro/TransportOrder.v10.avsc",
+        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/enums/FacilityTypeEnum.java",
+        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/constant/Constants.java"
       ],
-      "verified_against": "67f44a5f6db26e6d1268c5375410de45745be7e0",
-      "last_updated": "2026-09-07",
+      "verified_against": "da1e3f3e49ee4b21e574d717c688c0f3a0e4198d",
+      "last_updated": "2026-09-29",
       "related": [
         "runtime/rfp-tms-flow.md",
         "contracts/kafka-events.md"
@@ -757,7 +772,8 @@
         "non sap billing list",
         "activity plan country lists",
         "revenue line flag",
-        "chassis rental charge code flag"
+        "chassis rental charge code flag",
+        "billing intake enabled flag"
       ],
       "capabilities": [
         "flag-audit"
@@ -779,8 +795,8 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendRevenueLineItemToBookingActivityImpl.java"
       ],
-      "verified_against": "7798712a7734edab3d5702cb92271fe7c607933c",
-      "last_updated": "2026-07-20",
+      "verified_against": "da1e3f3e49ee4b21e574d717c688c0f3a0e4198d",
+      "last_updated": "2026-09-29",
       "related": [
         "operations/monitoring.md",
         "runtime/cancellation-email-flow.md"
@@ -895,7 +911,9 @@
         "billing revenue update",
         "scm booking billing",
         "send to scm vs finance",
-        "activity datetime second precision utc"
+        "activity datetime second precision utc",
+        "billing intake workflow",
+        "invoice parties billing forward"
       ],
       "capabilities": [
         "billing-feedback",
@@ -914,7 +932,8 @@
         "BillingFeedbackActivityForV2Impl",
         "JobClosureActivityImpl",
         "PopulateBillingDataActivityImpl",
-        "BillingServiceImpl"
+        "BillingServiceImpl",
+        "PrepareBillingActivityImpl"
       ],
       "sources": [
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java",
@@ -923,10 +942,12 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/JobClosureActivityImpl.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java",
-        "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java"
+        "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PrepareBillingActivityImpl.java",
+        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/entity/Invoice.java"
       ],
-      "verified_against": "7798712a7734edab3d5702cb92271fe7c607933c",
-      "last_updated": "2026-07-20",
+      "verified_against": "da1e3f3e49ee4b21e574d717c688c0f3a0e4198d",
+      "last_updated": "2026-09-29",
       "related": [
         "integrations/billing.md",
         "integrations/booking-service.md"

@@ -2980,5 +2980,187 @@
       "repo": "telikos-email-service",
       "path": "stack/build-and-test.md"
     }
+  ],
+  "vendor instructions filtered scp": [
+    {
+      "repo": "telikos-email-service",
+      "path": "domain/activity-plan-events.md"
+    }
+  ],
+  "tms document download url": [
+    {
+      "repo": "telikos-email-service",
+      "path": "integrations/document-storage.md"
+    }
+  ],
+  "booking notification subject exact match": [
+    {
+      "repo": "telikos-email-service",
+      "path": "runtime/notification-workflow-flow.md"
+    }
+  ],
+  "notification category exact match": [
+    {
+      "repo": "telikos-email-service",
+      "path": "contracts/api-contracts.md"
+    }
+  ],
+  "transport asset priority email dto": [
+    {
+      "repo": "telikos-email-service",
+      "path": "contracts/api-contracts.md"
+    }
+  ],
+  "rate basis enum mismatch": [
+    {
+      "repo": "telikos-email-service",
+      "path": "integrations/ap-temporal.md"
+    }
+  ],
+  "percentage rate basis email": [
+    {
+      "repo": "telikos-email-service",
+      "path": "integrations/ap-temporal.md"
+    }
+  ],
+  "percentage rate basis": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "integrations/billing.md"
+    },
+    {
+      "repo": "telikos-booking-service",
+      "path": "domain/service-plan.md"
+    }
+  ],
+  "billing intake queue": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "integrations/billing.md"
+    }
+  ],
+  "billing intake enabled flag": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "integrations/billing.md"
+    },
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "operations/flags-and-lists.md"
+    }
+  ],
+  "booking feedback failed timestamp": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "integrations/booking-service.md"
+    }
+  ],
+  "invoice parties to booking": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "integrations/booking-service.md"
+    }
+  ],
+  "transport order v10 schema": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "integrations/tms.md"
+    }
+  ],
+  "scp vendor instructions tms": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "integrations/tms.md"
+    }
+  ],
+  "tms topic version vs schema version": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "integrations/tms.md"
+    }
+  ],
+  "tms schema version drift": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "contracts/kafka-events.md"
+    }
+  ],
+  "billing intake workflow": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "runtime/billing-flow.md"
+    }
+  ],
+  "invoice parties billing forward": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "runtime/billing-flow.md"
+    }
+  ],
+  "vessel cams tracking event history activity": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "runtime/event-activity-matrix.md"
+    }
+  ],
+  "service plan version default v10": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "contracts/api-contracts.md"
+    }
+  ],
+  "topic suffix version vs schema version": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "contracts/kafka-events.md"
+    }
+  ],
+  "booking equipment equals hashcode": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "contracts/kafka-events.md"
+    }
+  ],
+  "multi hop ecl fcl execution status": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "integrations/sap-tms.md"
+    }
+  ],
+  "chassis billable duration multi leg": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "integrations/sap-tms.md"
+    }
+  ],
+  "multi container chassis reference": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "integrations/sap-tms.md"
+    }
+  ],
+  "nam actual time cleared no staging leg": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "integrations/sap-tms.md"
+    }
+  ],
+  "nam actual time from stored plan": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "integrations/sap-tms.md"
+    }
+  ],
+  "vts cams event history labels": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "integrations/vts.md"
+    }
+  ],
+  "vessel eta ata event history label": [
+    {
+      "repo": "telikos-booking-service",
+      "path": "integrations/vts.md"
+    }
   ]
 }

@@ -19,8 +19,8 @@ sources:
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendRevenueLineItemToBookingActivityImpl.java
-verified_against: 7798712a7734edab3d5702cb92271fe7c607933c
-last_updated: 2026-07-20
+verified_against: da1e3f3e49ee4b21e574d717c688c0f3a0e4198d
+last_updated: "2026-09-29"
 related:
   - operations/monitoring.md
   - runtime/cancellation-email-flow.md
@@ -35,3 +35,4 @@ related:
 - `TemporalWorker` reads `activityplan.versioning.enabled` and `activityplan.versioning.name` to decide whether to register a build-id versioned worker on the V2 queue. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java:62)
 - Revenue line item feedback is gated by `activityplan.revenueLineItem.enabled`, and the activity no-ops unless it is `true`. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendRevenueLineItemToBookingActivityImpl.java:50)
 - `activityplan.billing.chassis-rental-charge-code` (env `CHASSIS_RENTAL_CHARGE_CODE`, default `100227`) identifies the chassis rental charge type; `BillingServiceImpl` keeps chassis equipment references only on job lines matching this code and filters them off all others. (source: service/src/main/resources/application.yml:13)
+- `activityplan.billing.intakeEnabled` (env `BILLING_INTAKE_ENABLED`, default `false` in every env) routes billing forwarding through the new "billing intake" path (see `runtime/billing-flow.md`, `integrations/billing.md`) instead of the legacy send-to-finance signal. Like `activityplan.versioning.*`, it's paired with a `Workflow.getVersion("billingIntakeRouting", ...)` patch marker, so a workflow run already in flight never picks up a later flip of the env var. (source: service/src/main/resources/application.yml:177)
