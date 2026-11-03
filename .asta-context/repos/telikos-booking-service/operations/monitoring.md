@@ -11,8 +11,8 @@ entities: [BookingMetricsRegistry, MeterRegistry, Actuator health groups]
 sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/common/BookingMetricsRegistry.java
   - service/src/main/resources/application.yml
-verified_against: 4850c3efe7babc8364a044fed070268d6945002f
-last_updated: "2026-09-07"
+verified_against: cf8cb392d09686d16ba800291da20d5644191555
+last_updated: "2026-11-03"
 related:
   - integrations/ap-temporal.md
   - integrations/iom.md

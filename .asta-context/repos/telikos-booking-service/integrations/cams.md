@@ -7,18 +7,19 @@ mentions: [rail-registration-branch, container-availability-feedback, cams-featu
 scenarios: [container availability flow, container availability callback, cams registration endpoint, rail availability feedback, cams feature flag, cams vts short circuit cancelled executed, rail eta update skipped when executed]
 capabilities: [rail-registration, feedback-patch-processing]
 domains: [booking, container-availability]
-entities: [CamsIntegrator, ContainerAvailabilityFeedbackConsumer, ContainerAvailabilityDomainService, UpdateVesselRailAvailabilityDateActivityImpl]
+entities: [CamsIntegrator, ContainerAvailabilityFeedbackConsumer, ContainerAvailabilityDomainService, UpdateVesselRailAvailabilityDateActivityImpl, CamsRetryChildWorkflowImpl, ContainerAvailabilityRegisterActivityImpl, VtsCamsChildFanBackActivityImpl, SendToEhActivityImpl]
 sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/integration/integrators/CamsIntegrator.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/ContainerAvailabilityFeedbackConsumer.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/ContainerAvailabilityDomainService.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/CamsRetryChildWorkflowImpl.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ContainerAvailabilityRegisterActivityImpl.java
-  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VtsCamsChildFanBackActivity.java
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VtsCamsChildFanBackActivityImpl.java
   - service/src/main/resources/application.yml
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/UpdateVesselRailAvailabilityDateActivityImpl.java
-verified_against: 4850c3efe7babc8364a044fed070268d6945002f
-last_updated: "2026-09-07"
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SendToEhActivityImpl.java
+verified_against: cf8cb392d09686d16ba800291da20d5644191555
+last_updated: "2026-11-03"
 related:
   - runtime/customs-vessel-flow.md
   - runtime/confirm-send-to-tms-flow.md
@@ -39,5 +40,6 @@ topic_or_endpoint: "CAMS_API_ENDPOINT + KAFKA_CONTAINER_AVAILABILITY_TOPIC"
 - `ContainerAvailabilityDomainService` converts local rail availability timestamps to UTC and emits `VESSEL_CONTAINER_REGISTRATION_FEEDBACK` so the patched dates are persisted by the workflow engine. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/ContainerAvailabilityDomainService.java:39)
 - When the one-shot `containerAvailabilityRegister` attempt hits a 5xx/transient error, `CamsRetryChildWorkflow` (`@WorkflowMethod("camsRetry")`) re-issues `attemptCamsRegistration` with Temporal-native retry bounded by a schedule-to-close set to the remaining time to `deadlineEpochMillis` — the CAMS mirror of the VTS wait child, but retry-driven with no callback-wait phase. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/CamsRetryChildWorkflowImpl.java:41)
 - A single retry attempt is capped so it never outlives the deadline: `startToClose = min(remaining, 5m)`; non-retryable 4xx (`CAMS_NON_RETRYABLE_TYPE`) ends the workflow silently. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/CamsRetryChildWorkflowImpl.java:52)
-- On deadline expiry the child calls `VtsCamsChildFanBackActivity.fireVtsCamsRegistrationFeedback(bookingId, true)` — the shared fan-back (renamed from `VtsChildFanBackActivity`) used by BOTH the VTS wait child and the CAMS retry child; the `true` timeout flag makes `UpdateVesselRailAvailabilityDate` surface the rail "Unable to retrieve rail ETA" business exception. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VtsCamsChildFanBackActivity.java:16)
+- On deadline expiry the child calls `VtsCamsChildFanBackActivityImpl.fireVtsCamsRegistrationFeedback(bookingId, true)` — the shared fan-back used by BOTH the VTS wait child and the CAMS retry child; the `true` timeout flag makes `UpdateVesselRailAvailabilityDate` surface the rail "Unable to retrieve rail ETA" business exception. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VtsCamsChildFanBackActivityImpl.java:26)
 - `UpdateVesselRailAvailabilityDateActivityImpl` now short-circuits entirely (skips the equipment-date update, the VTS reference sync, AND the SEND_TO_TMS trigger check) before doing any work, for two cases: the booking is `CANCELLED`, or `SERVICE_DELIVERY_EXECUTION` has already reached `EXECUTED`. Applies identically to a normal date update and a VTS/CAMS registration-timeout notification. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/UpdateVesselRailAvailabilityDateActivityImpl.java:58, :73)
+- The `VESSEL_CONTAINER_REGISTRATION_FEEDBACK` event's second step, `SendToEhActivityImpl.sendVesselCamsTrackingToEh`, only publishes to the event-history topic when the service plan carries tracking dates or a VTS/CAMS timeout business exception — a feedback cycle with neither is dropped instead of writing an empty history entry. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SendToEhActivityImpl.java:78)

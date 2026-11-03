@@ -1,7 +1,7 @@
 {
   "repo_key": "telikos-booking-service",
   "generated_at": "2026-07-20T12:30:00.000+05:30",
-  "verified_against": "dbe41b122b0e4dd1daaa248204c70c2b809caed2",
+  "verified_against": "cf8cb392d09686d16ba800291da20d5644191555",
   "files": [
     {
       "path": "domain/service-plan.md",
@@ -74,7 +74,14 @@
         "componenttest module",
         "perftest module"
       ],
-      "peer_systems": []
+      "peer_systems": [],
+      "sources": [
+        "service/pom.xml",
+        "componenttest/pom.xml",
+        "perftest/pom.xml",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking"
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "architecture/cross-cutting.md",
@@ -129,7 +136,8 @@
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/KafkaConsumerService.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/common/VersionTolerantPayload.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/config/TemporalWorkerConfig.java"
-      ]
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "stack/stack.md",
@@ -171,7 +179,8 @@
         "service/pom.xml",
         "componenttest/pom.xml",
         "service/src/main/resources/application.yml"
-      ]
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "runtime/rfp-flow.md",
@@ -217,7 +226,8 @@
         "CancelBookingEventsDomainService",
         "ProcessReadyForPlanning",
         "ProcessReadyForPlanningImpl",
-        "ServicePlanApplicationMapper"
+        "ServicePlanApplicationMapper",
+        "ProcessEditAmendReadyForPlanningImpl"
       ],
       "peer_systems": [],
       "sources": [
@@ -230,8 +240,10 @@
         "service/src/main/resources/application.yml",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessReadyForPlanning.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessReadyForPlanningImpl.java",
-        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/mapper/ServicePlanApplicationMapper.java"
-      ]
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/mapper/ServicePlanApplicationMapper.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessEditAmendReadyForPlanningImpl.java"
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "runtime/confirm-send-to-tms-flow.md",
@@ -265,7 +277,8 @@
         "BookingController",
         "ConfirmBookingDomainService",
         "BookingSendToTmsDomainService",
-        "ProcessSendToTmsImpl"
+        "ProcessSendToTmsImpl",
+        "DeleteCancelledToFromTmsActivityImpl"
       ],
       "peer_systems": [],
       "sources": [
@@ -273,8 +286,10 @@
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/ConfirmBookingDomainService.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/BookingSendToTmsDomainService.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessSendToTmsImpl.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/DeleteCancelledToFromTmsActivityImpl.java",
         "service/src/main/resources/application.yml"
-      ]
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "runtime/sap-tms-feedback-flow.md",
@@ -307,14 +322,21 @@
       "entities": [
         "SapFeedbackConsumerService",
         "SapTmsExecutionStatusConsumerService",
-        "UpdateTransportOrderFeedbackDomainService"
+        "UpdateTransportOrderFeedbackDomainService",
+        "UpdateTmsFeedbackAcknowledgementImpl",
+        "UpdateExecutionStatusActivityImpl",
+        "UpdateFeedbackActivityImpl"
       ],
       "peer_systems": [],
       "sources": [
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/SapFeedbackConsumerService.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/SapTmsExecutionStatusConsumerService.java",
-        "service/src/main/resources/application.yml"
-      ]
+        "service/src/main/resources/application.yml",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/UpdateTmsFeedbackAcknowledgementImpl.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/UpdateExecutionStatusActivityImpl.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/UpdateFeedbackActivityImpl.java"
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "runtime/customs-vessel-flow.md",
@@ -361,7 +383,8 @@
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/VtsWaitChildWorkflowImpl.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/CamsRetryChildWorkflowImpl.java",
         "service/src/main/resources/application.yml"
-      ]
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "runtime/event-activity-matrix.md",
@@ -382,8 +405,7 @@
         "workflow activity order",
         "one click queue",
         "temporal continue as new",
-        "one click iom pruning removed",
-        "vessel cams tracking event history activity"
+        "one click iom pruning removed"
       ],
       "capabilities": [
         "workflow-sequencing",
@@ -395,13 +417,24 @@
       ],
       "entities": [
         "BookingEventsWorkflowImplementation",
-        "ActivitiesConfig"
+        "ActivitiesConfig",
+        "ProcessInvoiceTriggeredFeedbackImpl",
+        "ProcessPricingUpdateImpl",
+        "TriggerBookingEventsActivityImpl",
+        "UpdateRevenueChargeActivityImpl",
+        "UpdateStartDateTimeActivityImpl"
       ],
       "peer_systems": [],
       "sources": [
         "service/src/main/resources/application.yml",
-        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java"
-      ]
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessInvoiceTriggeredFeedbackImpl.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessPricingUpdateImpl.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/TriggerBookingEventsActivityImpl.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/UpdateRevenueChargeActivityImpl.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/UpdateStartDateTimeActivityImpl.java"
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "contracts/api-contracts.md",
@@ -475,10 +508,7 @@
         "sap feedback topic",
         "event history topic",
         "transport asset priority kafka schema",
-        "black friday equipment priority",
-        "transport asset priority",
-        "topic suffix version vs schema version",
-        "booking equipment equals hashcode"
+        "black friday equipment priority"
       ],
       "capabilities": [
         "topic-lookup",
@@ -508,7 +538,8 @@
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/ContainerAvailabilityFeedbackConsumer.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/dispatchers/IomBookingEventDispatcher.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/dispatchers/BookingFlowsEventHistoryDispatcher.java"
-      ]
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "contracts/db-schemas.md",
@@ -579,7 +610,8 @@
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/service/TransportOrderInfraService.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/service/CustomsServiceOrderInfraService.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java"
-      ]
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "integrations/ap-temporal.md",
@@ -611,7 +643,9 @@
       ],
       "entities": [
         "BookingActivityPlanDispatcher",
-        "ActivityPlan"
+        "ActivityPlan",
+        "SendToActivityPlanActivityImpl",
+        "RfpMandatoryFieldValidator"
       ],
       "peer_systems": [
         "telikos-activityplanworkflow-service_02"
@@ -619,8 +653,11 @@
       "sources": [
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/dispatchers/BookingActivityPlanDispatcher.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/router/EventRouterService.java",
-        "service/src/main/resources/application.yml"
-      ]
+        "service/src/main/resources/application.yml",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SendToActivityPlanActivityImpl.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/validation/RfpMandatoryFieldValidator.java"
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "integrations/iom.md",
@@ -654,7 +691,9 @@
       ],
       "entities": [
         "IomBookingEventDispatcher",
-        "Booking"
+        "Booking",
+        "SendStartedEventToIomActivityImpl",
+        "SendEndEventToIomActivityImpl"
       ],
       "peer_systems": [
         "iom"
@@ -662,8 +701,11 @@
       "sources": [
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/dispatchers/IomBookingEventDispatcher.java",
         "service/src/main/resources/application.yml",
-        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java"
-      ]
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SendStartedEventToIomActivityImpl.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SendEndEventToIomActivityImpl.java"
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "integrations/sap-tms.md",
@@ -694,12 +736,7 @@
         "driver id zdriverid alternative code",
         "nam container execution status resolver",
         "tare weight wiped by tms execution status",
-        "equipment profile omitted tms message",
-        "multi hop ecl fcl execution status",
-        "chassis billable duration multi leg",
-        "multi container chassis reference",
-        "nam actual time cleared no staging leg",
-        "nam actual time from stored plan"
+        "equipment profile omitted tms message"
       ],
       "capabilities": [
         "sap-integration-mapping",
@@ -715,9 +752,7 @@
         "SapTmsExecutionStatusConsumerService",
         "ProcessTmsExecutionImpl",
         "NamContainerExecutionStatusResolver",
-        "DomainHelperUtils",
-        "RentalChassisBillableDurationCalculator",
-        "RentalChassisReferenceApplier"
+        "DomainHelperUtils"
       ],
       "peer_systems": [
         "sap-tms"
@@ -731,8 +766,10 @@
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessTmsExecutionImpl.java",
         "service/src/main/resources/application.yml",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/NamContainerExecutionStatusResolver.java",
-        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java"
-      ]
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/RentalChassisBillableDurationCalculator.java"
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "integrations/customs.md",
@@ -764,15 +801,24 @@
       ],
       "entities": [
         "CustomsServiceOrderConsumer",
-        "CustomsServiceOrderResponseEvent"
+        "CustomsServiceOrderResponseEvent",
+        "ProcessCustomsFeedbackActivityImpl",
+        "CheckAndSendNotificationActivityImpl",
+        "CustomsManualUpdateActivityImpl",
+        "CustomsStatusUpdateActivityImpl"
       ],
       "peer_systems": [
         "customs"
       ],
       "sources": [
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/CustomsServiceOrderConsumer.java",
-        "service/src/main/resources/application.yml"
-      ]
+        "service/src/main/resources/application.yml",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessCustomsFeedbackActivityImpl.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/CheckAndSendNotificationActivityImpl.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/CustomsManualUpdateActivityImpl.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/CustomsStatusUpdateActivityImpl.java"
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "integrations/vts.md",
@@ -799,9 +845,7 @@
         "why did my vessel eta not apply",
         "vts precedence over reference",
         "rfp failed missing vts dates",
-        "import vs export vessel dates",
-        "vts cams event history labels",
-        "vessel eta ata event history label"
+        "import vs export vessel dates"
       ],
       "capabilities": [
         "vessel-registration",
@@ -816,8 +860,7 @@
         "VesselTrackingRegistrationActivityImpl",
         "VtsWaitChildWorkflowImpl",
         "VesselInformationDomainService",
-        "DomainHelperUtils",
-        "VesselCamsTrackingEhSupport"
+        "DomainHelperUtils"
       ],
       "peer_systems": [
         "vts"
@@ -828,8 +871,10 @@
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/VtsWaitChildWorkflowImpl.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/VesselInformationDomainService.java",
         "service/src/main/resources/application.yml",
-        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java"
-      ]
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/mappers/categories/VesselCamsTrackingEhSupport.java"
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "integrations/cams.md",
@@ -865,7 +910,11 @@
         "CamsIntegrator",
         "ContainerAvailabilityFeedbackConsumer",
         "ContainerAvailabilityDomainService",
-        "UpdateVesselRailAvailabilityDateActivityImpl"
+        "UpdateVesselRailAvailabilityDateActivityImpl",
+        "CamsRetryChildWorkflowImpl",
+        "ContainerAvailabilityRegisterActivityImpl",
+        "VtsCamsChildFanBackActivityImpl",
+        "SendToEhActivityImpl"
       ],
       "peer_systems": [
         "cams"
@@ -876,10 +925,12 @@
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/ContainerAvailabilityDomainService.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/CamsRetryChildWorkflowImpl.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ContainerAvailabilityRegisterActivityImpl.java",
-        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VtsCamsChildFanBackActivity.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VtsCamsChildFanBackActivityImpl.java",
         "service/src/main/resources/application.yml",
-        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/UpdateVesselRailAvailabilityDateActivityImpl.java"
-      ]
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/UpdateVesselRailAvailabilityDateActivityImpl.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SendToEhActivityImpl.java"
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "operations/retries.md",
@@ -934,7 +985,8 @@
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SaveCustomsOrderActivityImpl.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/service/TransportOrderInfraService.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/service/CustomsServiceOrderInfraService.java"
-      ]
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "operations/failure-model.md",
@@ -1010,15 +1062,20 @@
         "BookingEventOperationService",
         "MigrateDataController",
         "EventRouterService",
-        "RentalChassisEligibilityEvaluator"
+        "RentalChassisEligibilityEvaluator",
+        "TmsCountryValidator",
+        "ProcessCancelledBookingActivityImpl"
       ],
       "peer_systems": [],
       "sources": [
         "service/src/main/resources/application.yml",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/service/BookingEventOperationService.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/MigrateDataController.java",
-        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/RentalChassisEligibilityEvaluator.java"
-      ]
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/RentalChassisEligibilityEvaluator.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/validation/validators/TmsCountryValidator.java",
+        "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessCancelledBookingActivityImpl.java"
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "operations/monitoring.md",
@@ -1057,7 +1114,8 @@
       "sources": [
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/common/BookingMetricsRegistry.java",
         "service/src/main/resources/application.yml"
-      ]
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "path": "navigation/entry-points.md",
@@ -1184,7 +1242,8 @@
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/KafkaConsumerService.java",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/dispatchers/BookingActivityPlanDispatcher.java"
-      ]
+      ],
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "category": "stack",
@@ -1230,12 +1289,13 @@
         "Checkstyle"
       ],
       "sources": [
-        "AGENTS.md",
+        "CLAUDE.md",
         "service/pom.xml",
         "componenttest/pom.xml",
         "perftest/pom.xml"
       ],
-      "path": "stack/build-and-test.md"
+      "path": "stack/build-and-test.md",
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     },
     {
       "category": "runtime",
@@ -1280,8 +1340,9 @@
         "service/src/main/resources/application.yml",
         "service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/BookingEventsWorkflowImplementation.java"
       ],
-      "path": "runtime/end-to-end-booking-to-email.md"
+      "path": "runtime/end-to-end-booking-to-email.md",
+      "verified_against": "cf8cb392d09686d16ba800291da20d5644191555"
     }
   ],
-  "last_reviewed": "2026-09-07"
+  "last_reviewed": "2026-11-03"
 }

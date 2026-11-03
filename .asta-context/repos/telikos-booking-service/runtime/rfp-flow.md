@@ -7,7 +7,7 @@ mentions: [product-resolver-chain, booking-cancellation-routing, one-click-booki
 scenarios: [rfp flow entry, rfp variant routing, rfp duplicate guard, booking cancellation routing, amendment routing chain, process ready for planning activity, how are the mappers structured, what breaks silently, mapping chain, mapstruct mappers, add a field to the flow, servicedates mapping ignored, why isn't servicedates auto mapped]
 capabilities: [event-routing, workflow-initiation]
 domains: [booking, service-plan]
-entities: [ProductOrchestration, InlandBookingHandler, InitialReadyForPlanningEventsDomainService, AmendEditRfpEventsDomainService, CancelBookingEventsDomainService, ProcessReadyForPlanning, ProcessReadyForPlanningImpl, ServicePlanApplicationMapper]
+entities: [ProductOrchestration, InlandBookingHandler, InitialReadyForPlanningEventsDomainService, AmendEditRfpEventsDomainService, CancelBookingEventsDomainService, ProcessReadyForPlanning, ProcessReadyForPlanningImpl, ServicePlanApplicationMapper, ProcessEditAmendReadyForPlanningImpl]
 sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/KafkaConsumerService.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/productresolver/ProductOrchestration.java
@@ -19,8 +19,9 @@ sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessReadyForPlanning.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessReadyForPlanningImpl.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/mapper/ServicePlanApplicationMapper.java
-verified_against: 4850c3efe7babc8364a044fed070268d6945002f
-last_updated: "2026-09-07"
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessEditAmendReadyForPlanningImpl.java
+verified_against: cf8cb392d09686d16ba800291da20d5644191555
+last_updated: "2026-11-03"
 related:
   - runtime/event-activity-matrix.md
   - contracts/kafka-events.md
@@ -38,7 +39,7 @@ related:
 - Amendment events route to `AmendEditRfpEventsDomainService`, which immediately initiates `EDIT_AMEND_READY_FOR_PLANNING`. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/AmendEditRfpEventsDomainService.java:30)
 - Cancellation events route to `CancelBookingEventsDomainService`; missing `bookingNumber` means `DRAFT_CANCELLATION`, while a populated `bookingNumber` means `BOOKING_CANCELLATION`. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/CancelBookingEventsDomainService.java:27)
 - READY_FOR_PLANNING activities run in this order: `saveServicePlanDetailsToDB`, `saveTODetails`, `saveSODetails`, `sendServicePlanDetailsToAP`, `updateWorkProcessStartDateTimeInDB`, `sendStartBookingEventToIOM`, `sendServicePlanDetailsToEH`. (source: service/src/main/resources/application.yml:315)
-- EDIT_AMEND_READY_FOR_PLANNING replaces the initial TO/SO creation with `processEditAmendReadyForPlanning` and `updateTransportOrder`, then keeps the same AP/IOM/EH fan-out pattern. (source: service/src/main/resources/application.yml:335)
+- EDIT_AMEND_READY_FOR_PLANNING replaces the initial TO/SO creation with `ProcessEditAmendReadyForPlanningImpl.processEditAmendReadyForPlanning` and `updateTransportOrder`, then keeps the same AP/IOM/EH fan-out pattern; it also re-runs the SAP-TMS country check (`TmsCountryValidator.isNonSapTmsCountry`) against the booking's current leg/`BOOKING_COUNTRY` so an amend can re-route between TMS and execution. (source: service/src/main/resources/application.yml:341; temporal/activity/ProcessEditAmendReadyForPlanningImpl.java:183)
 - DRAFT_CANCELLATION omits TO version reset, while BOOKING_CANCELLATION adds `updateTOVersionStatusAndResetOldTOAck` before AP/IOM/EH dispatch. (source: service/src/main/resources/application.yml:364)
 
 ## Mapping Chain

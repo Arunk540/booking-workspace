@@ -10,6 +10,8 @@ scenarios:
   - activity plan invoice dispatch
   - activity plan job closure
   - billing revenue update
+  - qa test user billing intake
+  - ata service date events
 capabilities: [billing-feedback, invoice-dispatch, job-closure, revenue-update]
 domains: [billing, activity-plan, invoicing]
 entities: [ActivityPlanWorkflow, ActivityPlanWorkflowImplV2, BillingFeedbackActivityForV2Impl, JobClosureActivityImpl]
@@ -23,11 +25,12 @@ sources:
   - booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PrepareBillingActivityImpl.java
   - common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/entity/Invoice.java
-verified_against: da1e3f3e49ee4b21e574d717c688c0f3a0e4198d
-last_updated: "2026-09-29"
+verified_against: 55f73f4df1c31b8892489af194e7b453774dd7e3
+last_updated: "2026-11-03"
 related:
   - integrations/billing.md
   - integrations/booking-service.md
+  - integrations/decision-hub.md
 ---
 
 # Billing and invoice runtime
@@ -47,3 +50,5 @@ related:
 | billing intake (new, gated) | When `billingIntakeEnabled` is true, `ActivityPlanWorkflowImplV2` skips the legacy send-to-finance calls and instead runs `PrepareBillingActivityImpl.prepareBilling` (same cancellation-charge/prior-SEND_TO_TMS suppression rules), then signals `BILLING_INTAKE_TASK_QUEUE`. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java:879) |
 | intake gate is per-run, not per-call | `billingIntakeEnabled` is resolved once via `Workflow.getVersion("billingIntakeRouting", ...)` + `Workflow.sideEffect` at workflow start — in-flight workflow runs keep the legacy path forever regardless of a later env-var flip; only new executions can pick up `BILLING_INTAKE_ENABLED=true`. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java:116) |
 | invoice parties forwarded to booking | `sendBillingfeedBackforV2ToBooking` maps `billingResponse.invoiceData[0].party` into `common.dto.Party` via `ObjectMapper.convertValue` (unmapped/renamed billing-side fields silently drop, no error) and sets it on `Invoice.parties` before forwarding to booking-service. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java:596; common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/entity/Invoice.java:34) |
+| intake gate: QA test user | `shouldSendToIntake` adds a QA-only exception on top of the per-run `billingIntakeEnabled` gate: when `ENV_NAME=qa`, intake runs only for `userId == Constants.QA_TEST_USER`, even with the flag on; every other QA user always takes the legacy path. Non-QA envs are unaffected. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java:902) |
+| ATA/ATD now map a wider event set to ServiceDates | `BillingServiceImpl.addActualServiceDates` maps `ATA_SERVICE_DATE_EVENTS` (the 6 raw TMS execution reference types plus `ATA`/`ATD`) to `financialJobWorkflow.ServiceDates` — previously only `ATA`/`ATD` references were mapped; a consumer checking only those two now misses dates sourced from the raw execution events. | (source: booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java:121) |

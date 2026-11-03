@@ -19,8 +19,8 @@ sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/NamContainerExecutionStatusResolver.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/RentalChassisBillableDurationCalculator.java
-verified_against: dbe41b122b0e4dd1daaa248204c70c2b809caed2
-last_updated: "2026-09-29"
+verified_against: cf8cb392d09686d16ba800291da20d5644191555
+last_updated: "2026-11-03"
 related:
   - runtime/confirm-send-to-tms-flow.md
   - runtime/sap-tms-feedback-flow.md
@@ -48,6 +48,7 @@ topic_or_endpoint: "KAFKA_SAP_TMS_FEEDBACK_TOPIC + KAFKA_SAP_TMS_EXECUTION_STATU
 - On a container's first TMS message, the stored plan has no leg yet for the owning FCL/ECL indicator; `applyNamActualTimes` now clears that actual time instead of letting the inbound message's own last-leg value stand in — an import round trip no longer shows the laden leg's arrival as the container's `ACTUAL_TIME_OF_ARRIVAL` before the empty-return leg reports. `ACTUAL_TIME_OF_DEPARTURE`/`ARRIVAL` sent to IOM are likewise read from the **stored** plan (`findNamActualTimesPlan`/`ownsNamActualTimes`), not the inbound message, since one inbound message only ever carries one freight order. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:1165, :964)
 - `SapTmsExecutionStatusTransportOrderMapper.fetchDrivers` now also maps `driverId`, read from the party's `alternativeCodes` entry whose `alternativeCodeName` is `ZDriverID` (same ZD1/ZD2-role parties as name/phone). (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/mapper/SapTmsExecutionStatusTransportOrderMapper.java:883, :930)
 - Equipment `tareWeight` is only overwritten when the inbound TMS message actually carries one (`setIfPresent`) — later execution-status messages often omit `equipmentProfile` entirely, and applying them naively would wipe a tare weight captured earlier. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessTmsExecutionImpl.java:754, :804)
+- `SapTmsExecutionStatusTransportOrderMapper.mapLinkedFreightOrderReference` reads the carrier booking's `referenceTypeCode` `ZSOFR` (Linked FRO) and sets `TransportLeg.linkageId` to it on every leg flagged `isServiceOrder`, clearing it on the rest. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/mapper/SapTmsExecutionStatusTransportOrderMapper.java:1236, :1250)
 
 ## Chassis vendors on the transport order
 

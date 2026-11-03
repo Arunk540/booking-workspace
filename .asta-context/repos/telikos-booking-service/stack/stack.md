@@ -12,8 +12,8 @@ sources:
   - service/pom.xml
   - componenttest/pom.xml
   - service/src/main/resources/application.yml
-verified_against: 4850c3efe7babc8364a044fed070268d6945002f
-last_updated: "2026-09-07"
+verified_against: cf8cb392d09686d16ba800291da20d5644191555
+last_updated: "2026-11-03"
 related:
   - architecture/modules.md
   - architecture/cross-cutting.md
@@ -27,5 +27,5 @@ related:
 - Security: Spring OAuth2 resource server plus `telikos-jwt-validator` for token validation helpers. (source: service/pom.xml:101)
 - Mapping/tooling: Lombok, MapStruct, Gson, and Spring validation are part of the runtime dependency graph. (source: service/pom.xml:120)
 - Messaging: Kafka with Confluent Avro serializers/deserializers and Schema Registry on both dedicated and shared clusters. (source: service/pom.xml:145)
-- Workflow: Temporal integration comes from `event-router-library:3.2.25` and task queues configured under `audit.temporal.taskQueue`. (source: service/pom.xml:56)
+- Workflow: Temporal integration comes from `event-router-library:3.2.28` and task queues configured under `audit.temporal.taskQueue`. 3.2.26+ lets `TemporalUtility` accept PEM that already has BEGIN/END lines, as cert-manager writes it, so the client cert can source from a cert-manager Secret instead of Vault. (source: service/pom.xml:56)
 - Testing: component tests use Cucumber, Serenity, and `temporal-testing`; performance tests use the JMeter Maven plugin. (source: componenttest/pom.xml:33)

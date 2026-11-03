@@ -16,9 +16,11 @@ scenarios:
   - chassis rental charge code
   - what units can a charge be rated on
   - charge units
+  - decision hub nam billing events
+  - ata atd reference derivation
 capabilities: [billing-dispatch, billing-feedback]
 domains: [billing, temporal, activity-plan]
-entities: [EventProcessorServiceImpl, BillingWorker, BillingProducerWorker, BillingProducerWorker2, RateBasisEnum, StandardReason]
+entities: [EventProcessorServiceImpl, BillingWorker, BillingProducerWorker, BillingProducerWorker2, RateBasisEnum, StandardReason, NamBillingEventsResolver, AtaAtdReferenceResolver]
 peer_systems: [telikos-billing-workflow]
 direction: outbound
 protocol: temporal-signal
@@ -35,11 +37,13 @@ sources:
   - common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/StandardReason.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PrepareBillingActivityImpl.java
   - common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/constant/Constants.java
-verified_against: da1e3f3e49ee4b21e574d717c688c0f3a0e4198d
-last_updated: "2026-09-29"
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/utils/AtaAtdReferenceResolver.java
+verified_against: 55f73f4df1c31b8892489af194e7b453774dd7e3
+last_updated: "2026-11-03"
 related:
   - runtime/billing-flow.md
   - operations/retries.md
+  - integrations/decision-hub.md
 ---
 
 # Billing workflow integration
@@ -55,3 +59,5 @@ related:
 - `RateBasisEnum` now also has `PERCENTAGE` (alongside `CONTAINER`/`LITRE`/`.../MILE`/`KILOMETER`) for percentage-based rate lines — the `billing-workflow-models-library` dependency was bumped 1.7.67→1.7.76 in all three consuming modules to carry it, so a rate basis outside this set still isn't representable, but "complete" now means 13 values, not the smaller set from before this range. (source: common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/RateBasisEnum.java:19)
 - New additive outbound edge, disabled by default: when `activityplan.billing.intakeEnabled` (env `BILLING_INTAKE_ENABLED`, default `false`) is true, `PrepareBillingActivityImpl.prepareBilling` forwards `BillingDataExchange` to a separate `BILLING_INTAKE_TASK_QUEUE` via signal `sendToBillingIntake`, instead of the legacy `SEND_TO_FINANCE`/`billingSignal` path on `billingSecondTaskQueue` — see runtime/billing-flow.md for the workflow-versioning gate. (source: common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/constant/Constants.java:199)
 - `StandardReason` now carries `standardReasonCode`, and the same field travels on the TMS payload — so a reason is identified by code rather than by its display text. (source: common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/StandardReason.java)
+- For NAM bookings, `PopulateBillingDataActivityImpl` now asks Decision Hub (`NamBillingEventsResolver`) which TMS execution events are billable invoice triggers before mapping — see `integrations/decision-hub.md` for the fail-open contract. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java:166)
+- `AtaAtdReferenceResolver.deriveMissingAtaAtdReferences`, also called from `PopulateBillingDataActivityImpl`, derives/replaces order-level ATA/ATD references from the matching TMS execution event per the booking's Round Trip/One-Way × Export/Import × Full/Empty scenario, before billing-model mapping. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/utils/AtaAtdReferenceResolver.java:30)

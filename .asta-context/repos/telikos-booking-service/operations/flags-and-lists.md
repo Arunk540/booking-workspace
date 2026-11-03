@@ -7,14 +7,16 @@ mentions: [one-click-routing-lists, sap-country-list, migration-guard-flag]
 scenarios: [booking feature flags, booking routing lists, one click channels, sap tms countries, migration flag, one click booking, when does a booking become one click, which countries are eligible for sap tms, nam countries, rental chassis exclusion flag, rental chassis excluded customers scac]
 capabilities: [toggle-audit, routing-explanation]
 domains: [booking, operations]
-entities: [BookingEventOperationService, MigrateDataController, EventRouterService, RentalChassisEligibilityEvaluator]
+entities: [BookingEventOperationService, MigrateDataController, EventRouterService, RentalChassisEligibilityEvaluator, TmsCountryValidator, ProcessCancelledBookingActivityImpl]
 sources:
   - service/src/main/resources/application.yml
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/service/BookingEventOperationService.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/MigrateDataController.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/RentalChassisEligibilityEvaluator.java
-verified_against: 4850c3efe7babc8364a044fed070268d6945002f
-last_updated: "2026-09-07"
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/validation/validators/TmsCountryValidator.java
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/ProcessCancelledBookingActivityImpl.java
+verified_against: cf8cb392d09686d16ba800291da20d5644191555
+last_updated: "2026-11-03"
 related:
   - runtime/confirm-send-to-tms-flow.md
   - runtime/rfp-flow.md
@@ -35,3 +37,4 @@ related:
 - `VESSEL_TRACKING_ENABLED` defaults true and controls VTS registration activity execution. (source: service/src/main/resources/application.yml:74)
 - `TEMPORAL_HANDLE_OLD_BOOKINGS_ENABLED` defaults false and alters Temporal handling for older bookings. (source: service/src/main/resources/application.yml:225)
 - `LIST_OF_RENTAL_CHASSIS_EXCLUDED_CUSTOMERS`/`LIST_OF_RENTAL_CHASSIS_EXCLUDED_SCAC_CODES` feed `spring.application.rental-chassis-excluded-customers`/`-scac-codes`; both configured booked-by customer AND ocean SCAC must match for `RentalChassisEligibilityEvaluator.isExcludedByCustomerAndScac` to skip rental chassis billing references. (source: service/src/main/resources/application.yml:40)
+- `LIST_OF_SAP_TMS_COUNTRIES` gates SEND_TO_TMS at its first loaded leg's start country; when that leg gives none (e.g. a NAM one-way-empty booking starting at the empty pickup), `TmsCountryValidator.nonSapTmsByBookingCountry` falls back to the booking's `BOOKING_COUNTRY` reference instead — and a booking already sent keeps the route it was sent on. The same fallback now backs the RFP/confirm gate, `ProcessCancelledBookingActivityImpl`'s cancellation-charges check, and `ProcessEditAmendReadyForPlanningImpl`'s amend routing. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/validation/validators/TmsCountryValidator.java:75)

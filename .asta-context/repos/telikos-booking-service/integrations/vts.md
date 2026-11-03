@@ -16,8 +16,8 @@ sources:
   - service/src/main/resources/application.yml
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/mappers/categories/VesselCamsTrackingEhSupport.java
-verified_against: dbe41b122b0e4dd1daaa248204c70c2b809caed2
-last_updated: "2026-09-29"
+verified_against: cf8cb392d09686d16ba800291da20d5644191555
+last_updated: "2026-11-03"
 related:
   - runtime/customs-vessel-flow.md
   - runtime/confirm-send-to-tms-flow.md

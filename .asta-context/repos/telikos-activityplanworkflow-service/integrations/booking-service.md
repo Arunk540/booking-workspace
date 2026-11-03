@@ -23,7 +23,7 @@ sources:
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BookingWorker.java
   - service/src/main/resources/application.yml
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BookingFeedbackActivityImpl.java
-verified_against: da1e3f3e49ee4b21e574d717c688c0f3a0e4198d
+verified_against: 55f73f4df1c31b8892489af194e7b453774dd7e3
 last_updated: "2026-09-29"
 related:
   - runtime/cancellation-email-flow.md

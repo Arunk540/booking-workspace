@@ -19,7 +19,7 @@ sources:
   - event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaConfiguration.java
   - service/src/main/resources/application.yml
   - persistence/src/main/java/net/apmoller/telikos/microservices/activityplan/persistence/entity/ActivityPlan.java
-verified_against: 63f837a2e764f3ddcfc244c2fc2d7278d0c35436
+verified_against: 55f73f4df1c31b8892489af194e7b453774dd7e3
 last_updated: 2026-06-18
 related:
   - operations/failure-model.md

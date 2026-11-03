@@ -1,6 +1,6 @@
 {
   "generated_at": "2026-07-20T12:30:00.000+05:30",
-  "verified_against": "da1e3f3e49ee4b21e574d717c688c0f3a0e4198d",
+  "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
   "files": [
     {
       "path": "architecture/cross-cutting.md",
@@ -40,7 +40,7 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/config/TemporalClientConfig.java",
         "service/src/main/resources/application.yml"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "stack/stack.md",
@@ -87,7 +87,7 @@
         "workflow/pom.xml",
         "service/pom.xml"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "architecture/cross-cutting.md",
@@ -131,7 +131,7 @@
         "service/src/main/resources/application.yml",
         "service/src/main/java/net/apmoller/telikos/microservices/activityplan/ActivityplanworkflowApplication.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "domain/activity-plan.md",
@@ -224,7 +224,7 @@
         "common/src/main/resources/avro/EventHistoryInternal.v2.avsc",
         "common/src/main/resources/avro/CustomServiceOrderEvent.v1.avsc"
       ],
-      "verified_against": "da1e3f3e49ee4b21e574d717c688c0f3a0e4198d",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-09-29",
       "related": [
         "integrations/tms.md",
@@ -298,7 +298,9 @@
         "charge units",
         "percentage rate basis",
         "billing intake queue",
-        "billing intake enabled flag"
+        "billing intake enabled flag",
+        "decision hub nam billing events",
+        "ata atd reference derivation"
       ],
       "capabilities": [
         "billing-dispatch",
@@ -316,7 +318,9 @@
         "BillingProducerWorker2",
         "RateBasisEnum",
         "StandardReason",
-        "PrepareBillingActivityImpl"
+        "PrepareBillingActivityImpl",
+        "NamBillingEventsResolver",
+        "AtaAtdReferenceResolver"
       ],
       "sources": [
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
@@ -329,13 +333,15 @@
         "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/RateBasisEnum.java",
         "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/StandardReason.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PrepareBillingActivityImpl.java",
-        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/constant/Constants.java"
+        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/constant/Constants.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/utils/AtaAtdReferenceResolver.java"
       ],
-      "verified_against": "da1e3f3e49ee4b21e574d717c688c0f3a0e4198d",
-      "last_updated": "2026-09-29",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
+      "last_updated": "2026-11-03",
       "related": [
         "runtime/billing-flow.md",
-        "operations/retries.md"
+        "operations/retries.md",
+        "integrations/decision-hub.md"
       ],
       "peer_systems": [
         "telikos-billing-workflow"
@@ -386,7 +392,7 @@
         "service/src/main/resources/application.yml",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BookingFeedbackActivityImpl.java"
       ],
-      "verified_against": "da1e3f3e49ee4b21e574d717c688c0f3a0e4198d",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-09-29",
       "related": [
         "runtime/cancellation-email-flow.md",
@@ -438,7 +444,7 @@
         "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java",
         "service/src/main/resources/application.yml"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "runtime/customs-sde-flow.md",
@@ -486,7 +492,7 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "runtime/cancellation-email-flow.md",
@@ -558,7 +564,7 @@
         "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/enums/FacilityTypeEnum.java",
         "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/constant/Constants.java"
       ],
-      "verified_against": "da1e3f3e49ee4b21e574d717c688c0f3a0e4198d",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-09-29",
       "related": [
         "runtime/rfp-tms-flow.md",
@@ -658,7 +664,7 @@
         "persistence/src/main/java/net/apmoller/telikos/microservices/activityplan/persistence/service/MongoReactiveActivityPlanRepositoryImpl.java",
         "event/src/main/java/net/apmoller/telikos/microservices/activityplan/event/kafka/KafkaProducerServiceImpl.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "navigation/entry-points.md",
@@ -699,7 +705,7 @@
         "workflow/src/main/resources/domain-rules.yml",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "runtime/rfp-tms-flow.md",
@@ -747,7 +753,7 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/dto/Booking.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "operations/retries.md",
@@ -773,7 +779,9 @@
         "activity plan country lists",
         "revenue line flag",
         "chassis rental charge code flag",
-        "billing intake enabled flag"
+        "billing intake enabled flag",
+        "qa test user billing intake flag",
+        "non sap tms country fallback"
       ],
       "capabilities": [
         "flag-audit"
@@ -786,20 +794,23 @@
         "ActivityPlanWorkflowImplV2",
         "TemporalWorker",
         "SendRevenueLineItemToBookingActivityImpl",
-        "BillingServiceImpl"
+        "BillingServiceImpl",
+        "NonSapTmsCountryUtil"
       ],
       "sources": [
         "service/src/main/resources/application.yml",
         "service/src/main/resources/application-local.yml",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java",
-        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendRevenueLineItemToBookingActivityImpl.java"
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendRevenueLineItemToBookingActivityImpl.java",
+        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/utility/NonSapTmsCountryUtil.java"
       ],
-      "verified_against": "da1e3f3e49ee4b21e574d717c688c0f3a0e4198d",
-      "last_updated": "2026-09-29",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
+      "last_updated": "2026-11-03",
       "related": [
         "operations/monitoring.md",
-        "runtime/cancellation-email-flow.md"
+        "runtime/cancellation-email-flow.md",
+        "integrations/decision-hub.md"
       ]
     },
     {
@@ -837,7 +848,7 @@
         "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/constant/Constants.java",
         "service/src/main/resources/application.yml"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "operations/failure-model.md",
@@ -884,7 +895,7 @@
         "service/src/main/resources/application.yml",
         "persistence/src/main/java/net/apmoller/telikos/microservices/activityplan/persistence/entity/ActivityPlan.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "operations/failure-model.md",
@@ -913,7 +924,9 @@
         "send to scm vs finance",
         "activity datetime second precision utc",
         "billing intake workflow",
-        "invoice parties billing forward"
+        "invoice parties billing forward",
+        "qa test user billing intake",
+        "ata service date events"
       ],
       "capabilities": [
         "billing-feedback",
@@ -946,11 +959,12 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PrepareBillingActivityImpl.java",
         "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/entity/Invoice.java"
       ],
-      "verified_against": "da1e3f3e49ee4b21e574d717c688c0f3a0e4198d",
-      "last_updated": "2026-09-29",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
+      "last_updated": "2026-11-03",
       "related": [
         "integrations/billing.md",
-        "integrations/booking-service.md"
+        "integrations/booking-service.md",
+        "integrations/decision-hub.md"
       ]
     },
     {
@@ -992,7 +1006,7 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/CancellationValidationActivityImpl.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "integrations/email-service.md",
@@ -1043,7 +1057,7 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/FsdUpdateActivityImpl.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "integrations/customs.md",
@@ -1090,7 +1104,7 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendToCustomsActivityImpl.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BillingFeedbackActivityForV2Impl.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "runtime/rfp-tms-flow.md",
@@ -1140,7 +1154,7 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishTmsActivityImpl.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "runtime/event-activity-matrix.md",
@@ -1184,7 +1198,7 @@
         "componenttest/pom.xml",
         "service/src/main/resources/application.yml"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
       "last_updated": "2026-06-18",
       "related": [
         "architecture/modules.md",
@@ -1239,7 +1253,63 @@
         "service/pom.xml",
         "componenttest/pom.xml"
       ],
-      "path": "stack/build-and-test.md"
+      "path": "stack/build-and-test.md",
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3"
+    },
+    {
+      "path": "integrations/decision-hub.md",
+      "category": "integrations",
+      "title": "decision hub nam billing invoice events",
+      "summary": "For NAM bookings, AP asks Decision Hub which TMS execution events to send to billing as invoice triggers; any failure or non-match falls back to sending every such event present.",
+      "primary_for": [
+        "activity-plan-decision-hub-integration"
+      ],
+      "mentions": [
+        "activity-plan-billing-integration",
+        "activity-plan-billing-runtime"
+      ],
+      "scenarios": [
+        "nam billing invoice events",
+        "decision hub rule call",
+        "decision hub token refresh",
+        "which tms events go to billing",
+        "decision hub rule no match",
+        "decision hub call fails"
+      ],
+      "capabilities": [
+        "decision-hub-rule-lookup"
+      ],
+      "domains": [
+        "billing",
+        "nam",
+        "decision-hub",
+        "activity-plan"
+      ],
+      "entities": [
+        "NamBillingEventsResolver",
+        "DecisionHubClient",
+        "DecisionHubTokenService",
+        "DecisionHubWebClientConfig"
+      ],
+      "sources": [
+        "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/decisionhub/NamBillingEventsResolver.java",
+        "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/decisionhub/DecisionHubClient.java",
+        "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/decisionhub/DecisionHubTokenService.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java",
+        "service/src/main/resources/application.yml"
+      ],
+      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
+      "last_updated": "2026-11-03",
+      "related": [
+        "integrations/billing.md",
+        "runtime/billing-flow.md"
+      ],
+      "peer_systems": [
+        "decision-hub"
+      ],
+      "direction": "outbound",
+      "protocol": "https",
+      "topic_or_endpoint": "nam-billing-invoice-events-rules"
     }
   ],
   "last_reviewed": "2026-09-07"
