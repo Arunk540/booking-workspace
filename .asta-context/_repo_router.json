@@ -1782,6 +1782,30 @@
     ],
     "tms document download url": [
       "telikos-email-service"
+    ],
+    "process event activity dispatch": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "old workflow billing feedback queue": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "send to finance legacy guard": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "amendment cancelled milestone": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "vendor cancellation email": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "email acknowledgement routing": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "amendment ready for planning tms": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "amendment send to execution": [
+      "telikos-activityplanworkflow-service"
     ]
   },
   "flows": [],

@@ -555,6 +555,12 @@
       "path": "navigation/entry-points.md"
     }
   ],
+  "process event activity dispatch": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "navigation/entry-points.md"
+    }
+  ],
   "activity plan key classes": [
     {
       "repo": "telikos-activityplanworkflow-service",
@@ -835,6 +841,18 @@
       "path": "runtime/billing-flow.md"
     }
   ],
+  "old workflow billing feedback queue": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "runtime/billing-flow.md"
+    }
+  ],
+  "send to finance legacy guard": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "runtime/billing-flow.md"
+    }
+  ],
   "activity plan cancellation email": [
     {
       "repo": "telikos-activityplanworkflow-service",
@@ -860,6 +878,24 @@
     }
   ],
   "booking cancellation feedback": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "runtime/cancellation-email-flow.md"
+    }
+  ],
+  "amendment cancelled milestone": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "runtime/cancellation-email-flow.md"
+    }
+  ],
+  "vendor cancellation email": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "runtime/cancellation-email-flow.md"
+    }
+  ],
+  "email acknowledgement routing": [
     {
       "repo": "telikos-activityplanworkflow-service",
       "path": "runtime/cancellation-email-flow.md"
@@ -950,6 +986,18 @@
     }
   ],
   "activity plan non sap billing": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "runtime/rfp-tms-flow.md"
+    }
+  ],
+  "amendment ready for planning tms": [
+    {
+      "repo": "telikos-activityplanworkflow-service",
+      "path": "runtime/rfp-tms-flow.md"
+    }
+  ],
+  "amendment send to execution": [
     {
       "repo": "telikos-activityplanworkflow-service",
       "path": "runtime/rfp-tms-flow.md"

@@ -594,7 +594,8 @@
         "activity plan queue map",
         "rest order endpoint",
         "billing feedback worker",
-        "booking signal worker"
+        "booking signal worker",
+        "process event activity dispatch"
       ],
       "capabilities": [
         "entry-point-navigation"
@@ -609,7 +610,8 @@
         "BillingWorker",
         "BillingProducerWorker",
         "BillingProducerWorker2",
-        "BookingWorker"
+        "BookingWorker",
+        "ProcessEventActivityImpl"
       ],
       "sources": [
         "api/src/main/java/net/apmoller/telikos/microservices/activityplan/api/controller/ActivityPlanController.java",
@@ -617,10 +619,11 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingWorker.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker2.java",
-        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BookingWorker.java"
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BookingWorker.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/ProcessEventActivityImpl.java"
       ],
-      "verified_against": "63f837a2e764f3ddcfc244c2fc2d7278d0c35436",
-      "last_updated": "2026-06-18",
+      "verified_against": "d044d5272656542d0692b65413fa56497143a377",
+      "last_updated": "2026-11-04",
       "related": [
         "navigation/key-classes.md",
         "contracts/api-contracts.md"
@@ -926,7 +929,9 @@
         "billing intake workflow",
         "invoice parties billing forward",
         "qa test user billing intake",
-        "ata service date events"
+        "ata service date events",
+        "old workflow billing feedback queue",
+        "send to finance legacy guard"
       ],
       "capabilities": [
         "billing-feedback",
@@ -946,7 +951,12 @@
         "JobClosureActivityImpl",
         "PopulateBillingDataActivityImpl",
         "BillingServiceImpl",
-        "PrepareBillingActivityImpl"
+        "PrepareBillingActivityImpl",
+        "BillingFeedbackActivityImpl",
+        "BillingSignalImpl",
+        "SendToBillingActivityImpl",
+        "SendDataToFinanceActivityImpl",
+        "ReceiveInvoiceEmailConfirmationActivityImpl"
       ],
       "sources": [
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java",
@@ -957,10 +967,15 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PopulateBillingDataActivityImpl.java",
         "booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PrepareBillingActivityImpl.java",
-        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/entity/Invoice.java"
+        "common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/entity/Invoice.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BillingFeedbackActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BillingSignalImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendToBillingActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendDataToFinanceActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/ReceiveInvoiceEmailConfirmationActivityImpl.java"
       ],
-      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
-      "last_updated": "2026-11-03",
+      "verified_against": "d044d5272656542d0692b65413fa56497143a377",
+      "last_updated": "2026-11-04",
       "related": [
         "integrations/billing.md",
         "integrations/booking-service.md",
@@ -984,7 +999,10 @@
         "cancellation email ack",
         "activity plan cancel validation",
         "tms cancellation email",
-        "booking cancellation feedback"
+        "booking cancellation feedback",
+        "amendment cancelled milestone",
+        "vendor cancellation email",
+        "email acknowledgement routing"
       ],
       "capabilities": [
         "cancellation-validation",
@@ -998,16 +1016,24 @@
       ],
       "entities": [
         "ActivityPlanWorkflowImplV2",
-        "CancellationValidationActivityImpl"
+        "CancellationValidationActivityImpl",
+        "BookingCancelledActivityImpl",
+        "AmendmentCancelledActivityImpl",
+        "SendCancelToVendorActivityImpl",
+        "ReceiveEmailConfirmationActivityImpl"
       ],
       "sources": [
         "workflow/src/main/resources/domain-rules.yml",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/CancellationValidationActivityImpl.java",
-        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java"
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BookingCancelledActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/AmendmentCancelledActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendCancelToVendorActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/ReceiveEmailConfirmationActivityImpl.java"
       ],
-      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
-      "last_updated": "2026-06-18",
+      "verified_against": "d044d5272656542d0692b65413fa56497143a377",
+      "last_updated": "2026-11-04",
       "related": [
         "integrations/email-service.md",
         "integrations/booking-service.md"
@@ -1128,7 +1154,9 @@
         "activity plan send tms",
         "tms booking confirmed",
         "activity plan execution email",
-        "activity plan non sap billing"
+        "activity plan non sap billing",
+        "amendment ready for planning tms",
+        "amendment send to execution"
       ],
       "capabilities": [
         "ready-for-planning",
@@ -1144,7 +1172,15 @@
         "ActivityPlanWorkflowImplV2",
         "EventRules",
         "ReadyForPlanningActivityImpl",
-        "SendToTmsActivityImpl"
+        "SendToTmsActivityImpl",
+        "BookingConfirmedActivityImpl",
+        "BookingCreatedActivityImpl",
+        "SendToExecutionActivityImpl",
+        "AmendmentReadyForPlanningActivityImpl",
+        "AmendmentSendToTmsImpl",
+        "AmendmentSendToExecutionImpl",
+        "AmendmentConfirmedActivityImpl",
+        "AmendmentReceivedActivityImpl"
       ],
       "sources": [
         "workflow/src/main/resources/domain-rules.yml",
@@ -1152,10 +1188,18 @@
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/ReadyForPlanningActivityImpl.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendToTmsActivityImpl.java",
         "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishTmsActivityImpl.java",
-        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java"
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BookingConfirmedActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BookingCreatedActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendToExecutionActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/AmendmentReadyForPlanningActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/AmendmentSendToTmsImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/AmendmentSendToExecutionImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/AmendmentConfirmedActivityImpl.java",
+        "workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/AmendmentReceivedActivityImpl.java"
       ],
-      "verified_against": "55f73f4df1c31b8892489af194e7b453774dd7e3",
-      "last_updated": "2026-06-18",
+      "verified_against": "d044d5272656542d0692b65413fa56497143a377",
+      "last_updated": "2026-11-04",
       "related": [
         "runtime/event-activity-matrix.md",
         "integrations/tms.md"

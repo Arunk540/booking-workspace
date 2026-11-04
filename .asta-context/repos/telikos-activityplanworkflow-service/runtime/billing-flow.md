@@ -12,10 +12,17 @@ scenarios:
   - billing revenue update
   - qa test user billing intake
   - ata service date events
+  - old workflow billing feedback queue
+  - send to finance legacy guard
 capabilities: [billing-feedback, invoice-dispatch, job-closure, revenue-update]
 domains: [billing, activity-plan, invoicing]
-entities: [ActivityPlanWorkflow, ActivityPlanWorkflowImplV2, BillingFeedbackActivityForV2Impl, JobClosureActivityImpl]
+entities: [ActivityPlanWorkflow, ActivityPlanWorkflowImplV2, BillingFeedbackActivityForV2Impl, JobClosureActivityImpl, BillingFeedbackActivityImpl, BillingSignalImpl, SendToBillingActivityImpl, SendDataToFinanceActivityImpl, ReceiveInvoiceEmailConfirmationActivityImpl]
 sources:
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BillingFeedbackActivityImpl.java
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BillingSignalImpl.java
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendToBillingActivityImpl.java
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendDataToFinanceActivityImpl.java
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/ReceiveInvoiceEmailConfirmationActivityImpl.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflow.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BillingFeedbackActivityForV2Impl.java
@@ -25,8 +32,8 @@ sources:
   - booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PrepareBillingActivityImpl.java
   - common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/entity/Invoice.java
-verified_against: 55f73f4df1c31b8892489af194e7b453774dd7e3
-last_updated: "2026-11-03"
+verified_against: d044d5272656542d0692b65413fa56497143a377
+last_updated: "2026-11-04"
 related:
   - integrations/billing.md
   - integrations/booking-service.md
@@ -52,3 +59,7 @@ related:
 | invoice parties forwarded to booking | `sendBillingfeedBackforV2ToBooking` maps `billingResponse.invoiceData[0].party` into `common.dto.Party` via `ObjectMapper.convertValue` (unmapped/renamed billing-side fields silently drop, no error) and sets it on `Invoice.parties` before forwarding to booking-service. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java:596; common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/entity/Invoice.java:34) |
 | intake gate: QA test user | `shouldSendToIntake` adds a QA-only exception on top of the per-run `billingIntakeEnabled` gate: when `ENV_NAME=qa`, intake runs only for `userId == Constants.QA_TEST_USER`, even with the flag on; every other QA user always takes the legacy path. Non-QA envs are unaffected. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java:902) |
 | ATA/ATD now map a wider event set to ServiceDates | `BillingServiceImpl.addActualServiceDates` maps `ATA_SERVICE_DATE_EVENTS` (the 6 raw TMS execution reference types plus `ATA`/`ATD`) to `financialJobWorkflow.ServiceDates` — previously only `ATA`/`ATD` references were mapped; a consumer checking only those two now misses dates sourced from the raw execution events. | (source: booking-domain/src/main/java/net/apmoller/telikos/microservices/activityplan/bookingdomain/service/BillingServiceImpl.java:121) |
+| old-workflow billing feedback | `BillingFeedbackActivityImpl` registers on `BillingWorker`'s `biilingFeedbackQueue` and runs the pre-V2 equivalent of `BillingFeedbackActivityForV2Impl`: close/create AP billing milestones and forward feedback to booking for workflows still on `ActivityPlanWorkflow`. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BillingFeedbackActivityImpl.java:41) |
+| billing signal dispatch | `BillingSignalImpl.billingSignal` starts the billing workflow (vs. signaling an existing one) only for `BOOKING_CONFIRMED`/`SEND_TO_TMS` event names. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BillingSignalImpl.java:28) |
+| legacy send-to-finance guard | `SendToBillingActivityImpl.sendToFinance` / `SendDataToFinanceActivityImpl.sendDataToBilling` only dispatch when a prior `SEND_TO_TMS` AP entry exists (or it's a cancellation with a charge, or `BOOKING_UPDATED`/`SERVICE_DELIVERY_EXECUTION` with an existing TMS entry) — otherwise they return `false` and nothing is sent. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendToBillingActivityImpl.java:47) |
+| invoice dispatch ack | `ReceiveInvoiceEmailConfirmationActivityImpl.receiveInvoiceEmailResponse` only acts on `EMAIL_INVOICE_DISPATCHED_STATUS`, mapping it to a `BillingDataExchange` with event name `INVOICE_DISPATCH` and forwarding it to billing. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/ReceiveInvoiceEmailConfirmationActivityImpl.java:32) |

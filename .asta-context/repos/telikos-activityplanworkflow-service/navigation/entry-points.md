@@ -10,9 +10,10 @@ scenarios:
   - rest order endpoint
   - billing feedback worker
   - booking signal worker
+  - process event activity dispatch
 capabilities: [entry-point-navigation]
 domains: [navigation, workflow-orchestration]
-entities: [ActivityPlanController, TemporalWorker, BillingWorker, BillingProducerWorker, BillingProducerWorker2, BookingWorker]
+entities: [ActivityPlanController, TemporalWorker, BillingWorker, BillingProducerWorker, BillingProducerWorker2, BookingWorker, ProcessEventActivityImpl]
 sources:
   - api/src/main/java/net/apmoller/telikos/microservices/activityplan/api/controller/ActivityPlanController.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java
@@ -20,8 +21,9 @@ sources:
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker2.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BookingWorker.java
-verified_against: 63f837a2e764f3ddcfc244c2fc2d7278d0c35436
-last_updated: 2026-06-18
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/ProcessEventActivityImpl.java
+verified_against: d044d5272656542d0692b65413fa56497143a377
+last_updated: 2026-11-04
 related:
   - navigation/key-classes.md
   - contracts/api-contracts.md
@@ -38,3 +40,4 @@ related:
 | Billing producer worker | `BillingProducerWorker` | `activityplan.billingTaskQueue` | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker.java:16) |
 | Billing producer worker v2 | `BillingProducerWorker2` | `activityplan.billingSecondTaskQueue` | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BillingProducerWorker2.java:16) |
 | Booking feedback worker | `BookingWorker` | `activityplan.bookingWorkerTaskQueue` | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BookingWorker.java:17) |
+| Generic event dispatch | `ProcessEventActivityImpl#processEvent` | registered as `processSignalEventActivityImpl` on `TemporalWorker`; delegates to `EventProcessorServiceImpl.processEvents` | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/TemporalWorker.java:89) |

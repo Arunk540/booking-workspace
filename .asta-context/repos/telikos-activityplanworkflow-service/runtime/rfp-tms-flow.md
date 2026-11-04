@@ -10,9 +10,11 @@ scenarios:
   - tms booking confirmed
   - activity plan execution email
   - activity plan non sap billing
+  - amendment ready for planning tms
+  - amendment send to execution
 capabilities: [ready-for-planning, tms-dispatch, booking-confirmation]
 domains: [activity-plan, tms-dispatch, billing]
-entities: [ActivityPlanWorkflowImplV2, EventRules, ReadyForPlanningActivityImpl, SendToTmsActivityImpl]
+entities: [ActivityPlanWorkflowImplV2, EventRules, ReadyForPlanningActivityImpl, SendToTmsActivityImpl, BookingConfirmedActivityImpl, BookingCreatedActivityImpl, SendToExecutionActivityImpl, AmendmentReadyForPlanningActivityImpl, AmendmentSendToTmsImpl, AmendmentSendToExecutionImpl, AmendmentConfirmedActivityImpl, AmendmentReceivedActivityImpl]
 sources:
   - workflow/src/main/resources/domain-rules.yml
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java
@@ -20,8 +22,16 @@ sources:
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendToTmsActivityImpl.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishTmsActivityImpl.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java
-verified_against: 55f73f4df1c31b8892489af194e7b453774dd7e3
-last_updated: 2026-06-18
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BookingConfirmedActivityImpl.java
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BookingCreatedActivityImpl.java
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/SendToExecutionActivityImpl.java
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/AmendmentReadyForPlanningActivityImpl.java
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/AmendmentSendToTmsImpl.java
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/AmendmentSendToExecutionImpl.java
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/AmendmentConfirmedActivityImpl.java
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/AmendmentReceivedActivityImpl.java
+verified_against: d044d5272656542d0692b65413fa56497143a377
+last_updated: 2026-11-04
 related:
   - runtime/event-activity-matrix.md
   - integrations/tms.md
@@ -38,3 +48,6 @@ related:
 | `sendToTms` publish | n/a | `PublishTmsActivityImpl` updates the TMS activity and the producer sends synchronously with `.get()` through `KafkaProducerServiceImpl`. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/PublishTmsActivityImpl.java:41) |
 | `Booking Confirmed` / `Send To Execution` | task plus `sendEmail` | `processEmailTasksInSignal` sends booking-confirmed and execution variants through email handling, then calls billing for configured non-SAP countries. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java:522) |
 | billing handoff | n/a | Billing is started with workflow id `bookingId + "_BILLING"` on `billingSecondTaskQueue` using `signalWithStart`. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java:267) |
+| `Booking Confirmed`/`Created`/`Send To Execution` persistence | n/a | `BookingConfirmedActivityImpl`/`BookingCreatedActivityImpl`/`SendToExecutionActivityImpl` write the matching AP milestone (`PENDING`, or `CLOSED` for booking-created once no entry exists yet). | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BookingConfirmedActivityImpl.java:37) |
+| `Amendment Ready For Planning`/`Send to TMS`/`Send To Execution` | `bookingAmendmentReceived`, `amendmentReadyForPlanning`, `amendmentSendToTms`, `amendmentSendToExecution` | These are the amend-track mirrors of the base RFP/TMS/execution activities above — same create-or-reopen AP milestone pattern, keyed off `ActivityName.AMENDMENT_*`/`AMEND_*` instead of the base names. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/AmendmentSendToTmsImpl.java:36) |
+| `Booking Amendment Confirmed`/received | n/a | `AmendmentConfirmedActivityImpl`/`AmendmentReceivedActivityImpl` reopen the existing AP entry (`updateEventHistoryForReopenedTasks`) if one already exists for the booking, else create a new one. | (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/AmendmentConfirmedActivityImpl.java:36) |
