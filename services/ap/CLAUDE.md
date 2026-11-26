@@ -16,7 +16,7 @@ mvn -q clean test -pl workflow -am -Dtest=HelperUtilsTest -Dsurefire.failIfNoSpe
 ```
 
 - Unit tests live in `workflow`, `booking-domain`, `event`, `persistence`, `api`. `-pl service` has none.
-- JDK: Corretto 21.0.11 breaks Lombok here (`TypeTag :: UNKNOWN`). Use 21.0.4.
+- JDK: Corretto 21.0.11 breaks Lombok here (`TypeTag :: UNKNOWN`). Use 21.0.4 (task-180, 2026-09-30).
 - Component tests: `cd componenttest && mvn test -Dspring.profiles.active=local` after `mvn clean install -DskipTests`.
 
 ## Usually changes too

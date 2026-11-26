@@ -47,11 +47,13 @@ topic_or_endpoint: "VESSEL_TRACKING_API_ENDPOINT + /bookings/{bookingId}/vessel-
 - **When VTS gives nothing, the plan down-syncs from the upstream reference.**
   `DomainHelperUtils.syncVesselServiceDateFromReference` copies the user/upstream-entered
   `VESSEL_ETA` / `VESSEL_ETD` booking reference into the matching estimated service date.
-  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2507)
+  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2757)
+- **Vessel ETA/ETD lives in two stores that must stay in sync** (lesson from BEPTELIKOS-9397, 2026-07-21): `booking.references` (`VESSEL_ETA`/`VESSEL_ETD`) and `ServicePlan.serviceDates`. Upstream value → `syncVesselServiceDateFromReference` writes serviceDates; VTS value → `syncVesselReferenceFromVts` writes the reference; VTS wins. Any "vessel ETA not updating" task must cover both directions and the precedence, never a single reference upsert.
+  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2738; temporal/activity/VesselTrackingRegistrationActivityImpl.java:273, :399; temporal/activity/UpdateVesselRailAvailabilityDateActivityImpl.java:102)
 - **VTS precedence is the rule to remember:** if a VTS-sourced estimated value already exists on
   the current plan, THAT value wins and is re-applied to both stores — the upstream reference is
   ignored, not merged. A reference edit that appears to "not take" is usually this.
-  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2488)
+  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2757)
 - **Failure is asymmetric by direction.** With no dates from VTS and no reference to fall back on:
   IMPORT appends a VTS/CAMS registration business exception and READY_FOR_PLANNING resolves
   **FAILED**; everything else arms a VTS hold and waits until the deadline instead.

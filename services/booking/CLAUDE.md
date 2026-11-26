@@ -31,7 +31,7 @@ mvn -q -f service/pom.xml clean test -Dtest=DomainHelperUtilsRfpValidationTest
 - Main workflow `BookingEventsWorkflowImplementation`: continueAsNew on history size; any logic change needs `Workflow.getVersion`.
 - LaunchDarkly: inject the reactor client, return the publisher in the chain, pass an explicit default. Never evaluate a flag inside a workflow.
 - Never block (`block()`, `Thread.sleep`) in WebFlux or consumer paths.
-- Vessel ETA has two directions: VTS writes it through `VesselTrackingRegistrationActivityImpl`; `booking.references` VESSEL_ETA/ETD is passthrough. Fix both, plus the precedence between them.
+- Vessel ETA/ETD lives in `booking.references` and `serviceDates`: `DomainHelperUtils.syncVesselReferenceFromVts` / `syncVesselServiceDateFromReference`; VTS wins. Cover both directions (BEPTELIKOS-9397, 2026-07-21).
 
 ## Where next
 
