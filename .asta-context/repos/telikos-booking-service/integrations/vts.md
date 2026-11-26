@@ -16,8 +16,8 @@ sources:
   - service/src/main/resources/application.yml
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/mappers/categories/VesselCamsTrackingEhSupport.java
-verified_against: cf8cb392d09686d16ba800291da20d5644191555
-last_updated: "2026-11-03"
+verified_against: 658219d7b0d44dcec2883faeecbe4409128c72d5
+last_updated: "2026-11-27"
 related:
   - runtime/customs-vessel-flow.md
   - runtime/confirm-send-to-tms-flow.md
@@ -31,10 +31,10 @@ topic_or_endpoint: "VESSEL_TRACKING_API_ENDPOINT + /bookings/{bookingId}/vessel-
 
 # Vessel tracking registration
 
-- Outbound VTS registration is an HTTP POST to `${VESSEL_TRACKING_API_BASE_URL}${VESSEL_TRACKING_API_ENDPOINT}` through `VesselTrackingIntegrator.registerScheduleDetails`. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/integration/integrators/VesselTrackingIntegrator.java:24)
-- `VesselTrackingRegistrationActivityImpl` only runs when send-to-tms reaches the non-rail NAM branch and the VTS feature flag is enabled. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VesselTrackingRegistrationActivityImpl.java:67)
-- Successful VTS responses with dates update the service plan immediately; pending or empty responses arm a deadline-based wait child instead. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VesselTrackingRegistrationActivityImpl.java:110)
-- The child workflow waits for feedback, accepts deadline shifts via signal, and only emits a timeout fan-back after the deadline elapses. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/VtsWaitChildWorkflowImpl.java:35)
+- Outbound VTS registration is an HTTP POST to `${VESSEL_TRACKING_API_BASE_URL}${VESSEL_TRACKING_API_ENDPOINT}` through `VesselTrackingIntegrator.registerScheduleDetails`, bounded by `${VESSEL_TRACKING_API_TIMEOUT:PT30S}` (the shared WebClient has no response timeout). (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/integration/integrators/VesselTrackingIntegrator.java:24)
+- `VesselTrackingRegistrationActivityImpl` only runs when send-to-tms reaches the non-rail NAM branch and the VTS feature flag is enabled; one-way empty / grey-pool orders (`EventsHelperUtils.isOneWayEmptyOrGreyPool`) skip the call, clear old VTS exceptions and return. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VesselTrackingRegistrationActivityImpl.java:67)
+- Successful VTS responses with dates update the service plan immediately; pending or empty responses arm a deadline-based wait child instead. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VesselTrackingRegistrationActivityImpl.java:121)
+- When started with `retryRegistrationFirst` (transient VTS failure) the child first re-issues the registration through `attemptVtsRegistration`, then falls through to the wait. The child waits for feedback, accepts deadline shifts via signal, and only emits a timeout fan-back after the deadline elapses. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/workflow/VtsWaitChildWorkflowImpl.java:35)
 - Inbound VTS business feedback reaches booking through `PATCH /bookings/{bookingId}/vessel-information`, where `VesselInformationDomainService` stores dates, signals the child, and emits `VESSEL_CONTAINER_REGISTRATION_FEEDBACK`. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/VesselInformationDomainService.java:43)
 
 ## Import vs export: which VTS fields matter, and what failure means
@@ -43,22 +43,22 @@ topic_or_endpoint: "VESSEL_TRACKING_API_ENDPOINT + /bookings/{bookingId}/vessel-
   ESTIMATED and `portAtaLocal` as ACTUAL, both against `VESSEL_ARRIVAL`; export takes the
   departure side (`portEtdLocal`). An import booking's whole schedule hangs off vessel ARRIVAL,
   which is why ETA/ATA is the load-bearing pair there and ETD is not.
-  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VesselTrackingRegistrationActivityImpl.java:328)
+  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VesselTrackingRegistrationActivityImpl.java:339)
 - **When VTS gives nothing, the plan down-syncs from the upstream reference.**
   `DomainHelperUtils.syncVesselServiceDateFromReference` copies the user/upstream-entered
   `VESSEL_ETA` / `VESSEL_ETD` booking reference into the matching estimated service date.
-  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2757)
+  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2905)
 - **Vessel ETA/ETD lives in two stores that must stay in sync** (lesson from BEPTELIKOS-9397, 2026-07-21): `booking.references` (`VESSEL_ETA`/`VESSEL_ETD`) and `ServicePlan.serviceDates`. Upstream value → `syncVesselServiceDateFromReference` writes serviceDates; VTS value → `syncVesselReferenceFromVts` writes the reference; VTS wins. Any "vessel ETA not updating" task must cover both directions and the precedence, never a single reference upsert.
-  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2738; temporal/activity/VesselTrackingRegistrationActivityImpl.java:273, :399; temporal/activity/UpdateVesselRailAvailabilityDateActivityImpl.java:102)
+  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2886; temporal/activity/VesselTrackingRegistrationActivityImpl.java:279, :402; temporal/activity/UpdateVesselRailAvailabilityDateActivityImpl.java:105)
 - **VTS precedence is the rule to remember:** if a VTS-sourced estimated value already exists on
   the current plan, THAT value wins and is re-applied to both stores — the upstream reference is
   ignored, not merged. A reference edit that appears to "not take" is usually this.
-  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2757)
+  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java:2905)
 - **Failure is asymmetric by direction.** With no dates from VTS and no reference to fall back on:
   IMPORT appends a VTS/CAMS registration business exception and READY_FOR_PLANNING resolves
   **FAILED**; everything else arms a VTS hold and waits until the deadline instead.
-  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VesselTrackingRegistrationActivityImpl.java:269)
+  (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VesselTrackingRegistrationActivityImpl.java:280)
 
 ## VTS/CAMS feedback on Event History
-- VTS/CAMS tracking feedback now surfaces on the booking Event History timeline, including an async/timeout path: `sendVesselCamsTrackingToEh` was appended after `updateVesselRailAvailabilityDate` on `VESSEL_CONTAINER_REGISTRATION_FEEDBACK`. (source: service/src/main/resources/application.yml:361)
+- VTS/CAMS tracking feedback now surfaces on the booking Event History timeline, including an async/timeout path: `sendVesselCamsTrackingToEh` was appended after `updateVesselRailAvailabilityDate` on `VESSEL_CONTAINER_REGISTRATION_FEEDBACK`. (source: service/src/main/resources/application.yml:355)
 - EH labels for VTS (vessel) dates are business-friendly overrides, not the stored `EventTriggerEnum`/`EventTimingEnum` names — e.g. `VESSEL_ARRIVAL`/`ESTIMATED`→"Vessel ETA", `PORT_GATE_IN`/`LATEST`→"Port CutOff". CAMS (rail) labels are unaffected and still derive directly from field names. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/mappers/categories/VesselCamsTrackingEhSupport.java:34)

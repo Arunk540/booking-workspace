@@ -14,6 +14,8 @@ mvn -f service/pom.xml clean verify                    # full
 mvn -q -f service/pom.xml clean test -Dtest=EmailUtilityTest
 ```
 
+[gap] The verify block failed on 27 Nov (a1c94d1) with a Maven plugin execution error; the host JDK was 21.0.11, cause not reproduced. Try JDK 21.0.4 first.
+
 ## Usually changes too
 
 - Dispatch handling: `ActivityPlanDispatchEventsServiceImpl` → `EmailServiceImpl`. Constants: `Constants`. PDFs: `PdfBuilder`.
