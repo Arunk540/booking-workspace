@@ -328,10 +328,30 @@ if (!impacted.length && glossarySeed.size) {
   trace.push(`glossary seed → ${impacted.join(',')}`);
 }
 
+// ── code hits (ctx.js) ───────────────────────────────────────────────────────
+// The doc routes above only know symbols a doc mentions. ctx indexes every class,
+// topic, endpoint, workflow and Avro record on develop, so a code-named task still
+// lands on files. When the doc routes found nothing, the code hits decide the repos.
+let codeHits = [];
+let codeDocs = [];
+try {
+  const ctxjs = path.join(CTX, 'ctx.js');
+  if (fs.existsSync(ctxjs)) {
+    const res = require(ctxjs).find(TASK, { limit: 8 });
+    codeHits = res.hits.map((h) => `${h.repo}/${h.file}  ${h.name}${h.entry ? '  [' + h.entry + ']' : ''}${h.test ? '  test: ' + path.basename(h.test) : ''}`);
+    codeDocs = res.docs;
+    if (!impacted.length && res.hits.length) {
+      route = 'code';
+      impacted = res.repos.slice();
+      trace.push('code: doc routes empty; repos from ctx code hits');
+    }
+  }
+} catch (e) { trace.push('code: ctx unavailable (' + e.message + ')'); }
+
 // empty → ask (still surface glossary_hits so the naming contract survives even with no route)
 if (!impacted.length) {
   console.log(JSON.stringify({
-    route: 'ask', impacted_repos: [], repo_order: [], matches: [], entry_files: {}, blast_radius: [],
+    route: 'ask', code_hits: [], impacted_repos: [], repo_order: [], matches: [], entry_files: {}, blast_radius: [],
     glossary_hits: glossaryHits, candidates: router.per_repo_summary || {}, trace,
   }, null, 2));
   process.exit(3);
@@ -525,9 +545,12 @@ function topoSort(nodes) {
 }
 const repoOrder = topoSort(impacted);
 
+
 // ── output ───────────────────────────────────────────────────────────────────
 console.log(JSON.stringify({
   route,
+  code_hits: codeHits,
+  code_docs: codeDocs,
   impacted_repos: impacted,
   repo_order: repoOrder,
   matches,

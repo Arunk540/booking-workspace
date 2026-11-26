@@ -29,3 +29,6 @@ CLAUDE.local.md
 /.asta-context/graph/
 /.asta-context/_code_index.json
 /docs/generated/
+
+# ctx find log (task words + top hits): local learning input, never committed.
+/.asta-context/.find-log.jsonl
