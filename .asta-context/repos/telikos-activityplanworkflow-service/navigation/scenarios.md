@@ -17,7 +17,7 @@ sources:
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/workflow/ActivityPlanWorkflowImplV2.java
   - workflow/src/main/resources/domain-rules.yml
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java
-verified_against: 63f837a2e764f3ddcfc244c2fc2d7278d0c35436
+verified_against: 55f73f4df1c31b8892489af194e7b453774dd7e3
 last_updated: 2026-06-18
 related:
   - runtime/rfp-tms-flow.md

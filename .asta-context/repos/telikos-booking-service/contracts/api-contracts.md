@@ -16,8 +16,9 @@ sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/MigrateDataController.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/models/BookingEquipmentApplication.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/models/DriverApplication.java
-verified_against: 4850c3efe7babc8364a044fed070268d6945002f
-last_updated: "2026-09-07"
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/mapper/ServicePlanEntityMapper.java
+verified_against: dbe41b122b0e4dd1daaa248204c70c2b809caed2
+last_updated: "2026-09-29"
 related:
   - navigation/entry-points.md
   - runtime/confirm-send-to-tms-flow.md
@@ -39,4 +40,5 @@ related:
 - `PATCH /bookings/{bookingId}/vessel-information` → `updateVesselInformation`; validates booking id format and returns HTTP 200 on success. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingController.java:479)
 - `PATCH /bookings/{bookingId}/workProcessStatus` → `triggerEvents`; requires booking-api role and optionally accepts an `event` query param for reprocessing. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/BookingReprocessApiController.java:27)
 - `GET /transport-orders` and `GET /customs-orders` are lookup endpoints keyed by `bookingId`, `servicePlanNumber`, and order identifiers. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/TransportOrderController.java:38)
+- `ServicePlanEntityMapper.mapVersion` now defaults a service plan's response `version` field to `"V10"` (was `"V9"`) when the stored entity carries none — an API-response default, unrelated to the `Booking.v9.avsc`/`ServicePlan.v9.avsc` Avro schema naming; existing non-empty versions pass through unchanged. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/mapper/ServicePlanEntityMapper.java:61)
 - `POST /migrate/rel2/data` starts migration only when `app.dataMigration` is enabled; otherwise the controller logs and exits. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/api/controller/MigrateDataController.java:33)

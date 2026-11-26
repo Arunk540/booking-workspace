@@ -15,8 +15,9 @@ sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/api/VesselInformationDomainService.java
   - service/src/main/resources/application.yml
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/common/DomainHelperUtils.java
-verified_against: 4850c3efe7babc8364a044fed070268d6945002f
-last_updated: "2026-09-07"
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/mappers/categories/VesselCamsTrackingEhSupport.java
+verified_against: cf8cb392d09686d16ba800291da20d5644191555
+last_updated: "2026-11-03"
 related:
   - runtime/customs-vessel-flow.md
   - runtime/confirm-send-to-tms-flow.md
@@ -55,3 +56,7 @@ topic_or_endpoint: "VESSEL_TRACKING_API_ENDPOINT + /bookings/{bookingId}/vessel-
   IMPORT appends a VTS/CAMS registration business exception and READY_FOR_PLANNING resolves
   **FAILED**; everything else arms a VTS hold and waits until the deadline instead.
   (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/VesselTrackingRegistrationActivityImpl.java:269)
+
+## VTS/CAMS feedback on Event History
+- VTS/CAMS tracking feedback now surfaces on the booking Event History timeline, including an async/timeout path: `sendVesselCamsTrackingToEh` was appended after `updateVesselRailAvailabilityDate` on `VESSEL_CONTAINER_REGISTRATION_FEEDBACK`. (source: service/src/main/resources/application.yml:361)
+- EH labels for VTS (vessel) dates are business-friendly overrides, not the stored `EventTriggerEnum`/`EventTimingEnum` names — e.g. `VESSEL_ARRIVAL`/`ESTIMATED`→"Vessel ETA", `PORT_GATE_IN`/`LATEST`→"Port CutOff". CAMS (rail) labels are unaffected and still derive directly from field names. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/mappers/categories/VesselCamsTrackingEhSupport.java:34)

@@ -15,8 +15,8 @@ sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/KafkaConsumerService.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/common/VersionTolerantPayload.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/config/TemporalWorkerConfig.java
-verified_against: 4850c3efe7babc8364a044fed070268d6945002f
-last_updated: "2026-09-07"
+verified_against: cf8cb392d09686d16ba800291da20d5644191555
+last_updated: "2026-11-03"
 related:
   - stack/stack.md
   - operations/retries.md
@@ -36,7 +36,8 @@ related:
 
 ## Invariants new code must hold
 
-These are the rules a change is rejected for breaking, not preferences. (source: AGENTS.md)
+These are the rules a change is rejected for breaking, not preferences. Per-module `AGENTS.md`
+files were removed repo-wide and replaced by a single root `CLAUDE.md`. (source: CLAUDE.md)
 
 - **Layering is one-directional:** `api` → `domain` → `infrastructure`/`persistence`. Never skip a
   layer and never reverse one.

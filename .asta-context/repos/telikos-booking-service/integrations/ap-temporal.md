@@ -7,13 +7,15 @@ mentions: [activity-plan-retry-storage, activity-plan-metrics, service-plan-audi
 scenarios: [activity plan dispatch, activity plan task queue, activity plan retry, service plan to ap, activity plan temporal]
 capabilities: [peer-workflow-dispatch, audit-payload-mapping]
 domains: [booking, activity-plan]
-entities: [BookingActivityPlanDispatcher, ActivityPlan]
+entities: [BookingActivityPlanDispatcher, ActivityPlan, SendToActivityPlanActivityImpl, RfpMandatoryFieldValidator]
 sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/dispatchers/BookingActivityPlanDispatcher.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/router/EventRouterService.java
   - service/src/main/resources/application.yml
-verified_against: 4850c3efe7babc8364a044fed070268d6945002f
-last_updated: "2026-09-07"
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SendToActivityPlanActivityImpl.java
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/validation/RfpMandatoryFieldValidator.java
+verified_against: cf8cb392d09686d16ba800291da20d5644191555
+last_updated: "2026-11-03"
 related:
   - runtime/event-activity-matrix.md
   - operations/retries.md
@@ -32,3 +34,5 @@ topic_or_endpoint: "TEMPORAL_ACTIVITY_PLAN_TASK_QUEUE"
 - The dispatcher is used by workflow activity lists such as READY_FOR_PLANNING, BOOKING_CONFIRMED, SEND_TO_TMS, amendment, cancellation, and SEND_DOCUMENTS because each of those event definitions includes `sendServicePlanDetailsToAP`. (source: service/src/main/resources/application.yml:315)
 - `EventRouterService` stores failed activity-plan dispatches into the retry collection when retry persistence is enabled and the failure is a Temporal `StatusRuntimeException`. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/inland/service/eventsservice/router/EventRouterService.java:286)
 - AP dispatch increments `METRICS_ACTIVITY_PLAN_STARTED`, so success can be observed through Micrometer rather than only logs. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/common/BookingMetricsRegistry.java:205)
+- `resolveActivityPlanStatus` now fails the AP milestone (`ActivityPlanStatusEnum.FAILED`) for **any** region's Ready-for-Planning notification that carries an outstanding `RfpMandatoryFieldValidator` business exception, not only NAM — this blocks the flow from advancing to SEND_TO_TMS/SEND_TO_EXECUTION until the equipment's mandatory RFP fields (e.g. commodity code) are fixed. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/dispatchers/BookingActivityPlanDispatcher.java:79)
+- `SendToActivityPlanActivityImpl.sendToAp` is the Temporal activity behind `sendServicePlanDetailsToAP`; for `SEND_TO_TMS`/`SEND_TO_EXECUTION` it temporarily merges `cancelledBookingEquipments` into `bookingEquipments` before dispatch and removes them again afterward, so AP sees the full pre-cancellation equipment set for that one call. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SendToActivityPlanActivityImpl.java:32)

@@ -14,8 +14,9 @@ sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/CustomsServiceOrderEntity.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/infrastructure/models/RetryEntity.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SaveToDatabaseActivityImpl.java
-verified_against: b8888cd92f07b4a564e6f5f6dbaf08f61e52811d
-last_updated: "2026-06-18T11:53:42.850+05:30"
+  - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/models/enums/RateBasisEnum.java
+verified_against: dbe41b122b0e4dd1daaa248204c70c2b809caed2
+last_updated: "2026-09-29"
 related:
   - contracts/db-schemas.md
   - runtime/event-activity-matrix.md
@@ -35,3 +36,4 @@ related:
 - Duplicate booking inserts are treated as booking-id collisions; the activity regenerates a booking number and re-initiates the same workflow rather than failing the event permanently. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SaveToDatabaseActivityImpl.java:44)
 - All non-insert flows save the current booking document, but transport plans are temporarily nulled before save and restored after write to reduce nested persistence weight. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SaveToDatabaseActivityImpl.java:61)
 - One-click bookings mutate the aggregate before save for `SEND_TO_EXECUTION` and `BOOKING_CONFIRMED`, which keeps persisted work-process state aligned with auto-advanced workflow steps. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/temporal/activity/SaveToDatabaseActivityImpl.java:107)
+- `RateBasisEnum` gained `PERCENTAGE` alongside `KILOGRAM`/`KILOMETER`/`MILE`/`UNIT` — a charge rate can now be expressed as a percentage basis, mirrored into the `Booking.v9.avsc`/`ServicePlan.v9.avsc` enum symbols (see `contracts/kafka-events.md`). (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/models/enums/RateBasisEnum.java:19)

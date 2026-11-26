@@ -13,7 +13,7 @@ sources:
   - pom.xml
   - service/pom.xml
   - componenttest/pom.xml
-verified_against: a5fbe3845803a0a11d5f55773a966014b0596e2e
+verified_against: 55f73f4df1c31b8892489af194e7b453774dd7e3
 last_updated: "2026-08-11"
 related:
   - stack/stack.md

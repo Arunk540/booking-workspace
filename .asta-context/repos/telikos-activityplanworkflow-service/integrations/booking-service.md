@@ -22,8 +22,9 @@ sources:
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java
   - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/worker/BookingWorker.java
   - service/src/main/resources/application.yml
-verified_against: 63f837a2e764f3ddcfc244c2fc2d7278d0c35436
-last_updated: 2026-06-18
+  - workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BookingFeedbackActivityImpl.java
+verified_against: 55f73f4df1c31b8892489af194e7b453774dd7e3
+last_updated: "2026-09-29"
 related:
   - runtime/cancellation-email-flow.md
   - runtime/billing-flow.md
@@ -36,3 +37,5 @@ related:
 - Billing-derived feedback is sent back to booking with signal `bookingSignal` and either `ACTIVITYPLAN_FEEDBACK` or SCM invoice feedback signal types. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java:354)
 - Revenue updates use the same booking workflow id suffix `_BOOKINGEVENTS`, but switch the signal type to `UPDATE_REVENUE`. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/service/EventProcessorServiceImpl.java:495)
 - Queue wiring comes from `activityplan.bookingWorkerTaskQueue: ${BOOKING_WORKER_TASK_QUEUE}`. (source: service/src/main/resources/application.yml:171)
+- `BookingFeedbackActivityImpl` now always stamps `workProcessEndDateTime` with `Instant.now()` on FAILED-status feedback (previously two failure branches — TMS-cancelled-event failure and the generic catch-all — sent `null`); booking-service can now rely on every FAILED milestone feedback carrying an end time. (source: workflow/src/main/java/net/apmoller/telikos/microservices/activityplan/activity/BookingFeedbackActivityImpl.java:166)
+- Outbound `Invoice` objects on `BookingActivity.invoices` (via `bookingSignal`) now also carry a `parties` list sourced from the billing response — see `runtime/billing-flow.md` for how it's mapped. (source: common/src/main/java/net/apmoller/telikos/microservices/activityplan/common/entity/Invoice.java:34)

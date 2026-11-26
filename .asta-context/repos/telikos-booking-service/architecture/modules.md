@@ -13,8 +13,8 @@ sources:
   - componenttest/pom.xml
   - perftest/pom.xml
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking
-verified_against: b8888cd92f07b4a564e6f5f6dbaf08f61e52811d
-last_updated: "2026-06-18T11:53:42.850+05:30"
+verified_against: cf8cb392d09686d16ba800291da20d5644191555
+last_updated: "2026-11-03"
 related:
   - architecture/cross-cutting.md
   - stack/stack.md

@@ -1686,6 +1686,126 @@
     ],
     "transport asset priority": [
       "telikos-booking-service"
+    ],
+    "tms schema version drift": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "percentage rate basis": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "billing intake queue": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "billing intake enabled flag": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "decision hub nam billing events": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "ata atd reference derivation": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "booking feedback failed timestamp": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "invoice parties to booking": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "transport order v10 schema": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "scp vendor instructions tms": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "tms topic version vs schema version": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "qa test user billing intake flag": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "non sap tms country fallback": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "billing intake workflow": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "invoice parties billing forward": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "qa test user billing intake": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "ata service date events": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "activity-plan-decision-hub-integration": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "nam billing invoice events": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "decision hub rule call": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "decision hub token refresh": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "which tms events go to billing": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "decision hub rule no match": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "decision hub call fails": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "service plan version default v10": [
+      "telikos-booking-service"
+    ],
+    "vendor instructions filtered scp": [
+      "telikos-email-service"
+    ],
+    "booking notification subject exact match": [
+      "telikos-email-service"
+    ],
+    "notification category exact match": [
+      "telikos-email-service"
+    ],
+    "transport asset priority email dto": [
+      "telikos-email-service"
+    ],
+    "rate basis enum mismatch": [
+      "telikos-email-service"
+    ],
+    "percentage rate basis email": [
+      "telikos-email-service"
+    ],
+    "tms document download url": [
+      "telikos-email-service"
+    ],
+    "process event activity dispatch": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "old workflow billing feedback queue": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "send to finance legacy guard": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "amendment cancelled milestone": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "vendor cancellation email": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "email acknowledgement routing": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "amendment ready for planning tms": [
+      "telikos-activityplanworkflow-service"
+    ],
+    "amendment send to execution": [
+      "telikos-activityplanworkflow-service"
     ]
   },
   "flows": [],

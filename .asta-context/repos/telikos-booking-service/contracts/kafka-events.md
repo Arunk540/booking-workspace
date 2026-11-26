@@ -19,8 +19,8 @@ sources:
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/consumer/ContainerAvailabilityFeedbackConsumer.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/dispatchers/IomBookingEventDispatcher.java
   - service/src/main/java/net/apmoller/crb/telikos/microservices/booking/events/audit/dispatchers/BookingFlowsEventHistoryDispatcher.java
-verified_against: 4850c3efe7babc8364a044fed070268d6945002f
-last_updated: "2026-09-07"
+verified_against: cf8cb392d09686d16ba800291da20d5644191555
+last_updated: "2026-11-03"
 related:
   - integrations/iom.md
   - integrations/sap-tms.md
@@ -39,3 +39,6 @@ related:
 - Producer `${KAFKA_NOTIFICATION_TOPIC}` is configured for notification fan-out and is referenced by customs-feedback notification handling. (source: service/src/main/resources/application.yml:217)
 - Shared-cluster consumers all use Avro deserialization and schema registry configuration under `kafka.shared.*`; dedicated service-plan ingress uses the `kafka.dedicated.*` tree. (source: service/src/main/resources/application.yml:84)
 - Both producer schemas (`Booking.v9.avsc` and `ServicePlan.v9.avsc`) added a nullable `transportAssetPriority` record under `bookingEquipments` — `transportAssetPriorityGroupName`/`transportAssetPriorityName` (e.g. group `"BLACK FRIDAY"`, name `"HIGH"`), customer-specified equipment priority. Same field crosses to activityplanworkflow-service's `TransportOrder.v9.avsc`; see that repo's `integrations/tms.md`. (source: service/src/main/avro/Booking.v9.avsc:3002; service/src/main/avro/ServicePlan.v9.avsc:4738)
+- **Distinct versioning axis:** the physical Kafka topic names (not the Avro schema) bumped `...v5`→`...v6` for `KAFKA_SERVICE_PLAN_TOPIC`/`KAFKA_BOOKING_TOPIC` in lower-env helm values — the Avro schema stayed `v9` throughout; don't conflate a topic-suffix bump with a schema-version bump. (source: helm/dev-values.yml:66)
+- `BookingEquipment.equals`/`hashCode` now includes `transportAssetPriority` (mirroring `transportAssetRequirement`) — two equipments differing only by priority are no longer deduplicated by any code path relying on `BookingEquipment` equality. (source: service/src/main/java/net/apmoller/crb/telikos/microservices/booking/domain/models/BookingEquipment.java:69)
+- Consumer-side `CarrierBooking.v8.avsc` (SAP_TMS_EXECUTION_STATUS payload) gained a nullable `references` array on a transport-plan substructure; `SapTmsExecutionStatusTransportOrderMapper.mapLinkedFreightOrderReference` reads it for the `ZSOFR` linked-freight-order code — see `integrations/sap-tms.md`. (source: service/src/main/avro/CarrierBooking.v8.avsc:2510)
