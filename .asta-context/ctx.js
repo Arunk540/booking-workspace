@@ -343,7 +343,8 @@ function find(task, opts = {}) {
     const base = ty ? ty.name : path.basename(f.path);
     const test = ty && (idx.tests[f.repo + '/' + ty.name.replace(/Impl$/, '')] || idx.tests[f.repo + '/' + ty.name] || [])[0];
     const ent = (f.entries || []).slice(0, 2).map((e) => `${e.kind}${e.args ? ':' + e.args.slice(0, 50) : ''}`).join(', ');
-    return { svc: svcOfRepo(f.repo), repo: f.repo, file: `${f.path}:${line}`, name: base, score: +s.toFixed(1), terms: hit, entry: ent || undefined, test };
+    const co = ((idx.co || {})[f.repo + '/' + f.path] || []).slice(0, 3).map(([p]) => path.basename(p).replace(/\.java$/, ''));
+    return { svc: svcOfRepo(f.repo), repo: f.repo, file: `${f.path}:${line}`, name: base, score: +s.toFixed(1), terms: hit, entry: ent || undefined, test, co: co.length ? co : undefined };
   });
   // Docs: the same words against doc names and headings, only for the repos the code hits name.
   const repos = Array.from(new Set(hits.map((h) => h.repo)));
@@ -364,6 +365,9 @@ function printFind(res) {
   for (const h of res.hits) {
     console.log(`${h.svc.padEnd(5)} ${h.repo}/${h.file}  ${h.name}${h.entry ? '  [' + h.entry + ']' : ''}${h.test ? '  test: ' + path.basename(h.test) : ''}`);
   }
+  // What a change to the top hits usually also touches (develop history): the hub files a task never names.
+  const co = Array.from(new Set(res.hits.slice(0, 3).flatMap((h) => h.co || []))).filter((n) => !res.hits.some((h) => h.name === n));
+  if (co.length) console.log('usually changes with the top hits: ' + co.slice(0, 6).join(', '));
   if (res.docs.length) console.log('docs: ' + res.docs.join('  '));
 }
 
