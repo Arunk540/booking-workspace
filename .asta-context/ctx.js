@@ -693,6 +693,24 @@ function verify(run) {
   console.log(fail.length ? `${fail.length} problem(s)` : 'context ok');
   return fail.length ? 1 : 0;
 }
+function surefireCounts(dir) {
+  const counts = [];
+  const walk = (d, depth) => {
+    if (depth > 6 || !fs.existsSync(d)) return;
+    for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+      if (e.name === 'node_modules' || e.name === '.git') continue;
+      const p = path.join(d, e.name);
+      if (e.isDirectory()) walk(p, depth + 1);
+      else if (/^TEST-.*\.xml$/.test(e.name) && d.endsWith('surefire-reports')) {
+        const m = fs.readFileSync(p, 'utf8').match(/<testsuite[^>]*\btests="(\d+)"/);
+        if (m) counts.push(+m[1]);
+      }
+    }
+  };
+  walk(dir, 0);
+  return counts;
+}
+
 const trees = {};
 function memoTree(repo, ref) {
   if (!trees[repo]) trees[repo] = new Set(git(repo, ['ls-tree', '-r', '--name-only', ref]).toString().split('\n'));
@@ -707,7 +725,8 @@ function runVerify(repo, ref, script) {
     const log = path.join(dir, 'build.log');
     const r = spawnSync('sh', ['-c', `( ${script.replace(/\n+/g, ' && ').replace(/&&\s*$/, '')} ) > "${log}" 2>&1`], { cwd: wt, timeout: 20 * 60 * 1000 });
     const out = fs.existsSync(log) ? fs.readFileSync(log, 'utf8') : '';
-    const runs = Array.from(out.matchAll(/Tests run: (\d+)/g)).map((m) => +m[1]);
+    let runs = Array.from(out.matchAll(/Tests run: (\d+)/g)).map((m) => +m[1]);
+    if (!runs.length) runs = surefireCounts(wt);   // `mvn -q` hides the summary; the reports don't lie
     const zero = runs.length && runs.every((n) => n === 0);
     const tail = out.split('\n').filter((l) => /ERROR|FAIL|Tests run/.test(l)).slice(-3).join(' | ').slice(0, 300);
     return { ok: r.status === 0 && !zero && runs.length > 0, secs: Math.round((Date.now() - t0) / 1000), tail: zero ? 'Tests run: 0' : tail || `exit ${r.status}` };
