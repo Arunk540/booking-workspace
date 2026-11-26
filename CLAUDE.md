@@ -19,8 +19,9 @@ node ~/booking-workspace/.asta-context/ctx.js find "<task words>"
 node ~/booking-workspace/.asta-context/ctx.js entry <svc> [kafka|rest|workflow|activity]
 ```
 
-- `find` prints ranked repo/path:line, the matching test, and the docs to read.
-  It indexes develop. Paths are relative to the repo root, the same in a worktree.
+- `find` prints ranked repo/path:line, the matching test, and the docs to read. It indexes develop.
+  In a task checkout the paths point into it. Never read or edit `~/booking-workspace/telikos-*`:
+  those are Arun's working copies, on his own branches.
 - No good hit: retry with the class, topic or enum words. Then `entry`. Only then grep, inside one module.
 - Read the hit and the files it calls. Don't read whole packages. Exploration across more than 10 files
   goes to a subagent that returns `file:line` + one line each.

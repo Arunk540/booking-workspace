@@ -25,7 +25,7 @@ const INDEX = process.env.CTX_INDEX || path.join(CTX, process.env.CTX_BEFORE ? `
 const ALIASES = path.join(CTX, 'aliases.json');
 const FIND_LOG = path.join(CTX, '.find-log.jsonl');
 const GEN = path.join(ROOT, 'docs', 'generated');
-const VERSION = 5;
+const VERSION = 6;
 // Ranking knobs. Defaults are the eval's best (eval.js); CTX_W='{"len":0}' overrides for ablations.
 const W = Object.assign({ type: 2, entryArg: 3, method: 3, field: 0.8, avro: 1.5, key: 0.6, path: 1, phrase: 0.2, entry: 1, len: 0, co: 0.5, alias: 0.5, mlen: 0 },
   process.env.CTX_W ? JSON.parse(process.env.CTX_W) : {});
@@ -101,7 +101,7 @@ function parseJava(src) {
       let k = n;
       while ((ann.match(/\(/g) || []).length > (ann.match(/\)/g) || []).length && k + 1 < lines.length && k - n < 8) { k++; ann += ' ' + lines[k].trim(); }
       pendingAnn.push({ text: ann, line: n + 1 });
-      if (!/\b(class|interface|enum|record)\b/.test(ann)) continue;
+      if (!/\b(class|interface|enum|record)\b/.test(ann)) { n = k; continue; }   // argument lines belong to it
     }
     const t = l.match(/\b(class|interface|enum|record)\s+([A-Z][A-Za-z0-9_]*)/);
     if (t && !/^\s*(return|new)\b/.test(l)) {
@@ -124,6 +124,14 @@ function parseJava(src) {
     pendingAnn = [];
   }
   for (const a of classLevelAnn) entryOf(a, entries, null);
+  // Kafka consumers here are reactor-kafka (KafkaReceiver / ReceiverOptions) or Spring listener
+  // containers, not @KafkaListener: mark the class, with topic property names from @Value.
+  const head = types[0];
+  if (head && !entries.some((e) => e.kind === 'kafka') && /\bKafkaReceiver<|\bReceiverOptions<|KafkaListenerContainerFactory|MessageListener<|\.receive\(\)/.test(src)
+      && /(Consumer|Listener|Receiver|Kafka\w*Config|ConsumerConfig)/.test(head.name)) {
+    const topics = Array.from(src.matchAll(/@Value\(\s*"\$\{([^}:]*topic[^}:]*)/gi)).map((m) => m[1]);
+    entries.push({ kind: 'kafka', ann: /KafkaListenerContainerFactory|MessageListener</.test(src) ? 'spring-kafka' : 'reactor-kafka', method: null, line: head.line, args: Array.from(new Set(topics)).join(' ') });
+  }
   return { types, methods, entries, fields };
 }
 function entryOf(a, entries, method) {
@@ -359,11 +367,19 @@ function find(task, opts = {}) {
   return res;
 }
 
+// Where printed paths point. A leg in a task checkout gets paths INSIDE it (ASTA_CHECKOUT, set by
+// Asta), never the workspace's own clones: those are Arun's working copies, on whatever branch he has.
+function where(repo) {
+  const co = process.env.ASTA_CHECKOUT;
+  if (co && fs.existsSync(path.join(co, repo))) return path.join(co, repo);
+  return repo;
+}
+
 function printFind(res) {
   if (!res.hits.length) { console.log('no code hits — try the class/topic words, or `ctx entry <svc>`'); return; }
   console.log(`index: ${Object.entries(res.index).map(([k, v]) => k + ' ' + v).join(' · ')}`);
   for (const h of res.hits) {
-    console.log(`${h.svc.padEnd(5)} ${h.repo}/${h.file}  ${h.name}${h.entry ? '  [' + h.entry + ']' : ''}${h.test ? '  test: ' + path.basename(h.test) : ''}`);
+    console.log(`${h.svc.padEnd(5)} ${where(h.repo)}/${h.file}  ${h.name}${h.entry ? '  [' + h.entry + ']' : ''}${h.test ? '  test: ' + path.basename(h.test) : ''}`);
   }
   // What a change to the top hits usually also touches (develop history): the hub files a task never names.
   const co = Array.from(new Set(res.hits.slice(0, 3).flatMap((h) => h.co || []))).filter((n) => !res.hits.some((h) => h.name === n));
@@ -379,9 +395,11 @@ function entry(svc) {
   const p = path.join(GEN, svcOfRepo(repo), 'entry-points.md');
   const text = fs.readFileSync(p, 'utf8').split('\n');
   const kind = process.argv[4];
+  const base = where(repo) === repo ? '' : where(repo) + '/';
+  const fix = (l) => (base ? l.replace(/ — ([^\s]+:\d+)$/, (m0, p) => ' — ' + base + p) : l);
   if (!kind) { console.log(text.filter((l) => !l.startsWith('- ')).join('\n').replace(/\n{3,}/g, '\n\n') + `\nfull list: ${path.relative(process.cwd(), p)}  (ctx entry ${svc} <kafka|rest|workflow|activity>)`); return; }
   let on = false;
-  for (const l of text) { if (l.startsWith('## ')) on = l.startsWith('## ' + kind); else if (on && l) console.log(l); }
+  for (const l of text) { if (l.startsWith('## ')) on = l.startsWith('## ' + kind); else if (on && l) console.log(fix(l)); }
 }
 
 // ── verify ──────────────────────────────────────────────────────────────────
