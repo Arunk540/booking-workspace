@@ -32,3 +32,5 @@ CLAUDE.local.md
 
 # ctx find log (task words + top hits): local learning input, never committed.
 /.asta-context/.find-log.jsonl
+/.asta-context/.mismatch-log*
+/.asta-context/_code_index.*.json

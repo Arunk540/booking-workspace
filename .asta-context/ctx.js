@@ -21,7 +21,7 @@ const { execFileSync, spawnSync } = require('child_process');
 const CTX = __dirname;
 const ROOT = path.dirname(CTX);
 const SERVICES = JSON.parse(fs.readFileSync(path.join(CTX, 'services.json'), 'utf8'));
-const INDEX = process.env.CTX_INDEX || path.join(CTX, '_code_index.json');
+const INDEX = process.env.CTX_INDEX || path.join(CTX, process.env.CTX_BEFORE ? `_code_index.before-${process.env.CTX_BEFORE.replace(/[^\w-]/g, '')}.json` : '_code_index.json');
 const ALIASES = path.join(CTX, 'aliases.json');
 const FIND_LOG = path.join(CTX, '.find-log.jsonl');
 const GEN = path.join(ROOT, 'docs', 'generated');
@@ -36,12 +36,20 @@ const BUDGET = { root: 2600, rules: 1800, service: 3200 };
 const STOP = new Set(('a an the of to in on for and or with from into is are be by at as it this that ' +
   'add adding added new field fields change changes changed update updates updated make fix fixes ' +
   'when where should must not do does use using via so we our its also then than only one any all ' +
-  'impl java class get set value values true false null list map').split(' '));
+  'impl java class get set value values true false null list map ' +
+  'feat fix chore refactor feature bepteliko beptelikos improve support handling issue').split(' '));
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 const git = (repo, args, opts = {}) =>
   execFileSync('git', ['-C', path.join(ROOT, repo), ...args], { maxBuffer: 1 << 30, ...opts });
 function refOf(repo) {
+  // CTX_BEFORE=<date>: develop as it was then (rehearsals replay a past task without seeing its fix).
+  if (process.env.CTX_BEFORE) {
+    try {
+      const sha = git(repo, ['rev-list', '-1', `--before=${process.env.CTX_BEFORE}`, 'origin/develop'], { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+      if (sha) return { ref: sha, sha: sha.slice(0, 9) };
+    } catch (_) { /* fall through */ }
+  }
   for (const ref of ['origin/develop', 'develop', 'HEAD']) {
     try { return { ref, sha: git(repo, ['rev-parse', '--short', ref], { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() }; } catch (_) { /* next */ }
   }
@@ -291,7 +299,7 @@ function prepared() {
 
 function find(task, opts = {}) {
   const { idx, termsOf, df, docs: docList, byKey } = prepared();
-  const aliases = loadAliases();
+  const aliases = memo.aliases || (memo.aliases = loadAliases());
   const q = Array.from(new Set(words(task)));
   const weights = new Map(q.map((w) => [w, 1]));
   for (const w of q) for (const a of aliases[w] || []) for (const x of words(a)) if (!weights.has(x)) weights.set(x, W.alias);
@@ -335,7 +343,8 @@ function find(task, opts = {}) {
     const base = ty ? ty.name : path.basename(f.path);
     const test = ty && (idx.tests[f.repo + '/' + ty.name.replace(/Impl$/, '')] || idx.tests[f.repo + '/' + ty.name] || [])[0];
     const ent = (f.entries || []).slice(0, 2).map((e) => `${e.kind}${e.args ? ':' + e.args.slice(0, 50) : ''}`).join(', ');
-    return { svc: svcOfRepo(f.repo), repo: f.repo, file: `${f.path}:${line}`, name: base, score: +s.toFixed(1), terms: hit, entry: ent || undefined, test };
+    const co = ((idx.co || {})[f.repo + '/' + f.path] || []).slice(0, 3).map(([p]) => path.basename(p).replace(/\.java$/, ''));
+    return { svc: svcOfRepo(f.repo), repo: f.repo, file: `${f.path}:${line}`, name: base, score: +s.toFixed(1), terms: hit, entry: ent || undefined, test, co: co.length ? co : undefined };
   });
   // Docs: the same words against doc names and headings, only for the repos the code hits name.
   const repos = Array.from(new Set(hits.map((h) => h.repo)));
@@ -356,6 +365,9 @@ function printFind(res) {
   for (const h of res.hits) {
     console.log(`${h.svc.padEnd(5)} ${h.repo}/${h.file}  ${h.name}${h.entry ? '  [' + h.entry + ']' : ''}${h.test ? '  test: ' + path.basename(h.test) : ''}`);
   }
+  // What a change to the top hits usually also touches (develop history): the hub files a task never names.
+  const co = Array.from(new Set(res.hits.slice(0, 3).flatMap((h) => h.co || []))).filter((n) => !res.hits.some((h) => h.name === n));
+  if (co.length) console.log('usually changes with the top hits: ' + co.slice(0, 6).join(', '));
   if (res.docs.length) console.log('docs: ' + res.docs.join('  '));
 }
 
@@ -514,4 +526,5 @@ switch (cmd) {
 }
 }
 if (require.main === module) main();
-module.exports = { find, buildIndex, words };
+function reset() { for (const k of Object.keys(memo)) delete memo[k]; }
+module.exports = { find, buildIndex, words, reset };
