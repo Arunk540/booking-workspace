@@ -5,6 +5,7 @@
  *
  *   node .asta-context/ctx.js find "<task words>"   ranked repo/path:line hits + docs
  *   node .asta-context/ctx.js entry <svc>           Kafka / REST / Temporal entry points
+ *   node .asta-context/ctx.js flow <Type>           a type's chain across services: schemas, models, mappers
  *   node .asta-context/ctx.js verify [--run]        context files vs code; --run executes `verify` commands
  *   node .asta-context/ctx.js drift                 docs whose verified commit is behind develop
  *   node .asta-context/ctx.js index [--force]       rebuild the code index (automatic when stale)
@@ -25,9 +26,9 @@ const INDEX = process.env.CTX_INDEX || path.join(CTX, process.env.CTX_BEFORE ? `
 const ALIASES = path.join(CTX, 'aliases.json');
 const FIND_LOG = path.join(CTX, '.find-log.jsonl');
 const GEN = path.join(ROOT, 'docs', 'generated');
-const VERSION = 6;
+const VERSION = 7;
 // Ranking knobs. Defaults are the eval's best (eval.js); CTX_W='{"len":0}' overrides for ablations.
-const W = Object.assign({ type: 2, entryArg: 3, method: 3, field: 0.8, avro: 1.5, key: 0.6, path: 1, phrase: 0.2, entry: 1, len: 0, co: 0.5, alias: 0.5, mlen: 0 },
+const W = Object.assign({ type: 2, entryArg: 3, method: 3, field: 0.8, avro: 1.5, key: 0.6, path: 1, phrase: 0.2, entry: 1, len: 0, co: 0.5, alias: 0.5, mlen: 0, lineage: 0.6, seat: 0.3 },
   process.env.CTX_W ? JSON.parse(process.env.CTX_W) : {});
 
 // Budgets for always-loaded text (chars). A lesson has to displace a line, not pile on.
@@ -202,15 +203,24 @@ function buildIndex(force) {
     for (const p of want) {
       const src = blobs[p]; if (src == null) continue;
       const rec = { repo, path: p };
-      if (p.endsWith('.java')) Object.assign(rec, parseJava(src));
+      if (p.endsWith('.java')) {
+        Object.assign(rec, parseJava(src));
+        rec.uses = Array.from(new Set(src.replace(/\/\/.*$/gm, '').match(/\b[A-Z][a-z]+[A-Za-z0-9]*\b/g) || []));
+      }
       else if (p.endsWith('.avsc')) rec.avro = parseAvsc(src);
       else rec.keys = parseYamlKeys(src).map((k) => k.key);
       idx.files.push(rec);
     }
   }
+  // Type names a file uses: keep only real types of the same repo (drops String, Mono, …).
+  const typesIn = {};
+  for (const f of idx.files) for (const t of f.types || []) (typesIn[f.repo] = typesIn[f.repo] || new Set()).add(t.name);
+  for (const f of idx.files) for (const a of f.avro || []) if (/^[A-Z]/.test(a)) (typesIn[f.repo] = typesIn[f.repo] || new Set()).add(a);
+  for (const f of idx.files) if (f.uses) f.uses = f.uses.filter((u) => typesIn[f.repo] && typesIn[f.repo].has(u) && !(f.types || []).some((t) => t.name === u));
   idx.co = coChange(shas);
   fs.writeFileSync(INDEX, JSON.stringify(idx));
   writeGenerated(idx);
+  memo.fam = null; writeContracts(idx); memo.fam = null;
   return idx;
 }
 
@@ -292,28 +302,11 @@ function fileTerms(f) {
   return t;
 }
 
-const memo = {};
-function prepared() {
-  // Built once per process: the eval and resolve-task call find() many times.
-  if (memo.idx) return memo;
-  memo.idx = buildIndex(false);
-  memo.termsOf = memo.idx.files.map(fileTerms);
-  memo.df = new Map();
-  for (const t of memo.termsOf) for (const k of t.keys()) memo.df.set(k, (memo.df.get(k) || 0) + 1);
-  memo.docs = docFiles().map((p) => ({ p, rel: path.relative(ROOT, p), head: fs.readFileSync(p, 'utf8').split('\n').filter((l) => /^#{1,3} /.test(l)).join(' ') }));
-  memo.byKey = new Map(memo.idx.files.map((f) => [f.repo + '/' + f.path, f]));
-  return memo;
-}
-
-function find(task, opts = {}) {
-  const { idx, termsOf, df, docs: docList, byKey } = prepared();
-  const aliases = memo.aliases || (memo.aliases = loadAliases());
-  const q = Array.from(new Set(words(task)));
-  const weights = new Map(q.map((w) => [w, 1]));
-  for (const w of q) for (const a of aliases[w] || []) for (const x of words(a)) if (!weights.has(x)) weights.set(x, W.alias);
+function scoreAll(idx, termsOf, df, weights, q, repo) {
   const N = idx.files.length;
   const scored = [];
   idx.files.forEach((f, i) => {
+    if (repo && f.repo !== repo) return;
     const t = termsOf[i]; let s = 0; const hit = [];
     for (const [w, qw] of weights) {
       const fw = t.get(w); if (!fw) continue;
@@ -329,6 +322,58 @@ function find(task, opts = {}) {
     s /= 1 + W.len * Math.log2(1 + ((f.methods || []).length + (f.fields || []).length) / 25); // big utils match everything
     scored.push({ f, s, hit });
   });
+  return scored.sort((a, b) => b.s - a.s);
+}
+
+const memo = {};
+function prepared() {
+  // Built once per process: the eval and resolve-task call find() many times.
+  if (memo.idx) return memo;
+  memo.idx = buildIndex(false);
+  memo.termsOf = memo.idx.files.map(fileTerms);
+  memo.df = new Map();
+  for (const t of memo.termsOf) for (const k of t.keys()) memo.df.set(k, (memo.df.get(k) || 0) + 1);
+  memo.docs = docFiles().map((p) => ({ p, rel: path.relative(ROOT, p), head: fs.readFileSync(p, 'utf8').split('\n').filter((l) => /^#{1,3} /.test(l)).join(' ') }));
+  memo.byKey = new Map(memo.idx.files.map((f) => [f.repo + '/' + f.path, f]));
+  return memo;
+}
+
+// Words that name a SERVICE pick its repo; they don't score files ("activity plan" matches half of AP).
+const SERVICE_WORDS = [[/\b(activity[\s-]?plan|activityplan|\bap\b)/i, 'ap'], [/\bbooking[\s-]service\b|\bbooking\b(?=.*\b(ap|activity|email|both)\b)/i, 'booking'], [/\bemail(s)?\b|\bmail\b/i, 'email']];
+function servicesNamed(task) {
+  const out = new Set();
+  for (const [re, svc] of SERVICE_WORDS) if (re.test(task)) out.add(SERVICES[svc]);
+  return out;
+}
+
+function find(task, opts = {}) {
+  const { idx, termsOf, df, docs: docList, byKey } = prepared();
+  const aliases = memo.aliases || (memo.aliases = loadAliases());
+  const named = servicesNamed(task);
+  const serviceless = task.replace(/\b(activity[\s-]?plan|activityplan)\b/gi, ' ');
+  let q = Array.from(new Set(words(serviceless))).filter((w) => w !== 'ap' && w !== 'activityplan');
+  if (!q.length) q = Array.from(new Set(words(task)));
+  const weights = new Map(q.map((w) => [w, 1]));
+  for (const w of q) for (const a of aliases[w] || []) for (const x of words(a)) if (!weights.has(x)) weights.set(x, W.alias);
+  const N = idx.files.length;
+  const scored = scoreAll(idx, termsOf, df, weights, q, null);
+  // Per-service clauses: "…and AP's billing fails on null charges" is searched inside AP alone, so
+  // a clause aimed at one service is not drowned by the rest of the task.
+  const clauseSeats = [];
+  for (const clause of task.split(/[.;:!?\n]|,\s+(?:and|but|while)\b|\band\s+(?=[A-Z])/)) {
+    const svc = servicesNamed(clause + ' both');
+    if (svc.size !== 1 || clause.trim().length < 12) continue;
+    const repo = Array.from(svc)[0];
+    const cq = Array.from(new Set(words(clause.replace(/\b(activity[\s-]?plan|activityplan|ap|booking|email)('s)?\b/gi, ' '))));
+    if (cq.length < 2) continue;
+    const cw = new Map(cq.map((w) => [w, 1]));
+    for (const w of cq) for (const a of aliases[w] || []) for (const x of words(a)) if (!cw.has(x)) cw.set(x, W.alias);
+    const sub = scoreAll(idx, termsOf, df, cw, cq, repo).slice(0, 2);
+    const top0 = scored.length ? scored[0].s : 1;
+    for (const x of sub) clauseSeats.push({ f: x.f, s: Math.max(x.s, top0 * 0.45), hit: x.hit.concat('clause') });
+  }
+  for (const x of clauseSeats) { const e = scored.find((y) => y.f === x.f); if (e) e.s = Math.max(e.s, x.s); else scored.push(x); }
+  scored.sort((a, b) => b.s - a.s);
   scored.sort((a, b) => b.s - a.s);
   // Co-change: a strong hit lends score to the files that usually change with it.
   if (W.co > 0 && idx.co) {
@@ -343,16 +388,27 @@ function find(task, opts = {}) {
     }
     scored.sort((a, b) => b.s - a.s);
   }
-  const top = scored.slice(0, opts.limit || 10);
+  // Cross-repo lineage: a change to a model type travels through its family (X, XApplication,
+  // XEntity, XResponse…), the Avro schemas that carry X, and the mappers that use X — in EVERY repo
+  // that has X. Scoring files one by one never crossed to the other service (cross eval 2/6).
+  const lin = lineage(scored, idx, W, q, df, N);
+  for (const x of lin) {
+    const e = scored.find((y) => y.f === x.f);
+    if (!e) scored.push(x);
+    else { if (x.s > e.s * 0.5) e.hit = e.hit.concat(x.hit); e.s = Math.max(e.s, x.s); }
+  }
+  scored.sort((a, b) => b.s - a.s);
+  const top = balance(scored, opts.limit || 10, named);
   const best = top.length ? top[0].s : 0;
-  const hits = top.filter((x) => x.s >= best * 0.25).map(({ f, s, hit }) => {
+  const hits = top.filter((x) => x.s >= best * 0.2).map(({ f, s, hit }) => {
     const ty = f.types && f.types[0];
     const line = ty ? ty.line : 1;
     const base = ty ? ty.name : path.basename(f.path);
     const test = ty && (idx.tests[f.repo + '/' + ty.name.replace(/Impl$/, '')] || idx.tests[f.repo + '/' + ty.name] || [])[0];
     const ent = (f.entries || []).slice(0, 2).map((e) => `${e.kind}${e.args ? ':' + e.args.slice(0, 50) : ''}`).join(', ');
     const co = ((idx.co || {})[f.repo + '/' + f.path] || []).slice(0, 3).map(([p]) => path.basename(p).replace(/\.java$/, ''));
-    return { svc: svcOfRepo(f.repo), repo: f.repo, file: `${f.path}:${line}`, name: base, score: +s.toFixed(1), terms: hit, entry: ent || undefined, test, co: co.length ? co : undefined };
+    const why = (hit.find((h) => /^(lineage|maps|co):/.test(h)) || (hit.includes('clause') ? 'clause' : '')) || undefined;
+    return { svc: svcOfRepo(f.repo), repo: f.repo, file: `${f.path}:${line}`, name: base, score: +s.toFixed(1), terms: hit, entry: ent || undefined, test, co: co.length ? co : undefined, why };
   });
   // Docs: the same words against doc names and headings, only for the repos the code hits name.
   const repos = Array.from(new Set(hits.map((h) => h.repo)));
@@ -375,16 +431,150 @@ function where(repo) {
   return repo;
 }
 
+const SUFFIX = /(Application|Entity|Dto|DTO|Request|Response|Event|Model|Api|Data|Info|Details)+$/;
+const stemOf = (name) => {
+  let st = (name || '').replace(/\.v\d+$/, '');
+  st = st.charAt(0).toUpperCase() + st.slice(1);       // schema field partyRoles -> PartyRoles
+  st = st.replace(SUFFIX, '');
+  if (/[^s]ies$/.test(st)) st = st.slice(0, -3) + 'y'; else if (/[^s]s$/.test(st) && st.length > 6) st = st.slice(0, -1);
+  return st;
+};
+function familyIndex(idx) {
+  if (memo.fam) return memo.fam;
+  const fam = new Map(); // stem -> [{f, role}]
+  const add = (stem, f, role) => { if (stem.length < 5) return; const l = fam.get(stem) || []; l.push({ f, role }); fam.set(stem, l); };
+  for (const f of idx.files) {
+    for (const t of f.types || []) add(stemOf(t.name), f, /Mapper|Mappers|Converter/.test(t.name) ? 'mapper' : 'model');
+    if (f.avro) for (const st of new Set(f.avro.map(stemOf))) add(st, f, 'schema');
+  }
+  const mappersUsing = new Map(); // stem -> mapper files using a family member
+  const usersOf = new Map();      // stem -> every other file using a family member
+  for (const f of idx.files) {
+    const ty = (f.types || [])[0];
+    if (!ty) continue;
+    const mapper = /(Mapper|Mappers|Converter|Applier)$/.test(ty.name);
+    for (const u of f.uses || []) {
+      const st = stemOf(u); if (st.length < 5) continue;
+      const m = mapper ? mappersUsing : usersOf;
+      const l = m.get(st) || new Set(); l.add(f); m.set(st, l);
+    }
+  }
+  memo.fam = { fam, mappersUsing, usersOf };
+  return memo.fam;
+}
+function lineage(scored, idx, W, q, df, N) {
+  if (!(W.lineage > 0)) return [];
+  const { fam, mappersUsing } = familyIndex(idx);
+  const out = new Map();
+  const best = scored.length ? scored[0].s : 1;
+  // Seed 1: the top hits' own types. Seed 2: cross-repo families the TASK names ("party role" ->
+  // PartyRoleRelationship), scored by the idf of the task words in the family stem.
+  const seeds = scored.slice(0, 8).map((x) => ({ x, names: (x.f.types || []).map((t) => t.name).concat((x.f.avro || []).slice(0, 1)) }));
+  const qs = new Set(q);
+  const famScore = [];
+  for (const [st, members] of fam) {
+    if (new Set(members.map((m) => m.f.repo)).size < 2) continue;
+    const sw = words(st); const hit = sw.filter((w) => qs.has(w));
+    if (!hit.length) continue;
+    const sc = hit.reduce((a, w) => a + Math.log(1 + N / (df.get(w) || 1)), 0) * (hit.length / sw.length);
+    famScore.push({ st, sc, members });
+  }
+  famScore.sort((a, b) => b.sc - a.sc);
+  for (const fsc of famScore.slice(0, 2)) {
+    const model = fsc.members.find((m) => m.role === 'model') || fsc.members[0];
+    seeds.push({ x: { f: model.f, s: best * Math.min(1, 0.25 + fsc.sc / 20) }, names: [fsc.st] });
+  }
+  for (const { x, names } of seeds) {
+    for (const nm of names) {
+      const st = stemOf(nm); const members = fam.get(st);
+      if (!members) continue;
+      const repos = new Set(members.map((m) => m.f.repo));
+      if (repos.size < 2) continue;                       // not a cross-repo family
+      for (const m of members) {
+        if (m.f === x.f) continue;
+        const w = m.f.repo !== x.f.repo ? W.lineage : W.lineage * 0.6;
+        const s2 = x.s * w * (m.role === 'schema' ? 0.8 : 1);
+        if (!out.has(m.f) || out.get(m.f).s < s2) out.set(m.f, { f: m.f, s: s2, hit: ['lineage:' + st] });
+      }
+      for (const mf of mappersUsing.get(st) || []) {
+        if (mf === x.f) continue;
+        const s2 = x.s * W.lineage * 0.7;
+        if (!out.has(mf) || out.get(mf).s < s2) out.set(mf, { f: mf, s: s2, hit: ['maps:' + st] });
+      }
+    }
+  }
+  return Array.from(out.values());
+}
+// Up to `limit` hits, but every repo with a strong candidate keeps a seat (a cross-repo change
+// needs both ends in view): best of each such repo first, then by score.
+function balance(scored, limit, named = new Set()) {
+  const best = scored.length ? scored[0].s : 0;
+  const perRepo = new Map();
+  for (const x of scored) {
+    const want = named.has(x.f.repo) ? 2 : 1;          // a service the task names gets two seats
+    const l = perRepo.get(x.f.repo) || [];
+    if (l.length < want && (x.s >= best * W.seat || named.has(x.f.repo))) { l.push(x); perRepo.set(x.f.repo, l); }
+  }
+  const seats = Array.from(perRepo.values()).flat();
+  const rest = scored.filter((x) => !seats.includes(x));
+  return seats.concat(rest).sort((a, b) => b.s - a.s).slice(0, limit).concat(seats.filter((x) => !scored.slice(0, limit).includes(x))).slice(0, limit + 2);
+}
+
 function printFind(res) {
   if (!res.hits.length) { console.log('no code hits — try the class/topic words, or `ctx entry <svc>`'); return; }
   console.log(`index: ${Object.entries(res.index).map(([k, v]) => k + ' ' + v).join(' · ')}`);
   for (const h of res.hits) {
-    console.log(`${h.svc.padEnd(5)} ${where(h.repo)}/${h.file}  ${h.name}${h.entry ? '  [' + h.entry + ']' : ''}${h.test ? '  test: ' + path.basename(h.test) : ''}`);
+    console.log(`${h.svc.padEnd(5)} ${where(h.repo)}/${h.file}  ${h.name}${h.entry ? '  [' + h.entry + ']' : ''}${h.why ? '  (' + h.why + ')' : ''}${h.test ? '  test: ' + path.basename(h.test) : ''}`);
+  }
+  // The chain across services, one line per repo: what a cross-repo change has to land on each side.
+  const svcs = Array.from(new Set(res.hits.map((h) => h.svc)));
+  if (svcs.length > 1) {
+    const fams = Array.from(new Set(res.hits.map((h) => (h.why || '').replace(/^(lineage|maps):/, '')).filter((x) => x && !/^(co:|clause)/.test(x))));
+    console.log('cross-repo' + (fams.length ? ` (shared: ${fams.slice(0, 3).join(', ')})` : '') + ':');
+    for (const sv of svcs) console.log(`  ${sv}: ${res.hits.filter((h) => h.svc === sv).map((h) => h.name).slice(0, 6).join(', ')}`);
   }
   // What a change to the top hits usually also touches (develop history): the hub files a task never names.
   const co = Array.from(new Set(res.hits.slice(0, 3).flatMap((h) => h.co || []))).filter((n) => !res.hits.some((h) => h.name === n));
   if (co.length) console.log('usually changes with the top hits: ' + co.slice(0, 6).join(', '));
   if (res.docs.length) console.log('docs: ' + res.docs.join('  '));
+}
+
+// ── flow: one type's chain across services ─────────────────────────────────
+function flowOf(name, idx) {
+  const { fam, mappersUsing, usersOf } = familyIndex(idx);
+  const st = stemOf(name);
+  const rows = new Map(); // repo -> [{role, f, name}]
+  const add = (f, role) => { const l = rows.get(f.repo) || []; if (!l.some((x) => x.f === f)) l.push({ role, f, name: ((f.types || [])[0] || {}).name || path.basename(f.path) }); rows.set(f.repo, l); };
+  for (const m of fam.get(st) || []) add(m.f, m.role);
+  for (const f of mappersUsing.get(st) || []) add(f, 'mapper');
+  for (const f of usersOf.get(st) || []) if (!/(Test|Config|Configuration)$/.test(((f.types || [])[0] || {}).name || '')) add(f, 'uses');
+  return { stem: st, rows };
+}
+function flow(name) {
+  const idx = buildIndex(false);
+  const { stem, rows } = flowOf(name, idx);
+  if (!rows.size) { console.log(`no type family "${stem}" — try the class name from ctx find`); return 3; }
+  const order = ['schema', 'model', 'mapper', 'uses'];
+  console.log(`${stem}: ${rows.size} repo(s). A change to it lands on every line below that the change touches.`);
+  for (const [repo, l] of rows) {
+    console.log(`${svcOfRepo(repo)} (${repo})`);
+    for (const r of l.sort((a, b) => order.indexOf(a.role) - order.indexOf(b.role)).slice(0, 16)) console.log(`  ${r.role.padEnd(6)} ${where(repo)}/${r.f.path}  ${r.name}`);
+  }
+  return 0;
+}
+function writeContracts(idx) {
+  const { fam } = familyIndex(idx);
+  const out = ['# Cross-repo type families', '', `GENERATED by ctx (${Object.entries(idx.shas).map(([r, v]) => svcOfRepo(r) + '@' + (v ? v.sha : '?')).join(' · ')}). Each family exists in more than one service; \`ctx.js flow <Type>\` lists its files.`, ''];
+  const rowsOut = [];
+  for (const [st, members] of fam) {
+    const repos = new Set(members.map((m) => m.f.repo));
+    if (repos.size < 2) continue;
+    const schema = members.some((m) => m.role === 'schema');
+    rowsOut.push(`| ${st} | ${Array.from(repos).map(svcOfRepo).join(', ')} | ${schema ? 'avro' : ''} | ${members.length} |`);
+  }
+  out.push('| Family | Services | Schema | Files |', '|---|---|---|---|', ...rowsOut.sort());
+  fs.mkdirSync(GEN, { recursive: true });
+  fs.writeFileSync(path.join(GEN, 'contracts.md'), out.join('\n') + '\n');
 }
 
 // ── entry ───────────────────────────────────────────────────────────────────
@@ -548,16 +738,37 @@ switch (cmd) {
   }
   // eslint-disable-next-line no-fallthrough
   case 'entry': entry(args[0] || ''); break;
+  case 'flow': process.exit(flow(args.join(' ')));
+  // eslint-disable-next-line no-fallthrough
   case 'verify': process.exit(verify(rest.includes('--run')));
   // eslint-disable-next-line no-fallthrough
   case 'drift': process.exit(drift());
   // eslint-disable-next-line no-fallthrough
   case 'index': { const i = buildIndex(rest.includes('--force')); console.log(`indexed ${i.files.length} files: ${Object.entries(i.shas).map(([r, v]) => svcOfRepo(r) + ' ' + (v && v.ref + '@' + v.sha)).join(' · ')}`); break; }
   default:
-    console.log('usage: ctx <find "<task>"|entry <svc> [kind]|verify [--run]|drift|index [--force]>');
+    console.log('usage: ctx <find "<task>"|entry <svc> [kind]|flow <Type>|verify [--run]|drift|index [--force]>');
     process.exit(cmd ? 2 : 0);
 }
 }
 if (require.main === module) main();
 function reset() { for (const k of Object.keys(memo)) delete memo[k]; }
-module.exports = { find, buildIndex, words, reset };
+// find + flow, the way a leg uses them: the cross-repo families among the top hits, expanded.
+function landing(task, cap = 40) {
+  const res = find(task, { limit: 10 });
+  const idx = buildIndex(false);
+  const { fam } = familyIndex(idx);
+  const files = new Map(res.hits.map((h) => [h.repo + '/' + h.file.replace(/:\d+$/, ''), 'find']));
+  const stems = [];
+  for (const h of res.hits.slice(0, 6)) {
+    const st = stemOf(h.name.replace(/\.java$/, ''));
+    const m = fam.get(st);
+    if (m && new Set(m.map((x) => x.f.repo)).size > 1 && !stems.includes(st)) stems.push(st);
+  }
+  for (const h of res.hits) for (const t of h.terms || []) { const m = /^(lineage|maps):(.+)$/.exec(t); if (m && !stems.includes(m[2])) stems.push(m[2]); }
+  for (const st of stems.slice(0, 3)) {
+    const { rows } = flowOf(st, idx);
+    for (const [, l] of rows) for (const r of l) { if (files.size >= cap) break; const k = r.f.repo + '/' + r.f.path; if (!files.has(k)) files.set(k, 'flow:' + st); }
+  }
+  return { files, stems: stems.slice(0, 3) };
+}
+module.exports = { find, buildIndex, words, reset, landing };
