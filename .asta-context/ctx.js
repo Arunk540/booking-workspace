@@ -412,6 +412,20 @@ function contextFiles() {
 }
 function verify(run) {
   const idx = buildIndex(false);
+  const methodsByType = new Map();
+  for (const f of idx.files) for (const t of f.types || []) {
+    const k = f.repo + '/' + t.name;
+    const set = methodsByType.get(k) || new Set();
+    for (const mm of f.methods || []) set.add(mm.name);
+    for (const ff of f.fields || []) set.add(ff.name);
+    methodsByType.set(k, set);
+  }
+  const methodsOf = (name, repo) => {
+    if (repo) return methodsByType.get(repo + '/' + name) || new Set();
+    const all = new Set();
+    for (const [k, v] of methodsByType) if (k.endsWith('/' + name)) for (const x of v) all.add(x);
+    return all;
+  };
   const fail = []; const ok = [];
   const symbols = new Map();
   for (const f of idx.files) for (const t of f.types || []) symbols.set(f.repo + '/' + t.name, f.path);
@@ -439,11 +453,12 @@ function verify(run) {
         fail.push(`${rel}: path \`${tok}\` not in ${cf.repo ? cf.repo + '@' + idx.shas[cf.repo].sha : 'workspace'} — fix or mark [gap]`);
       }
     }
-    // 2) backticked ClassNames must exist in the index
-    for (const m of text.matchAll(/`([A-Z][a-z0-9]+(?:[A-Z][a-z0-9]*)+)(?:\.[a-z]\w*)?(?:\(\))?`/g)) {
+    // 2) backticked ClassNames (and Class.method) must exist in the index
+    for (const m of text.matchAll(/`([A-Z][a-z0-9]+(?:[A-Z][a-z0-9]*)+)(?:\.([a-z]\w*))?(?:\(\))?`/g)) {
       const name = m[1];
       const found = cf.repo ? symbols.has(cf.repo + '/' + name) : anySym.has(name);
       if (!found && !/^(JAVA|JDK|Lombok|MapStruct|WebFlux|SendGrid|LaunchDarkly|GitHub|ApiKey)/.test(name)) fail.push(`${rel}: class \`${name}\` not found in code — renamed or removed?`);
+      else if (found && m[2] && !methodsOf(name, cf.repo).has(m[2])) fail.push(`${rel}: \`${name}.${m[2]}\` — no such method in ${name} — renamed?`);
     }
     // 3) build commands: -f <pom> and -pl <module> must exist (the `-pl service` class of error)
     for (const block of text.matchAll(/```(?:bash|sh)([^\n]*)\n([\s\S]*?)```/g)) {
