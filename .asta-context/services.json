@@ -1,0 +1,5 @@
+{
+  "booking": "telikos-booking-service",
+  "ap": "telikos-activityplanworkflow-service",
+  "email": "telikos-email-service"
+}
