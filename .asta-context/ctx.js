@@ -36,7 +36,8 @@ const BUDGET = { root: 2600, rules: 1800, service: 3200 };
 const STOP = new Set(('a an the of to in on for and or with from into is are be by at as it this that ' +
   'add adding added new field fields change changes changed update updates updated make fix fixes ' +
   'when where should must not do does use using via so we our its also then than only one any all ' +
-  'impl java class get set value values true false null list map').split(' '));
+  'impl java class get set value values true false null list map ' +
+  'feat fix chore refactor feature bepteliko beptelikos improve support handling issue').split(' '));
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 const git = (repo, args, opts = {}) =>
@@ -291,7 +292,7 @@ function prepared() {
 
 function find(task, opts = {}) {
   const { idx, termsOf, df, docs: docList, byKey } = prepared();
-  const aliases = loadAliases();
+  const aliases = memo.aliases || (memo.aliases = loadAliases());
   const q = Array.from(new Set(words(task)));
   const weights = new Map(q.map((w) => [w, 1]));
   for (const w of q) for (const a of aliases[w] || []) for (const x of words(a)) if (!weights.has(x)) weights.set(x, W.alias);
@@ -514,4 +515,5 @@ switch (cmd) {
 }
 }
 if (require.main === module) main();
-module.exports = { find, buildIndex, words };
+function reset() { for (const k of Object.keys(memo)) delete memo[k]; }
+module.exports = { find, buildIndex, words, reset };

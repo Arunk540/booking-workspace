@@ -5,6 +5,7 @@
  *
  *   node .asta-context/eval.js build <gold.jsonl> [--since 2026-03-01]
  *   node .asta-context/eval.js run   <gold.jsonl> [--k 5] [--misses]
+ *   node .asta-context/eval.js learn <gold.jsonl> [--write]   aliases that lift hit@5 on both halves
  *
  * The gold set comes from merged PRs: the PR title is the query, the src/main files
  * it MODIFIED (not added: a new file can't be found before it exists) are the answer.
@@ -48,9 +49,11 @@ function build(out) {
   console.log(`${rows.length} cases → ${out}`);
 }
 
-function run(file) {
+function load(file) { return fs.readFileSync(file, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)); }
+
+function run(file, quiet) {
   const k = +arg('--k', 5);
-  const rows = fs.readFileSync(file, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l));
+  const rows = Array.isArray(file) ? file : load(file);
   const idx = ctx.buildIndex(false);
   const known = new Set(idx.files.map((f) => f.repo + '/' + f.path));
   let hit = 0; let rec = 0; let n = 0; let rr = 0; const misses = []; const per = {};
@@ -70,13 +73,52 @@ function run(file) {
     if (!found) misses.push({ pr: `${r.repo.replace('telikos-', '').replace('-service', '')} PR ${r.pr}`, title: r.title.slice(0, 90), want: gold.map((g) => path.basename(g)).slice(0, 3), got: got.slice(0, 3).map((g) => path.basename(g)) });
   }
   const pct = (x) => (100 * x / (n || 1)).toFixed(0) + '%';
+  if (quiet) return { n, hit: hit / (n || 1), recall: rec / (n || 1), mrr: rr / (n || 1), misses };
   console.log(`cases ${n} · hit@${k} ${pct(hit)} · recall@${k} ${pct(rec)} · MRR@10 ${(rr / (n || 1)).toFixed(2)}`);
   for (const [repo, s] of Object.entries(per)) console.log(`  ${repo}: hit@${k} ${s.hit}/${s.n}`);
   if (process.argv.includes('--misses')) for (const m of misses) console.log(`  miss ${m.pr}: ${m.title}\n       want ${m.want.join(', ')}\n       got  ${m.got.join(', ')}`);
   return { n, hit: hit / (n || 1), recall: rec / (n || 1), mrr: rr / (n || 1) };
 }
 
+// Learn aliases from misses: a task word the code never uses → a word in the class that changed.
+// Kept only if hit@5 rises on the tune half AND does not fall on the held-out half (no overfit).
+function learn(file) {
+  const rows = load(file);
+  const tune = rows.filter((_, i) => i % 2 === 0); const hold = rows.filter((_, i) => i % 2 === 1);
+  const idx = ctx.buildIndex(false);
+  const aliasPath = path.join(__dirname, 'aliases.json');
+  const doc = JSON.parse(fs.readFileSync(aliasPath, 'utf8'));
+  const vocab = new Set();
+  for (const f of idx.files) for (const t of f.types || []) for (const w of ctx.words(t.name)) vocab.add(w);
+  const base = { tune: run(tune, true), hold: run(hold, true) };
+  const cands = new Map();
+  for (const m of base.tune.misses) {
+    const r = tune.find((x) => x.title.startsWith(m.title.slice(0, 60)));
+    if (!r) continue;
+    const q = ctx.words(r.title).filter((w) => !vocab.has(w) && w.length > 2);
+    const target = new Set(r.gold.flatMap((g) => ctx.words(path.basename(g, '.java'))));
+    for (const a of q) for (const b of target) if (b.length > 2) cands.set(a + '→' + b, [a, b]);
+  }
+  const kept = [];
+  let cur = base;
+  for (const [key, [a, b]] of cands) {
+    const al = doc.aliases[a] || [];
+    if (al.includes(b)) continue;
+    doc.aliases[a] = al.concat(b); fs.writeFileSync(aliasPath, JSON.stringify(doc, null, 2) + '\n'); ctx.reset();
+    const t = run(tune, true); const h = run(hold, true);
+    // at least two more tuning cases found, and the held-out half no worse
+    if ((t.hit - cur.tune.hit) * t.n >= 1.5 && h.hit >= cur.hold.hit) { kept.push(key); cur = { tune: t, hold: h }; }
+    else { doc.aliases[a] = al; if (!al.length) delete doc.aliases[a]; }
+  }
+  if (!process.argv.includes('--write')) { const orig = JSON.parse(JSON.stringify(doc)); for (const k of kept) { const [a, b] = k.split('→'); orig.aliases[a] = (orig.aliases[a] || []).filter((x) => x !== b); if (!orig.aliases[a].length) delete orig.aliases[a]; } fs.writeFileSync(aliasPath, JSON.stringify(orig, null, 2) + '\n'); }
+  else fs.writeFileSync(aliasPath, JSON.stringify(doc, null, 2) + '\n');
+  const p = (x) => (100 * x).toFixed(0) + '%';
+  console.log(`learn: ${cands.size} candidates, kept ${kept.length}: ${kept.join(', ') || '-'}`);
+  console.log(`tune hit@5 ${p(base.tune.hit)} → ${p(cur.tune.hit)} · hold ${p(base.hold.hit)} → ${p(cur.hold.hit)}${process.argv.includes('--write') ? ' (written)' : ' (dry run)'}`);
+}
+
 const [cmd, file] = process.argv.slice(2);
 if (cmd === 'build' && file) build(file);
 else if (cmd === 'run' && file) run(file);
+else if (cmd === 'learn' && file) learn(file);
 else { console.log('usage: eval.js build|run <gold.jsonl>'); process.exit(2); }
