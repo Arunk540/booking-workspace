@@ -21,7 +21,7 @@ const { execFileSync, spawnSync } = require('child_process');
 const CTX = __dirname;
 const ROOT = path.dirname(CTX);
 const SERVICES = JSON.parse(fs.readFileSync(path.join(CTX, 'services.json'), 'utf8'));
-const INDEX = process.env.CTX_INDEX || path.join(CTX, '_code_index.json');
+const INDEX = process.env.CTX_INDEX || path.join(CTX, process.env.CTX_BEFORE ? `_code_index.before-${process.env.CTX_BEFORE.replace(/[^\w-]/g, '')}.json` : '_code_index.json');
 const ALIASES = path.join(CTX, 'aliases.json');
 const FIND_LOG = path.join(CTX, '.find-log.jsonl');
 const GEN = path.join(ROOT, 'docs', 'generated');
@@ -43,6 +43,13 @@ const STOP = new Set(('a an the of to in on for and or with from into is are be 
 const git = (repo, args, opts = {}) =>
   execFileSync('git', ['-C', path.join(ROOT, repo), ...args], { maxBuffer: 1 << 30, ...opts });
 function refOf(repo) {
+  // CTX_BEFORE=<date>: develop as it was then (rehearsals replay a past task without seeing its fix).
+  if (process.env.CTX_BEFORE) {
+    try {
+      const sha = git(repo, ['rev-list', '-1', `--before=${process.env.CTX_BEFORE}`, 'origin/develop'], { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+      if (sha) return { ref: sha, sha: sha.slice(0, 9) };
+    } catch (_) { /* fall through */ }
+  }
   for (const ref of ['origin/develop', 'develop', 'HEAD']) {
     try { return { ref, sha: git(repo, ['rev-parse', '--short', ref], { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim() }; } catch (_) { /* next */ }
   }
