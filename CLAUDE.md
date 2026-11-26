@@ -27,6 +27,15 @@ node ~/booking-workspace/.asta-context/ctx.js entry <svc> [kafka|rest|workflow|a
   goes to a subagent that returns `file:line` + one line each.
 - Flows and contracts: `.asta-context/repos/<repo>/{runtime,contracts,integrations}/`.
 
+## Cross-repo changes
+
+A change crosses services when data or a signal moves between them (Kafka event, Temporal signal, REST).
+1. `find` prints a `cross-repo:` block when its hits span services. For each shared type it names, run
+   `node ~/booking-workspace/.asta-context/ctx.js flow <Type>`. That gives the schemas, models, mappers
+   and users in every repo.
+2. Write one plan line per hop: `CONTRACT: <what crosses> · <repo>/<File> (producer) → <repo>/<File> (consumer)`.
+3. Each repo has its own `.avsc` copy. Change every copy the hop uses, plus both mappers.
+
 ## Docs vs code
 
 When a doc here and the code disagree, follow the code. List each mismatch in your

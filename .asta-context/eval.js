@@ -6,6 +6,7 @@
  *   node .asta-context/eval.js build <gold.jsonl> [--since 2026-03-01]
  *   node .asta-context/eval.js run   <gold.jsonl> [--k 5] [--misses]
  *   node .asta-context/eval.js learn <gold.jsonl> [--write]   aliases that lift hit@5 on both halves
+ *   node .asta-context/eval.js xrun  <xgold.jsonl>           cross-repo: does find land BOTH sides?
  *
  * The gold set comes from merged PRs: the PR title is the query, the src/main files
  * it MODIFIED (not added: a new file can't be found before it exists) are the answer.
@@ -117,8 +118,53 @@ function learn(file) {
   console.log(`tune hit@5 ${p(base.tune.hit)} → ${p(cur.tune.hit)} · hold ${p(base.hold.hit)} → ${p(cur.hold.hit)}${process.argv.includes('--write') ? ' (written)' : ' (dry run)'}`);
 }
 
+// Cross-repo cases: {title, before, gold: {repo: [files]}}. A case lands when the top 10 holds at
+// least one changed file in EVERY repo the change touched. Each case is scored against develop as it
+// was before the change (CTX_BEFORE), so the fix itself is not in the index.
+function xrun(file) {
+  const rows = load(file);
+  const { spawnSync } = require('child_process');
+  let both = 0; let sides = 0; let sideHits = 0; let rec = 0; let n = 0;
+  let lboth = 0; let lsideHits = 0; let lrec = 0; let lsize = 0;
+  for (const r of rows) {
+    const out = spawnSync(process.execPath, [path.join(__dirname, 'ctx.js'), 'find', r.title, '--json'],
+      { env: Object.assign({}, process.env, { CTX_BEFORE: r.before, CTX_INDEX: '' }), encoding: 'utf8', maxBuffer: 1 << 26 });
+    let res = { hits: [], cross: [] };
+    try { res = JSON.parse(out.stdout); } catch (_) { /* no hits */ }
+    const got = res.hits.concat(res.cross || []).map((h) => h.repo + '/' + h.file.replace(/:\d+$/, ''));
+    let all = true; const per = [];
+    for (const [repo, files] of Object.entries(r.gold)) {
+      if (!files.length) continue;
+      sides++;
+      const f = files.filter((x) => got.includes(repo + '/' + x)).length;
+      if (f) sideHits++; else all = false;
+      rec += f / files.length; n++;
+      per.push(`${repo.replace('telikos-', '').replace('-service', '')} ${f}/${files.length}`);
+    }
+    if (all) both++;
+    // find + flow (what a leg sees after one find and a flow on its cross-repo families)
+    const lf = spawnSync(process.execPath, ['-e', `const c=require(${JSON.stringify(path.join(__dirname, 'ctx.js'))});const r=c.landing(${JSON.stringify(r.title)});console.log(JSON.stringify({files:[...r.files.keys()],stems:r.stems}))`],
+      { env: Object.assign({}, process.env, { CTX_BEFORE: r.before, CTX_INDEX: '' }), encoding: 'utf8', maxBuffer: 1 << 26 });
+    let L = { files: [], stems: [] }; try { L = JSON.parse(lf.stdout); } catch (_) { /* none */ }
+    let lall = true; const lper = [];
+    for (const [repo, files] of Object.entries(r.gold)) {
+      if (!files.length) continue;
+      const f = files.filter((x) => L.files.includes(repo + '/' + x)).length;
+      lsideHits += f ? 1 : 0; lrec += f / files.length; if (!f) lall = false;
+      lper.push(`${repo.replace('telikos-', '').replace('-service', '')} ${f}/${files.length}`);
+    }
+    if (lall) lboth++;
+    lsize += L.files.length;
+    if (process.argv.includes('--misses')) console.log(`       find+flow ${lper.join(' · ')}  (${L.files.length} files; ${L.stems.join(', ') || 'no family'})`);
+    if (process.argv.includes('--misses') || !all) console.log(`  ${all ? 'ok  ' : 'miss'} ${per.join(' · ')}  ${r.title.slice(0, 70)}`);
+  }
+  console.log(`cross cases ${rows.length} · both sides landed ${both}/${rows.length} · sides ${sideHits}/${sides} · recall per side ${(100 * rec / (n || 1)).toFixed(0)}%`);
+  console.log(`find+flow       · both sides landed ${lboth}/${rows.length} · sides ${lsideHits}/${sides} · recall per side ${(100 * lrec / (n || 1)).toFixed(0)}% · ${(lsize / rows.length).toFixed(0)} files listed per case`);
+}
+
 const [cmd, file] = process.argv.slice(2);
 if (cmd === 'build' && file) build(file);
 else if (cmd === 'run' && file) run(file);
 else if (cmd === 'learn' && file) learn(file);
+else if (cmd === 'xrun' && file) xrun(file);
 else { console.log('usage: eval.js build|run <gold.jsonl>'); process.exit(2); }
