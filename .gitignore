@@ -12,13 +12,20 @@
 .DS_Store
 
 # IntelliJ IDEA - exclude workspace/project files but keep run configs if needed
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/dictionaries
-.idea/vcs.xml
-.idea
-npmcache
+.idea/
+npmcache/
 
 
 # Asta cuts a private worktree per code task here. Generated, never committed.
 /.asta-worktrees/
+
+# Local work trees next to the service checkouts.
+/wt-*/
+
+# Per-checkout pointer to services/<svc>/CLAUDE.md; never committed.
+CLAUDE.local.md
+
+# Generated locally by `node .asta-context/ctx.js index`; rebuilt from code, never committed.
+/.asta-context/graph/
+/.asta-context/_code_index.json
+/docs/generated/

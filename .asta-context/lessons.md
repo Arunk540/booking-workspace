@@ -17,3 +17,4 @@ Evidence: `VesselTrackingRegistrationActivityImpl.updateVtsResponse` and
 `booking.references` (`VESSEL_ETA`/`VESSEL_ETD`) is passthrough from the inbound
 payload with no VTS write-side. Any "vessel ETA not updating" task must handle
 BOTH directions + the precedence, never a single reference upsert.
+- 01 Nov · telikos-booking-service: MapStruct annotation processing fails with "Attempt to recreate a file for type …MapperImpl" on an incremental `mvn test` after editing sources — always `mvn clean test -Dtest=…` in service/.
